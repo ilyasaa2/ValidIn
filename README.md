@@ -84,12 +84,13 @@ ValidIn adalah platform manajemen pengesahan dokumen kegiatan (proposal, surat i
 
 ```
 ValidIn/
-├── docs/                 # Dokumentasi spesifikasi, ERD, dan kontrak API
-│   ├── SRS.md            # Software Requirements Specification (MoSCoW & ISO 25010)
-│   ├── ERD.md            # Entity Relationship Diagram & Data Dictionary
-│   └── API_CONTRACT.md   # Spesifikasi Endpoint REST API
-├── backend/              # Laravel REST API & Web Panel Dashboard
-└── mobile/               # Flutter Application (Android Target)
+├── docs/                        # Dokumentasi spesifikasi, ERD, dan kontrak API
+│   ├── SRS.md                   # Software Requirements Specification (MoSCoW & ISO 25010)
+│   ├── ERD.md                   # Entity Relationship Diagram & Data Dictionary
+│   ├── API_CONTRACT.md          # Spesifikasi Endpoint REST API
+│   └── TEAM_RESPONSIBILITIES.md # Pembagian Tugas & Tanggung Jawab Tim (4 Anggota)
+├── backend/                     # Laravel REST API & Web Panel Dashboard
+└── mobile/                      # Flutter Application (Android Target)
 ```
 
 ---
@@ -103,10 +104,11 @@ ValidIn/
 
 ---
 
-## 👨‍💻 Tim Pengembang
+## 👨‍💻 Tim Pengembang (4 Anggota)
 
-- **Ketua Kelompok:** 
-- **Sistem Analis:** 
-- **Backend Developer:** 
-- **Mobile Developer:** 
-- **Technical Writer & QA/Tester:** 
+Detail pembagian tugas, matriks RACI, dan deliverable dapat dilihat pada [docs/TEAM_RESPONSIBILITIES.md](docs/TEAM_RESPONSIBILITIES.md).
+
+1. **Ketua Kelompok & System Analyst:** (Manajemen Proyek, Desain UI/UX Figma, & Analisis Sistem)
+2. **Backend Developer:** (REST API Laravel 11, Database MySQL, QR Stamping, & Web Panel)
+3. **Mobile Developer:** (Aplikasi Flutter Android, Integrasi API, & In-App PDF Preview)
+4. **QA Tester & Technical Writer:** (Black Box Testing, Postman Collection, & Laporan Akhir)
