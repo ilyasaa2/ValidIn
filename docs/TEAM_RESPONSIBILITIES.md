@@ -1,4 +1,4 @@
-# Pembagian Tugas & Tanggung Jawab Tim (4 Anggota) - ValidIn
+# Pembagian Tugas & Tanggung Jawab Tim - ValidIn
 
 Dokumen ini mengatur pembagian tugas, peran, tanggung jawab, dan hasil kerja (*deliverables*) untuk tim pengembang proyek **ValidIn** (4 Anggota) dalam mata kuliah Sistem Web dan Seluler Lanjut.
 
