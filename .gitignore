@@ -1,0 +1,54 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment files
+.env
+.env.backup
+.env.production
+
+# Git
+.git/
+
+# IDE / Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# PHP / Laravel
+/backend/vendor/
+/backend/node_modules/
+/backend/public/storage
+/backend/storage/*.key
+/backend/storage/app/private/*
+!/backend/storage/app/private/.gitignore
+/backend/storage/framework/cache/*
+!/backend/storage/framework/cache/.gitignore
+/backend/storage/framework/sessions/*
+!/backend/storage/framework/sessions/.gitignore
+/backend/storage/framework/views/*
+!/backend/storage/framework/views/.gitignore
+/backend/storage/logs/*
+!/backend/storage/logs/.gitignore
+/backend/.phpunit.result.cache
+/backend/public/hot
+/backend/public/build
+
+# Flutter / Dart
+/mobile/.dart_tool/
+/mobile/.flutter-plugins
+/mobile/.flutter-plugins-dependencies
+/mobile/.packages
+/mobile/.pub-cache/
+/mobile/.pub/
+/mobile/build/
+/mobile/ios/Flutter/Generated.xcconfig
+/mobile/ios/Flutter/flutter_export_environment.sh
+/mobile/android/app/debug/
+/mobile/android/app/profile/
+/mobile/android/app/release/
