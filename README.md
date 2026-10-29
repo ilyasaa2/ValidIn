@@ -104,7 +104,7 @@ ValidIn/
 
 ---
 
-## 👨‍💻 Tim Pengembang (4 Anggota)
+## 👨‍💻 Tim Pengembang 
 
 Detail pembagian tugas, matriks RACI, dan deliverable dapat dilihat pada [docs/TEAM_RESPONSIBILITIES.md](docs/TEAM_RESPONSIBILITIES.md).
 
