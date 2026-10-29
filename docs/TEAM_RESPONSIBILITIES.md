@@ -35,26 +35,3 @@ Dokumen ini mengatur pembagian tugas, peran, tanggung jawab, dan hasil kerja (*d
 | Pengujian Fungsional (Black Box / UAT) | C | C | C | **A / R** |
 | Penyusunan Laporan Akhir Bab 1-5 | C | I | I | **A / R** |
 | Deployment & Kompilasi APK Demo | **A / R** | R | R | I |
-
----
-
-## 📅 Rencana Kerja Mingguan (Milestone 1 Semester)
-
-```mermaid
-gantt
-    title Jadwal Kerja Proyek ValidIn (4 Anggota)
-    dateFormat  YYYY-MM-DD
-    section Fase 1: Perencanaan
-    Analisis Kebutuhan & SRS        :a1, 2026-11-01, 7d
-    Desain UI/UX & ERD Database     :a2, after a1, 7d
-    section Fase 2: Pengembangan
-    Setup Backend & Migrations      :b1, after a2, 7d
-    Implementasi REST API & Panel   :b2, after b1, 14d
-    Slicing UI & Logika Flutter     :b3, after b1, 14d
-    Integrasi API ke Mobile         :b4, after b2, 7d
-    Fitur QR Generator & PDF Stamp  :b5, after b2, 7d
-    section Fase 3: Pengujian & Laporan
-    Black Box Testing & UAT         :c1, after b4, 7d
-    Penyempurnaan Laporan Bab 1-5   :c2, after a2, 35d
-    Deployment, Build APK, & Demo   :c3, after c1, 7d
-```
