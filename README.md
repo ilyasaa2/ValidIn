@@ -105,8 +105,8 @@ ValidIn/
 
 ## 👨‍💻 Tim Pengembang
 
-- **Ketua Kelompok:** [Nama Ketua]
-- **Sistem Analis:** [Nama Analis]
-- **Backend Developer:** [Nama Backend]
-- **Mobile Developer:** [Nama Mobile]
-- **Technical Writer & QA/Tester:** [Nama QA/Notulis]
+- **Ketua Kelompok:** 
+- **Sistem Analis:** 
+- **Backend Developer:** 
+- **Mobile Developer:** 
+- **Technical Writer & QA/Tester:** 
