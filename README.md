@@ -97,7 +97,7 @@ stateDiagram-v2
 
 ## 💡 Strategi Arsitektur Sinergi Web & Mobile (Flutter)
 
-Sesuai pembagian peran di atas, rekomendasi pembagian platform yang diterapkan pada proyek ValidIn adalah:
+Sesuai pembagian peran di atas, pembagian platform yang diterapkan pada proyek ValidIn adalah:
 
 ### 1. Portal Web (Laptop / PC)
 - **Fokus Utama:** Digunakan oleh **Sekretaris Panitia (Hanif Abdillah Alatas)** sebagai *single point of entry* untuk menyusun draf surat permohonan, mengisi rincian fasilitas (gedung/alat), dan mengunggah berkas PDF (karena pengetikan rincian dokumen dan manajemen berkas jauh lebih cepat, presisi, dan nyaman melalui perangkat desktop/laptop).
