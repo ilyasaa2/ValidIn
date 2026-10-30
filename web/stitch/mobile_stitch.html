@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ValidIn Mobile - Layanan Surat & Izin FT UNTIDAR</title>
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Mobile-Specific Minimalist Academic Styling */
+    body {
+      background-color: #f1f1ef;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+    }
+
+    /* Centered Mobile Container (Viewport Mockup on Desktop, 100% on Mobile) */
+    .mobile-app-shell {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      background-color: var(--bg-canvas);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 24px rgba(0, 0, 0, 0.08);
+      border-left: 1px solid var(--border-light);
+      border-right: 1px solid var(--border-light);
+    }
+
+    /* Minimalist Top App Bar */
+    .m-header {
+      background-color: var(--navy-900);
+      color: #ffffff;
+      padding: 12px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .m-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .m-header-brand img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .m-header-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .m-app-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .m-app-sub {
+      font-size: 0.68rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .m-role-chip {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      color: #f8fafc;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    /* Role Quick Selector Sheet */
+    .role-drawer-select {
+      background: white;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--navy-900);
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    /* App Content Viewport */
+    .m-content {
+      flex: 1;
+      padding: 16px 16px 84px; /* Space for bottom dock */
+      overflow-y: auto;
+    }
+
+    /* Minimalist Tab Navigation (Bottom Dock) */
+    .m-bottom-nav {
+      position: sticky;
+      bottom: 0;
+      width: 100%;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-light);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px 0;
+      z-index: 50;
+    }
+
+    .m-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.7rem;
+      font-weight: 600;
+      gap: 3px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px 0;
+      transition: color 0.15s ease;
+    }
+
+    .m-nav-item.active {
+      color: var(--blue-600);
+    }
+
+    .m-nav-icon {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    /* Clean Card Container */
+    .m-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .m-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .m-card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy-900);
+      line-height: 1.35;
+    }
+
+    .m-card-meta {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 12px;
+    }
+
+    .m-card-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Minimalist Status Stepper 5 Stages */
+    .m-stepper {
+      background: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .m-stepper-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .m-stepper-stages {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .m-step-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+    }
+
+    .m-step-indicator {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .m-step-indicator.done {
+      background: #ecfdf5;
+      color: #15803d;
+      border: 1.5px solid #15803d;
+    }
+
+    .m-step-indicator.active {
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1.5px solid #2563eb;
+    }
+
+    .m-step-indicator.waiting {
+      background: #f4f4f5;
+      color: #a1a1aa;
+      border: 1.5px solid #d4d4d8;
+    }
+
+    .m-step-indicator.rejected {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1.5px solid #b91c1c;
+    }
+
+    .m-step-label {
+      flex: 1;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .m-step-sub {
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+    }
+
+    /* Yellow Disposition Note (Notary Post-It Style) */
+    .m-disposition-card {
+      background-color: #fefce8;
+      border: 1px dashed #ca8a04;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .m-disposition-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .m-disposition-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #854d0e;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .m-disposition-text {
+      font-size: 0.82rem;
+      color: #713f12;
+      line-height: 1.45;
+      font-style: italic;
+    }
+
+    /* Official Pass QR Box */
+    .m-qr-pass-box {
+      background: white;
+      border: 2px solid var(--navy-900);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .m-qr-svg-wrap {
+      width: 180px;
+      height: 180px;
+      margin: 12px auto;
+      background: white;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .m-qr-svg-wrap svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .m-badge-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #ecfdf5;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .m-btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .m-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-align: center;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .m-btn-primary {
+      background: var(--navy-900);
+      color: white;
+    }
+
+    .m-btn-secondary {
+      background: white;
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .m-btn-success {
+      background: var(--seal-green);
+      color: white;
+    }
+
+    /* Fullscreen QR Modal */
+    .m-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.92);
+      z-index: 100;
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .m-modal-overlay.open {
+      display: flex;
+    }
+
+    .m-modal-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      max-width: 340px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Switch between tab views */
+    .tab-view {
+      display: none;
+    }
+    .tab-view.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-app-shell">
+    
+    <!-- Top Bar -->
+    <header class="m-header">
+      <a href="index.html" class="m-header-brand" title="Buka Versi Desktop">
+        <img src="assets/img/logo_untidar.png" alt="UNTIDAR">
+        <div class="m-header-titles">
+          <span class="m-app-title">ValidIn Mobile</span>
+          <span class="m-app-sub">Fakultas Teknik UNTIDAR</span>
+        </div>
+      </a>
+      <div class="m-role-chip" id="roleChipBtn" onclick="toggleRoleSelector()">
+        <span id="roleChipText">Sekretaris</span> &#9662;
+      </div>
+    </header>
+
+    <!-- Hidden Role Selector -->
+    <div id="roleSelectorBox" style="display: none; background: #e2e8f0; padding: 10px 16px; border-bottom: 1px solid #cbd5e1;">
+      <label style="font-size: 0.72rem; font-weight: 800; color: #475569; display: block; margin-bottom: 4px;">PILIH AKUN SIMULASI:</label>
+      <select id="mobileRoleSelect" class="role-drawer-select" onchange="switchRole(this.value)">
+        <option value="sekretaris">Hanif Abdillah Alatas (Sekretaris Panitia)</option>
+        <option value="ketua_pelaksana">Emannuel Henji Pratama (Ketua Pelaksana)</option>
+        <option value="ketua_himatif">Naufal Miftakhul Siddiq (Ketua HIMATIF)</option>
+        <option value="wadek">Dr. Sigit Iswahyudi, S.T., M.T. (Wakil Dekan I FT)</option>
+      </select>
+    </div>
+
+    <!-- Main Mobile Content Body -->
+    <main class="m-content">
+      
+      <!-- TAB 1: DAFTAR SURAT & STATUS TRACKING (HOME) -->
+      <section id="tab-home" class="tab-view active">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <div>
+            <h2 style="font-size: 1.05rem; font-weight: 800; color: var(--navy-900); margin: 0;">Permohonan Surat</h2>
+            <span style="font-size: 0.75rem; color: var(--text-secondary);" id="activeUserWelcome">Halo, Mahasiswa / Panitia</span>
+          </div>
+          <button class="m-btn m-btn-primary" style="padding: 6px 12px; font-size: 0.75rem; border-radius: 6px;" onclick="switchTab('ajukan')">
+            + Ajukan
+          </button>
+        </div>
+
+        <!-- Filter Chips -->
+        <div style="display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px;">
+          <button class="m-filter-chip active" id="filterAll" onclick="filterDocs('all')" style="padding: 4px 10px; border-radius: 14px; font-size: 0.75rem; border: 1px solid var(--border-strong); background: var(--navy-900); color: white; cursor: pointer; font-weight: 600;">Semua (<span id="countAll">0</span>)</button>
+          <button class="m-filter-chip" id="filterActive" onclick="filterDocs('active')" style="padding: 4px 10px; border-radius: 14px; font-size: 0.75rem; border: 1px solid var(--border-light); background: white; color: var(--text-secondary); cursor: pointer; font-weight: 600;">Berjalan (<span id="countActive">0</span>)</button>
+          <button class="m-filter-chip" id="filterApproved" onclick="filterDocs('approved')" style="padding: 4px 10px; border-radius: 14px; font-size: 0.75rem; border: 1px solid var(--border-light); background: white; color: var(--text-secondary); cursor: pointer; font-weight: 600;">Disetujui (<span id="countApproved">0</span>)</button>
+        </div>
+
+        <!-- Container Kartu Surat -->
+        <div id="mDocsList"></div>
+      </section>
+
+      <!-- TAB 2: FORM PENGAJUAN CEPAT (AJUKAN) -->
+      <section id="tab-ajukan" class="tab-view">
+        <h2 style="font-size: 1.05rem; font-weight: 800; color: var(--navy-900); margin-bottom: 4px;">Pengajuan Izin Fasilitas</h2>
+        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 16px;">Format resmi permohonan peminjaman HIMATIF Fakultas Teknik UNTIDAR.</p>
+
+        <!-- Template Chips -->
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 0.72rem; font-weight: 800; color: var(--text-tertiary); text-transform: uppercase;">PILIH TEMPLATE CEPAT:</label>
+          <div style="display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap;">
+            <button type="button" onclick="applyTemplate('gedung')" style="background: white; border: 1px solid var(--border-strong); padding: 5px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">🏛️ Gedung FT 03</button>
+            <button type="button" onclick="applyTemplate('sound')" style="background: white; border: 1px solid var(--border-strong); padding: 5px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">🔊 Sound & Mic</button>
+            <button type="button" onclick="applyTemplate('rapat')" style="background: white; border: 1px solid var(--border-strong); padding: 5px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">📋 Ruang Rapat</button>
+          </div>
+        </div>
+
+        <form id="mSubmitForm" onsubmit="handleMobileSubmit(event)" class="m-card" style="padding: 16px;">
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 0.75rem; font-weight: 700; display: block; margin-bottom: 4px;">Nama Kegiatan *</label>
+            <input type="text" id="mEventName" class="form-input" style="width: 100%; padding: 8px; font-size: 0.85rem;" required placeholder="Contoh: Pengenalan Informatika 2026">
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 0.75rem; font-weight: 700; display: block; margin-bottom: 4px;">Fasilitas / Ruangan yang Dipinjam *</label>
+            <input type="text" id="mLocation" class="form-input" style="width: 100%; padding: 8px; font-size: 0.85rem;" required placeholder="Contoh: Gedung FT 03 Lt. 2 Ruang E.03.2.02">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; display: block; margin-bottom: 4px;">Tanggal Pelaksanaan *</label>
+              <input type="text" id="mEventDate" class="form-input" style="width: 100%; padding: 8px; font-size: 0.85rem;" required placeholder="14 November 2026">
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; display: block; margin-bottom: 4px;">Waktu Kegiatan *</label>
+              <input type="text" id="mEventTime" class="form-input" style="width: 100%; padding: 8px; font-size: 0.85rem;" required placeholder="08.00 - 15.00 WIB">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <label style="font-size: 0.75rem; font-weight: 700; display: block; margin-bottom: 4px;">Kontak Penanggung Jawab (WhatsApp) *</label>
+            <input type="text" id="mContact" class="form-input" style="width: 100%; padding: 8px; font-size: 0.85rem;" required placeholder="+62 851-8470-9553 (Nama)">
+          </div>
+
+          <button type="submit" class="m-btn m-btn-primary" style="width: 100%; padding: 12px; font-size: 0.9rem;">
+            Kirimkan Surat Permohonan
+          </button>
+        </form>
+      </section>
+
+      <!-- TAB 3: DIGITAL PASS QR SATPAM -->
+      <section id="tab-pass" class="tab-view">
+        <h2 style="font-size: 1.05rem; font-weight: 800; color: var(--navy-900); margin-bottom: 4px;">Pass Izin Resmi Satpam</h2>
+        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 16px;">Tunjukkan layar ini langsung di depan petugas Satpam di pos jaga gedung FT 03.</p>
+
+        <div id="mPassContent">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- TAB 4: PEMINDAI / SCANNER VALIDASI -->
+      <section id="tab-scan" class="tab-view">
+        <h2 style="font-size: 1.05rem; font-weight: 800; color: var(--navy-900); margin-bottom: 4px;">Verifikasi QR Dokumen</h2>
+        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 16px;">Uji coba simulasi pemindaian QR oleh petugas keamanan kampus.</p>
+
+        <div class="m-card" style="text-align: center; padding: 24px 16px;">
+          <div style="font-size: 3rem; margin-bottom: 12px;">📷</div>
+          <p style="font-size: 0.85rem; font-weight: 700; color: var(--navy-900); margin-bottom: 6px;">Pemindai QR Lapangan</p>
+          <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 16px;">Kamera aktif mendeteksi stempel token izin dekanat FT UNTIDAR.</p>
+
+          <div style="margin-bottom: 14px;">
+            <label style="font-size: 0.72rem; font-weight: 800; color: var(--text-tertiary); display: block; margin-bottom: 4px; text-align: left;">PILIH TOKEN SURAT UNTUK DIVERIFIKASI:</label>
+            <select id="mScanTokenSelect" class="role-drawer-select" style="font-family: var(--font-mono); font-size: 0.75rem;">
+              <!-- dynamically populated -->
+            </select>
+          </div>
+
+          <button class="m-btn m-btn-success" style="width: 100%; padding: 12px;" onclick="simulateScan()">
+            Verifikasi Token Dokumen
+          </button>
+        </div>
+
+        <!-- Scan Result Area -->
+        <div id="mScanResult"></div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Dock Navigation Bar -->
+    <nav class="m-bottom-nav">
+      <button class="m-nav-item active" id="btnTabHome" onclick="switchTab('home')">
+        <span class="m-nav-icon">📑</span>
+        <span>Surat</span>
+      </button>
+      <button class="m-nav-item" id="btnTabAjukan" onclick="switchTab('ajukan')">
+        <span class="m-nav-icon">➕</span>
+        <span>Ajukan</span>
+      </button>
+      <button class="m-nav-item" id="btnTabPass" onclick="switchTab('pass')">
+        <span class="m-nav-icon">🛡️</span>
+        <span>Pass QR</span>
+      </button>
+      <button class="m-nav-item" id="btnTabScan" onclick="switchTab('scan')">
+        <span class="m-nav-icon">🔍</span>
+        <span>Scan</span>
+      </button>
+    </nav>
+
+    <!-- Fullscreen QR Code Modal for Security Guard -->
+    <div class="m-modal-overlay" id="mQrModal" onclick="closeQrModal()">
+      <div class="m-modal-card" onclick="event.stopPropagation()">
+        <span style="font-size: 0.75rem; font-weight: 800; color: #15803d; text-transform: uppercase;">IJAZAH / IZIN RESMI DEKANAT FT</span>
+        <h3 style="font-size: 1rem; font-weight: 800; color: var(--navy-900); margin: 6px 0 12px;" id="modalDocTitle">Peminjaman Gedung FT 03</h3>
+        
+        <div class="m-qr-svg-wrap" style="width: 220px; height: 220px;">
+          <!-- SVG QR with Emblem -->
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- QR matrix pattern simplified -->
+            <rect width="100" height="100" fill="white"/>
+            <!-- Corner 1 -->
+            <rect x="5" y="5" width="26" height="26" fill="#0f172a" rx="3"/>
+            <rect x="9" y="9" width="18" height="18" fill="white" rx="2"/>
+            <rect x="13" y="13" width="10" height="10" fill="#1e3a8a" rx="1"/>
+            <!-- Corner 2 -->
+            <rect x="69" y="5" width="26" height="26" fill="#0f172a" rx="3"/>
+            <rect x="73" y="9" width="18" height="18" fill="white" rx="2"/>
+            <rect x="77" y="13" width="10" height="10" fill="#1e3a8a" rx="1"/>
+            <!-- Corner 3 -->
+            <rect x="5" y="69" width="26" height="26" fill="#0f172a" rx="3"/>
+            <rect x="9" y="73" width="18" height="18" fill="white" rx="2"/>
+            <rect x="13" y="77" width="10" height="10" fill="#1e3a8a" rx="1"/>
+            <!-- Data Bits Pattern -->
+            <rect x="36" y="8" width="5" height="5" fill="#0f172a"/>
+            <rect x="46" y="8" width="5" height="5" fill="#0f172a"/>
+            <rect x="56" y="8" width="5" height="5" fill="#0f172a"/>
+            <rect x="36" y="18" width="5" height="5" fill="#0f172a"/>
+            <rect x="56" y="18" width="5" height="5" fill="#0f172a"/>
+            <rect x="36" y="28" width="25" height="5" fill="#0f172a"/>
+            <!-- Middle Center UNTIDAR Emblem Tag -->
+            <circle cx="50" cy="50" r="14" fill="#0f172a"/>
+            <circle cx="50" cy="50" r="11" fill="#1e3a8a"/>
+            <circle cx="50" cy="50" r="8" fill="#ca8a04"/>
+            <text x="50" y="53" font-size="6" font-weight="bold" fill="white" text-anchor="middle" font-family="sans-serif">UNTIDAR</text>
+            <!-- Bottom Data Bits -->
+            <rect x="36" y="68" width="5" height="5" fill="#0f172a"/>
+            <rect x="46" y="68" width="15" height="5" fill="#0f172a"/>
+            <rect x="36" y="78" width="25" height="5" fill="#0f172a"/>
+            <rect x="69" y="40" width="5" height="15" fill="#0f172a"/>
+            <rect x="79" y="40" width="15" height="5" fill="#0f172a"/>
+            <rect x="79" y="50" width="5" height="5" fill="#0f172a"/>
+            <rect x="69" y="60" width="25" height="5" fill="#0f172a"/>
+            <rect x="69" y="70" width="5" height="25" fill="#0f172a"/>
+            <rect x="79" y="80" width="15" height="15" fill="#0f172a"/>
+          </svg>
+        </div>
+
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-tertiary); margin-bottom: 12px;" id="modalQrToken">
+          UUID: 7e4b2d19-8663-4871-9f93-c4083a48e89f
+        </div>
+
+        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 16px;">
+          Pindai menggunakan kamera smartphone Satpam untuk memeriksa keabsahan izin dan instruksi pembukaan pintu gedung.
+        </p>
+
+        <button class="m-btn m-btn-primary" style="width: 100%;" onclick="closeQrModal()">Tutup Tampilan</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shared State and Controller -->
+  <script src="js/shared.js"></script>
+  <script>
+    let currentFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initStorage();
+      updateRoleDisplay();
+      renderMobileDocs();
+      renderPassContent();
+      populateScanTokens();
+    });
+
+    function toggleRoleSelector() {
+      const box = document.getElementById('roleSelectorBox');
+      box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function switchRole(role) {
+      setCurrentRole(role);
+      updateRoleDisplay();
+      renderMobileDocs();
+      renderPassContent();
+      toggleRoleSelector();
+    }
+
+    function updateRoleDisplay() {
+      const role = getCurrentRole();
+      const profile = getUserProfileByRole(role);
+      document.getElementById('roleChipText').textContent = profile.roleLabel.split(' ')[0];
+      document.getElementById('mobileRoleSelect').value = role;
+      document.getElementById('activeUserWelcome').textContent = `${profile.name} (${profile.roleLabel})`;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.m-nav-item').forEach(b => b.classList.remove('active'));
+
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+
+      const btnMap = {
+        'home': 'btnTabHome',
+        'ajukan': 'btnTabAjukan',
+        'pass': 'btnTabPass',
+        'scan': 'btnTabScan'
+      };
+      if (btnMap[tabId]) document.getElementById(btnMap[tabId]).classList.add('active');
+
+      if (tabId === 'pass') renderPassContent();
+      if (tabId === 'home') renderMobileDocs();
+    }
+
+    function filterDocs(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.m-filter-chip').forEach(c => {
+        c.style.background = 'white';
+        c.style.color = 'var(--text-secondary)';
+        c.style.border = '1px solid var(--border-light)';
+      });
+
+      const activeBtnMap = {
+        'all': 'filterAll',
+        'active': 'filterActive',
+        'approved': 'filterApproved'
+      };
+      const activeBtn = document.getElementById(activeBtnMap[filter]);
+      if (activeBtn) {
+        activeBtn.style.background = 'var(--navy-900)';
+        activeBtn.style.color = 'white';
+        activeBtn.style.border = '1px solid var(--navy-900)';
+      }
+
+      renderMobileDocs();
+    }
+
+    function renderMobileDocs() {
+      const docs = getDocs();
+      const container = document.getElementById('mDocsList');
+      if (!container) return;
+
+      const countAll = docs.length;
+      const countActive = docs.filter(d => d.status !== 'disetujui' && d.status !== 'ditolak').length;
+      const countApproved = docs.filter(d => d.status === 'disetujui').length;
+
+      document.getElementById('countAll').textContent = countAll;
+      document.getElementById('countActive').textContent = countActive;
+      document.getElementById('countApproved').textContent = countApproved;
+
+      let filtered = docs;
+      if (currentFilter === 'active') {
+        filtered = docs.filter(d => d.status !== 'disetujui' && d.status !== 'ditolak');
+      } else if (currentFilter === 'approved') {
+        filtered = docs.filter(d => d.status === 'disetujui');
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="m-card" style="text-align: center; color: var(--text-tertiary); padding: 32px 16px;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">📭</div>
+            <p style="font-size: 0.85rem; font-weight: 600;">Tidak ada dokumen dalam kategori ini.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(doc => {
+        const isApproved = doc.status === 'disetujui';
+        const isRevision = doc.status === 'perlu_revisi';
+
+        let badgeHtml = '';
+        if (isApproved) {
+          badgeHtml = `<span class="badge badge-success">✓ Disahkan Wadek</span>`;
+        } else if (isRevision) {
+          badgeHtml = `<span class="badge badge-warning">⚠ Perlu Revisi</span>`;
+        } else {
+          badgeHtml = `<span class="badge badge-info">● Menunggu</span>`;
+        }
+
+        // Stepper Stage logic
+        const s1 = doc.secretaryApproval ? 'done' : 'waiting';
+        const s2 = doc.pelaksanaApproval ? 'done' : (doc.secretaryApproval ? 'active' : 'waiting');
+        const s3 = doc.ketuaApproval ? 'done' : (doc.pelaksanaApproval ? 'active' : 'waiting');
+        const s4 = doc.pembinaApproval ? 'done' : (doc.ketuaApproval ? 'active' : 'waiting');
+
+        return `
+          <article class="m-card">
+            <div class="m-card-header">
+              <div>
+                <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-tertiary); margin-bottom: 2px;">
+                  ${doc.regNumber}
+                </div>
+                <h3 class="m-card-title">${doc.title}</h3>
+              </div>
+              <div>${badgeHtml}</div>
+            </div>
+
+            <div class="m-card-meta">
+              <span>🏛️ <strong>Lokasi:</strong> ${doc.location || 'Fakultas Teknik'}</span>
+              <span>📅 <strong>Waktu:</strong> ${doc.eventDate} (${doc.eventTime})</span>
+            </div>
+
+            <!-- Stepper Ringkas -->
+            <div class="m-stepper">
+              <div class="m-stepper-title">
+                <span>Alur Pengesahan Berjenjang</span>
+                <span>${isApproved ? 'Selesai 4/4' : 'Proses'}</span>
+              </div>
+              <div class="m-stepper-stages">
+                <div class="m-step-item">
+                  <div class="m-step-indicator ${s1}">${s1 === 'done' ? '✓' : '1'}</div>
+                  <div class="m-step-label">Sekretaris Panitia <span class="m-step-sub">${doc.secretaryApproval ? '(' + doc.secretaryApproval.by + ')' : ''}</span></div>
+                </div>
+                <div class="m-step-item">
+                  <div class="m-step-indicator ${s2}">${s2 === 'done' ? '✓' : '2'}</div>
+                  <div class="m-step-label">Ketua Pelaksana <span class="m-step-sub">${doc.pelaksanaApproval ? '(' + doc.pelaksanaApproval.by + ')' : ''}</span></div>
+                </div>
+                <div class="m-step-item">
+                  <div class="m-step-indicator ${s3}">${s3 === 'done' ? '✓' : '3'}</div>
+                  <div class="m-step-label">Ketua HIMATIF <span class="m-step-sub">${doc.ketuaApproval ? '(' + doc.ketuaApproval.by + ')' : ''}</span></div>
+                </div>
+                <div class="m-step-item">
+                  <div class="m-step-indicator ${s4}">${s4 === 'done' ? '✓' : '4'}</div>
+                  <div class="m-step-label">Wakil Dekan I FT <span class="m-step-sub">${doc.pembinaApproval ? '(Dr. Sigit Iswahyudi)' : ''}</span></div>
+                </div>
+              </div>
+            </div>
+
+            ${doc.dispositionNote ? `
+              <div class="m-disposition-card">
+                <div class="m-disposition-header">
+                  <span class="m-disposition-title">📌 Disposisi Resmi Pejabat:</span>
+                </div>
+                <div class="m-disposition-text">"${doc.dispositionNote}"</div>
+              </div>
+            ` : ''}
+
+            <!-- Tombol Aksi Mobile -->
+            <div class="m-btn-group">
+              <a href="review.html?id=${doc.id}" class="m-btn m-btn-secondary">
+                Lihat Berkas Fisik
+              </a>
+              ${isApproved ? `
+                <button class="m-btn m-btn-primary" onclick="openQrModalForDoc('${doc.id}')">
+                  🛡️ Buka Pass QR
+                </button>
+              ` : `
+                <a href="review.html?id=${doc.id}" class="m-btn m-btn-primary">
+                  Periksa Alur
+                </a>
+              `}
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderPassContent() {
+      const docs = getDocs();
+      const approved = docs.find(d => d.status === 'disetujui') || docs[0];
+      const container = document.getElementById('mPassContent');
+      if (!container || !approved) return;
+
+      const isApproved = approved.status === 'disetujui';
+
+      container.innerHTML = `
+        <div class="m-qr-pass-box">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px;">
+            <img src="assets/img/logo_untidar.png" alt="UNTIDAR" style="width: 22px; height: 22px;">
+            <span style="font-size: 0.75rem; font-weight: 800; color: var(--navy-900); text-transform: uppercase;">FAKULTAS TEKNIK UNIVERSITAS TIDAR</span>
+          </div>
+
+          <div style="font-size: 0.72rem; color: var(--text-tertiary); font-family: var(--font-mono);">
+            ${approved.regNumber}
+          </div>
+
+          <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--navy-900); margin: 8px 0 6px;">
+            ${approved.title}
+          </h3>
+
+          <div style="margin: 8px 0;">
+            ${isApproved ? `
+              <span class="m-badge-verified">✓ TERVERIFIKASI SAH DEKANAT FT</span>
+            ` : `
+              <span class="badge badge-warning">⚠ Belum Disahkan Lengkap</span>
+            `}
+          </div>
+
+          <!-- SVG QR Code with central UNTIDAR seal -->
+          <div class="m-qr-svg-wrap" onclick="openQrModalForDoc('${approved.id}')" title="Klik untuk memperbesar">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="100" fill="white"/>
+              <rect x="5" y="5" width="26" height="26" fill="#0f172a" rx="3"/>
+              <rect x="9" y="9" width="18" height="18" fill="white" rx="2"/>
+              <rect x="13" y="13" width="10" height="10" fill="#1e3a8a" rx="1"/>
+              <rect x="69" y="5" width="26" height="26" fill="#0f172a" rx="3"/>
+              <rect x="73" y="9" width="18" height="18" fill="white" rx="2"/>
+              <rect x="77" y="13" width="10" height="10" fill="#1e3a8a" rx="1"/>
+              <rect x="5" y="69" width="26" height="26" fill="#0f172a" rx="3"/>
+              <rect x="9" y="73" width="18" height="18" fill="white" rx="2"/>
+              <rect x="13" y="77" width="10" height="10" fill="#1e3a8a" rx="1"/>
+              <circle cx="50" cy="50" r="14" fill="#0f172a"/>
+              <circle cx="50" cy="50" r="11" fill="#1e3a8a"/>
+              <circle cx="50" cy="50" r="8" fill="#ca8a04"/>
+              <text x="50" y="53" font-size="6" font-weight="bold" fill="white" text-anchor="middle" font-family="sans-serif">UNTIDAR</text>
+              <rect x="36" y="8" width="5" height="5" fill="#0f172a"/>
+              <rect x="46" y="8" width="5" height="5" fill="#0f172a"/>
+              <rect x="56" y="8" width="5" height="5" fill="#0f172a"/>
+              <rect x="36" y="78" width="25" height="5" fill="#0f172a"/>
+              <rect x="69" y="60" width="25" height="5" fill="#0f172a"/>
+            </svg>
+          </div>
+
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-tertiary); margin-bottom: 6px;">
+            Token: ${approved.qrToken}
+          </div>
+
+          <!-- Ringkasan Izin Lokasi & Jam -->
+          <div style="background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 10px; text-align: left; font-size: 0.78rem; margin: 10px 0;">
+            <div>🏢 <strong>Izin Ruang:</strong> ${approved.location}</div>
+            <div style="margin-top: 3px;">⏰ <strong>Waktu Izin:</strong> ${approved.eventDate} (${approved.eventTime})</div>
+            <div style="margin-top: 3px;">👤 <strong>Pemohon:</strong> ${approved.submitterName} (Ketua Pelaksana)</div>
+          </div>
+
+          ${approved.dispositionNote ? `
+            <div class="m-disposition-card" style="text-align: left;">
+              <div class="m-disposition-header">
+                <span class="m-disposition-title">📝 INSTRUKSI RESMI UNTUK SATPAM:</span>
+              </div>
+              <div class="m-disposition-text">"${approved.dispositionNote}"</div>
+            </div>
+          ` : ''}
+
+          <div class="m-btn-group" style="margin-top: 14px;">
+            <button class="m-btn m-btn-primary" onclick="openQrModalForDoc('${approved.id}')">
+              🔍 Perbesar Layar Penuh (Untuk Satpam)
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function openQrModalForDoc(docId) {
+      const doc = getDocById(docId);
+      if (!doc) return;
+
+      document.getElementById('modalDocTitle').textContent = doc.title;
+      document.getElementById('modalQrToken').textContent = `UUID: ${doc.qrToken}`;
+      document.getElementById('mQrModal').classList.add('open');
+    }
+
+    function closeQrModal() {
+      document.getElementById('mQrModal').classList.remove('open');
+    }
+
+    function populateScanTokens() {
+      const docs = getDocs();
+      const select = document.getElementById('mScanTokenSelect');
+      if (!select) return;
+
+      select.innerHTML = docs.map(d => `
+        <option value="${d.qrToken}">
+          [${d.status.toUpperCase()}] ${d.title.substring(0, 32)}... (${d.qrToken.substring(0, 8)}...)
+        </option>
+      `).join('');
+    }
+
+    function simulateScan() {
+      const select = document.getElementById('mScanTokenSelect');
+      const token = select.value;
+      const docs = getDocs();
+      const doc = docs.find(d => d.qrToken === token);
+      const resContainer = document.getElementById('mScanResult');
+
+      if (!doc) {
+        resContainer.innerHTML = `
+          <div class="m-card" style="border-color: #fecaca; background: #fef2f2; margin-top: 16px;">
+            <div style="color: #b91c1c; font-weight: 800; font-size: 0.9rem;">❌ TOKEN TIDAK VALID</div>
+            <p style="font-size: 0.78rem; color: #7f1d1d; margin-top: 4px;">Kode QR tidak terdaftar pada basis data Universitas Tidar.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const isApproved = doc.status === 'disetujui';
+
+      resContainer.innerHTML = `
+        <div class="m-card" style="border-color: ${isApproved ? '#bbf7d0' : '#fde68a'}; background: ${isApproved ? '#f0fdf4' : '#fffbeb'}; margin-top: 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <span style="font-weight: 800; font-size: 0.85rem; color: ${isApproved ? '#15803d' : '#b45309'};">
+              ${isApproved ? '✓ DOKUMEN RESMI SAH' : '⚠ DOKUMEN BELUM SAH'}
+            </span>
+            <span style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-tertiary);">UUID: ${doc.qrToken.substring(0, 8)}...</span>
+          </div>
+
+          <div style="font-size: 0.9rem; font-weight: 800; color: var(--navy-900); margin-bottom: 6px;">
+            ${doc.title}
+          </div>
+
+          <div style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <div>🏢 <strong>Izin:</strong> ${doc.location}</div>
+            <div>⏰ <strong>Jadwal:</strong> ${doc.eventDate} (${doc.eventTime})</div>
+          </div>
+
+          ${doc.dispositionNote ? `
+            <div class="m-disposition-card" style="margin-top: 8px; background: white;">
+              <span class="m-disposition-title">📌 Instruksi Satpam:</span>
+              <div class="m-disposition-text">"${doc.dispositionNote}"</div>
+            </div>
+          ` : ''}
+
+          <div style="margin-top: 10px;">
+            <a href="verify.html?token=${doc.qrToken}" class="m-btn m-btn-primary" style="width: 100%; font-size: 0.78rem; padding: 8px;">
+              Buka Layanan Publik Verifikasi Lengkap
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    function applyTemplate(type) {
+      if (type === 'gedung') {
+        document.getElementById('mEventName').value = 'Pengenalan Informatika Mahasiswa Baru 2026';
+        document.getElementById('mLocation').value = 'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06';
+        document.getElementById('mEventDate').value = 'Sabtu, 24 Oktober 2026';
+        document.getElementById('mEventTime').value = '08.00 - 16.00 WIB';
+        document.getElementById('mContact').value = '+62 851-8470-9553 (Ilyasa)';
+      } else if (type === 'sound') {
+        document.getElementById('mEventName').value = 'Seminar Nasional Teknologi Informasi FT';
+        document.getElementById('mLocation').value = 'Auditorium Gedung FT 03 Lt. 3 & 2 Mic Wireless';
+        document.getElementById('mEventDate').value = 'Kamis, 5 November 2026';
+        document.getElementById('mEventTime').value = '07.30 - 13.00 WIB';
+        document.getElementById('mContact').value = '+62 851-8470-9553 (Ilyasa)';
+      } else if (type === 'rapat') {
+        document.getElementById('mEventName').value = 'Rapat Pleno Pengurus HIMATIF UNTIDAR';
+        document.getElementById('mLocation').value = 'Gedung FT 03 Ruang Rapat E.03.2.02';
+        document.getElementById('mEventDate').value = 'Jumat, 16 Oktober 2026';
+        document.getElementById('mEventTime').value = '15.30 - 18.00 WIB';
+        document.getElementById('mContact').value = '+62 851-8470-9553 (Ilyasa)';
+      }
+    }
+
+    function handleMobileSubmit(e) {
+      e.preventDefault();
+
+      const eventName = document.getElementById('mEventName').value.trim();
+      const location = document.getElementById('mLocation').value.trim();
+      const eventDate = document.getElementById('mEventDate').value.trim();
+      const eventTime = document.getElementById('mEventTime').value.trim();
+      const contact = document.getElementById('mContact').value.trim();
+
+      const newUUID = 'f' + Math.random().toString(36).substring(2, 9) + '-' + Date.now().toString(36);
+      const newDoc = {
+        id: 'DOC-M-' + Date.now(),
+        regNumber: `${Math.floor(100 + Math.random() * 900)}/E/PM/HIMATIF/UNTIDAR/X/2026`,
+        title: `Surat Permohonan Izin ${location}`,
+        type: 'Peminjaman Fasilitas Kampus',
+        eventName: eventName,
+        organization: 'Himpunan Mahasiswa Teknologi Informasi (HIMATIF UNTIDAR)',
+        destination: 'Yth. Dekan Fakultas Teknik di Universitas Tidar',
+        submitterName: 'Emannuel Henji Pratama Putra',
+        submitterNim: '2505060012',
+        submitterRole: 'Ketua Pelaksana',
+        secretaryName: 'Hanif Abdillah Alatas',
+        secretaryNim: '2420506041',
+        eventDate: eventDate,
+        eventTime: eventTime,
+        location: location,
+        borrowedItems: location,
+        contactPerson: contact,
+        status: 'menunggu_pelaksana',
+        createdAt: 'Hari ini',
+        secretaryApproval: {
+          by: 'Hanif Abdillah Alatas',
+          npm: '2420506041',
+          at: 'Hari ini'
+        },
+        pelaksanaApproval: null,
+        ketuaApproval: null,
+        pembinaApproval: null,
+        dispositionNote: '',
+        revisionNotes: '',
+        qrToken: newUUID,
+        hashSha256: 'a1b2c3d4e5f6' + Date.now()
+      };
+
+      addDoc(newDoc);
+      alert('Surat permohonan berhasil dibuat dan masuk antrean persetujuan!');
+      document.getElementById('mSubmitForm').reset();
+      switchTab('home');
+      populateScanTokens();
+    }
+  </script>
+</body>
+</html>

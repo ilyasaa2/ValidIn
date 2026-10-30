@@ -117,12 +117,13 @@ Sesuai pembagian peran di atas, pembagian platform yang diterapkan pada proyek V
 ```
 ValidIn/
 ├── docs/                        # Dokumentasi spesifikasi lengkap proyek
+│   ├── MICROSERVICES_ARCHITECTURE.md # Arsitektur & Topologi Microservices
 │   ├── SRS.md                   # Software Requirements Specification (MoSCoW & ISO 25010)
 │   ├── ERD.md                   # Entity Relationship Diagram & Data Dictionary MySQL
-│   ├── API_CONTRACT.md          # Kontrak Endpoint REST API v1
+│   ├── API_CONTRACT.md          # Kontrak Endpoint REST API v1 Gateway
 │   ├── DESIGN_SYSTEM.md         # Standar Desain Notarial & Kop Surat UNTIDAR
 │   └── TEAM_RESPONSIBILITIES.md # Matriks Pembagian Tugas Tim 4 Anggota & RACI
-├── web/                         # Prototipe Web Modular (Aktif pada port 8080)
+├── web/                         # Frontend 1: Web Portal Pejabat & Dekanat (Port 8080)
 │   ├── index.html               # Dashboard utama adaptif 4 pejabat (KPI, filter, aksi cepat)
 │   ├── review.html              # Lembar surat fisik UNTIDAR, matriks 2 baris tanda tangan & disposisi
 │   ├── submit.html              # Formulir pengajuan peminjaman gedung/alat dengan template cepat
@@ -132,17 +133,34 @@ ValidIn/
 │   ├── login.html               # Halaman masuk akun pejabat resmi UNTIDAR
 │   ├── css/                     # Desain sistem notarial (main.css & document.css)
 │   └── js/                      # State manager (shared.js)
-├── backend/                     # Layanan API REST Laravel 11 (Fase Implementasi)
-└── mobile/                      # Aplikasi Android Flutter (Fase Implementasi)
+├── mobile/                      # Frontend 2: Aplikasi Mobile Mahasiswa / Ormawa (Port 8081)
+│   ├── lib/                     # Kode Flutter Android (Theme, Models, Services, Screens)
+│   │   ├── main.dart            # Navigasi 4 tab (Surat, Ajukan, Pass QR, Scan)
+│   │   ├── theme/               # Academic minimalism palette (identik dengan web)
+│   │   ├── models/              # Model data dokumen & alur pengesahan
+│   │   └── services/            # ApiService penghubung ke API Gateway
+│   ├── pubspec.yaml             # Dependensi Flutter (qr_flutter, dio, mobile_scanner)
+│   ├── index.html               # Standalone Mobile Web Runner (Port 8081)
+│   └── README.md                # Panduan kompilasi APK & running mobile mandiri
+└── backend/                     # Backend Microservices Layer (Decoupled Services)
+    ├── docker-compose.yml       # Orkestrasi container seluruh microservices & DB
+    ├── gateway/                 # Nginx API Gateway (Port 8000)
+    └── services/
+        ├── auth-service/        # Layanan Autentikasi & RBAC 4 Pejabat (Port 8001)
+        ├── document-service/    # Layanan Workflow & State Machine Surat (Port 8002)
+        ├── notary-service/      # Layanan Stempel Digital, SHA-256 & QR (Port 8003)
+        └── verification-service/# Layanan Publik Scan Satpam <50ms (Port 8004)
 ```
 
 ---
 
 ## 🛠️ Rencana Teknologi & Standar
 
-- **Backend:** PHP 8.2+, Laravel 11.x, Laravel Sanctum, Livewire / Blade.
-- **Mobile:** Flutter 3.x (Dart), `flutter_pdfview`, `dio` / `http`, `mobile_scanner`.
-- **Database:** MySQL 8.x.
+- **Microservices Gateway:** Nginx / Kong API Gateway (Port 8000).
+- **Backend Services:** Laravel 11 / Node.js Express Microservices (Auth, Document, Notary, Verification).
+- **Mobile Frontend:** Standalone Flutter 3.x (Dart), `flutter_pdfview`, `dio`, `qr_flutter`, `mobile_scanner`.
+- **Web Frontend:** Standalone Vanilla HTML5/CSS3/JS Institutional Academic Minimalism.
+- **Database:** MySQL 8.x (Per-service database) & Redis (Cache token verifikasi satpam <50ms).
 - **Protokol Verifikasi:** UUID v4 Tokenization, SHA-256 Integrity Digest, & Stempel QR Code Notarial.
 - **Standar Format Surat:** Format Resmi Surat Peminjaman HIMATIF Fakultas Teknik UNTIDAR (Jalan Kapten Suparman 39 Magelang 56116).
 

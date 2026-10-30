@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary": "#ffffff", "secondary-container": "#fe932c", "error-container": "#ffdad6", "on-tertiary-container": "#ff8b7f", "surface-variant": "#dae2fd", "surface-tint": "#4059aa", "surface-container-lowest": "#ffffff", "on-surface": "#131b2e", "on-primary-fixed-variant": "#264191", "on-tertiary-fixed": "#410002", "secondary-fixed-dim": "#ffb77d", "on-background": "#131b2e", "tertiary": "#5d0004", "on-primary-container": "#90a8ff", "tertiary-container": "#870009", "surface": "#faf8ff", "background": "#faf8ff", "on-tertiary": "#ffffff", "outline": "#757682", "surface-dim": "#d2d9f4", "surface-container-highest": "#dae2fd", "tertiary-fixed-dim": "#ffb4ab", "outline-variant": "#c5c5d3", "inverse-primary": "#b6c4ff", "surface-bright": "#faf8ff", "surface-container": "#eaedff", "secondary-fixed": "#ffdcc3", "on-primary": "#ffffff", "primary": "#00236f", "inverse-on-surface": "#eef0ff", "surface-container-low": "#f2f3ff", "on-error": "#ffffff", "on-surface-variant": "#444651", "tertiary-fixed": "#ffdad6", "surface-container-high": "#e2e7ff", "error": "#ba1a1a", "on-error-container": "#93000a", "primary-fixed-dim": "#b6c4ff", "on-secondary-container": "#663500", "primary-container": "#1e3a8a", "primary-fixed": "#dce1ff", "on-tertiary-fixed-variant": "#93000b", "on-secondary-fixed": "#2f1500", "on-primary-fixed": "#00164e", "secondary": "#904d00", "on-secondary-fixed-variant": "#6e3900", "inverse-surface": "#283044" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin-mobile": "1.25rem", "margin-tablet": "2rem", "margin": "3rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-xs": "0.25rem", "space-xl": "2.5rem", "gutter": "1.5rem", "gutter-mobile": "1rem", "space-md": "1rem" }, "fontFamily": { "body-lg": ["\"Source Serif 4\""], "label-sm": ["Inter"], "headline-md": ["\"Source Serif 4\""], "body-sm": ["Inter"], "body-md": ["Inter"], "display": ["\"Source Serif 4\""], "headline-lg": ["\"Source Serif 4\""], "title-md": ["Inter"], "code-telemetry": ["JetBrains Mono"], "headline-lg-mobile": ["\"Source Serif 4\""], "label-md": ["Inter"], "headline-sm": ["\"Source Serif 4\""] }, "fontSize": { "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }], "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "400" }], "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "code-telemetry": ["12px", { "lineHeight": "18px", "fontWeight": "500" }], "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }] } } } }</script><style>@layer base{html,body{width:100%;min-height:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0 flex-1"><button aria-label="Kembali ke daftar permohonan" class="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-primary hover:bg-surface-container active:bg-surface-container-high transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider truncate">FT UNTIDAR • VALIDIN</span><h1 class="font-title-md text-title-md text-on-surface truncate">Pengesahan Dekanat Dan Bubuhan Segel Qr</h1></div></div><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Bantuan Protokol Persuratan" class="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">verified_user</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Bright Scanner Ambiance Indicator & Instruction Banner -->
+<section class="px-gutter-mobile pt-space-md pb-space-sm">
+<div class="bg-surface-container-high rounded-xl p-space-md shadow-sm flex items-start gap-space-sm relative overflow-hidden">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">brightness_high</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Mode Pindai Optimal</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-lowest text-primary shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
+            100% Kecerahan
+          </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+          Tunjukkan layar ini kepada petugas Satpam di Lobi / Gerbang Utama Fakultas Teknik UNTIDAR.
+        </p>
+</div>
+</div>
+</section>
+<!-- Main Credential Pass Canvas -->
+<section class="px-gutter-mobile py-space-sm flex flex-col gap-space-md">
+<div class="relative bg-surface-container-lowest rounded-xl shadow-xl overflow-hidden">
+<!-- Watermark Background Embellishment -->
+<div class="absolute inset-0 pointer-events-none opacity-[0.03] flex items-center justify-center select-none overflow-hidden">
+<span class="material-symbols-outlined text-[420px] text-primary">local_police</span>
+</div>
+<!-- Institutional Header Ribbon -->
+<div class="bg-primary text-on-primary p-space-md flex flex-col gap-space-xs relative">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary-fixed text-[20px]">shield</span>
+<span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary-fixed">FT UNTIDAR • SATPAM POS</span>
+</div>
+<span class="font-code-telemetry text-code-telemetry text-surface-variant/80">SECURITY-PASS-2025</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-primary leading-tight mt-1">
+          Pass Akses Gerbang Resmi
+        </h2>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">
+          Fakultas Teknik Universitas Tidar
+        </span>
+</div>
+<!-- Live Flashing Validation Indicator -->
+<div class="bg-surface-container-low px-space-md py-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-container opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-secondary-container"></span>
+</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-secondary">VALID &amp; AKTIF</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">schedule</span>
+<span>s.d. 2 Nov 2025, 17:00 WIB</span>
+</div>
+</div>
+<!-- Central High-Resolution QR Display Unit -->
+<div class="p-space-lg flex flex-col items-center justify-center bg-surface-container-lowest">
+<div class="relative p-space-md bg-surface-container-lowest rounded-xl shadow-lg flex items-center justify-center" id="qrContainer">
+<!-- Stylized High-Density Institutional QR Code Matrix SVG -->
+<svg aria-label="QR Code Izin Masuk Gerbang Pos FT" class="w-60 h-60 text-primary drop-shadow-xs" fill="none" viewbox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+<!-- Position Detection Patterns (Top-Left) -->
+<rect fill="currentColor" height="56" rx="4" width="56" x="12" y="12"></rect>
+<rect fill="white" height="40" rx="2" width="40" x="20" y="20"></rect>
+<rect fill="currentColor" height="24" rx="2" width="24" x="28" y="28"></rect>
+<!-- Position Detection Patterns (Top-Right) -->
+<rect fill="currentColor" height="56" rx="4" width="56" x="172" y="12"></rect>
+<rect fill="white" height="40" rx="2" width="40" x="180" y="20"></rect>
+<rect fill="currentColor" height="24" rx="2" width="24" x="188" y="28"></rect>
+<!-- Position Detection Patterns (Bottom-Left) -->
+<rect fill="currentColor" height="56" rx="4" width="56" x="12" y="172"></rect>
+<rect fill="white" height="40" rx="2" width="40" x="20" y="180"></rect>
+<rect fill="currentColor" height="24" rx="2" width="24" x="28" y="188"></rect>
+<!-- Alignment Markers & Timing Ribbons -->
+<rect fill="currentColor" height="8" width="8" x="76" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="92" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="108" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="124" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="140" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="156" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="76"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="92"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="108"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="124"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="140"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="156"></rect>
+<!-- Synthesized Data Grid Elements -->
+<rect fill="currentColor" height="12" width="12" x="76" y="76"></rect>
+<rect fill="currentColor" height="8" width="16" x="96" y="76"></rect>
+<rect fill="currentColor" height="16" width="8" x="120" y="76"></rect>
+<rect fill="currentColor" height="8" width="20" x="136" y="76"></rect>
+<rect fill="currentColor" height="12" width="12" x="164" y="76"></rect>
+<rect fill="currentColor" height="16" width="8" x="184" y="76"></rect>
+<rect fill="currentColor" height="8" width="16" x="76" y="96"></rect>
+<rect fill="currentColor" height="16" width="8" x="100" y="92"></rect>
+<rect fill="currentColor" height="12" width="16" x="140" y="92"></rect>
+<rect fill="currentColor" height="8" width="16" x="168" y="96"></rect>
+<rect fill="currentColor" height="12" width="12" x="192" y="96"></rect>
+<rect fill="currentColor" height="8" width="8" x="212" y="96"></rect>
+<rect fill="currentColor" height="8" width="8" x="12" y="76"></rect>
+<rect fill="currentColor" height="12" width="12" x="8" y="96"></rect>
+<rect fill="currentColor" height="16" width="8" x="44" y="76"></rect>
+<rect fill="currentColor" height="8" width="16" x="52" y="100"></rect>
+<rect fill="currentColor" height="20" width="8" x="76" y="144"></rect>
+<rect fill="currentColor" height="8" width="16" x="92" y="148"></rect>
+<rect fill="currentColor" height="16" width="12" x="116" y="140"></rect>
+<rect fill="currentColor" height="8" width="20" x="136" y="148"></rect>
+<rect fill="currentColor" height="12" width="12" x="164" y="144"></rect>
+<rect fill="currentColor" height="20" width="8" x="184" y="140"></rect>
+<rect fill="currentColor" height="8" width="16" x="200" y="144"></rect>
+<rect fill="currentColor" height="8" width="20" x="76" y="172"></rect>
+<rect fill="currentColor" height="16" width="8" x="104" y="168"></rect>
+<rect fill="currentColor" height="8" width="16" x="120" y="172"></rect>
+<rect fill="currentColor" height="12" width="12" x="144" y="168"></rect>
+<rect fill="currentColor" height="8" width="16" x="164" y="172"></rect>
+<rect fill="currentColor" height="16" width="8" x="188" y="168"></rect>
+<rect fill="currentColor" height="12" width="16" x="204" y="172"></rect>
+<rect fill="currentColor" height="16" width="12" x="76" y="196"></rect>
+<rect fill="currentColor" height="8" width="16" x="96" y="200"></rect>
+<rect fill="currentColor" height="16" width="8" x="120" y="196"></rect>
+<rect fill="currentColor" height="8" width="20" x="136" y="200"></rect>
+<rect fill="currentColor" height="12" width="16" x="164" y="196"></rect>
+<rect fill="currentColor" height="8" width="16" x="188" y="200"></rect>
+<rect fill="currentColor" height="16" width="8" x="212" y="196"></rect>
+<rect fill="currentColor" height="12" width="12" x="12" y="140"></rect>
+<rect fill="currentColor" height="16" width="8" x="32" y="144"></rect>
+<rect fill="currentColor" height="8" width="16" x="48" y="140"></rect>
+<rect fill="currentColor" height="8" width="20" x="16" y="160"></rect>
+<!-- Center Validation Shield Seal Medallion -->
+<rect class="drop-shadow-sm" fill="white" height="52" rx="10" width="52" x="94" y="94"></rect>
+<rect fill="#1e3a8a" height="44" rx="8" width="44" x="98" y="98"></rect>
+<!-- Crest Icon Shape inside QR -->
+<path d="M120 106L132 111V122C132 129.5 126.8 136.5 120 138C113.2 136.5 108 129.5 108 122V111L120 106Z" fill="#ffdcc3"></path>
+<path d="M116.5 121.5L113.5 118.5L111.5 120.5L116.5 125.5L127 115L125 113L116.5 121.5Z" fill="#1e3a8a"></path>
+</svg>
+</div>
+<!-- Scanning Helper Subtext -->
+<span class="font-code-telemetry text-code-telemetry text-on-surface-variant mt-space-sm tracking-wider">
+          PASID-FT-2025-98214-SEC
+        </span>
+</div>
+<!-- Dossier Details Section -->
+<div class="p-space-md bg-surface-container-low flex flex-col gap-space-md">
+<!-- Event & Venue Identification -->
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Acara &amp; Lokasi Gedung</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">
+            Peningkatan Kompetensi Mahasiswa DigitalWave
+          </h3>
+<div class="flex items-center gap-space-xs text-on-surface-variant mt-0.5">
+<span class="material-symbols-outlined text-[18px] text-secondary">location_on</span>
+<span class="font-body-md text-body-md font-medium text-on-surface">Auditorium FT 03 Lt. 2</span>
+</div>
+</div>
+<!-- Structured Attributes Bento Grid -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Person In Charge -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest shadow-xs flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Penanggung Jawab</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface mt-1 truncate">Emannuel Henji P. P.</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">Ketua Pelaksana (HIMATIF)</span>
+</div>
+<!-- Permitted Capacity -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest shadow-xs flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Kapasitas Izin</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface mt-1">140 Mahasiswa</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">+ 8 Dosen Tamu</span>
+</div>
+</div>
+<!-- Document Registration Metadata -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest shadow-xs flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">No. Registrasi Dokumen</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-primary font-mono">RESMI</span>
+</div>
+<span class="font-code-telemetry text-code-telemetry text-on-surface font-semibold break-all">
+            #026.a/E/PM/HIMATIF/UNTIDAR/IX/2026
+          </span>
+</div>
+<!-- Cryptographic Telemetry Box -->
+<div class="p-space-sm rounded-lg bg-surface-container shadow-xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider">Kriptografi BSrE</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SHA-256 Digest</span>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded font-code-telemetry text-code-telemetry text-on-surface break-all select-all leading-relaxed">
+            7f83b165c719efb09d10e74b321a084c8e718b9588046b856cecd79ad24f603c
+          </div>
+<div class="flex items-center justify-between text-on-surface-variant pt-0.5">
+<span class="font-label-sm text-label-sm">Waktu Sertifikasi</span>
+<span class="font-code-telemetry text-code-telemetry text-on-surface">28 Okt 2025, 14:22:09 WIB</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Action Suite -->
+<section class="px-gutter-mobile py-space-sm flex flex-col gap-space-sm">
+<!-- QR Magnifier Button -->
+<button class="w-full h-11 px-space-md rounded-lg bg-primary text-on-primary font-title-md text-title-md flex items-center justify-center gap-space-sm shadow-md active:scale-[0.99] transition-transform" id="btnZoomQr" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+<span>Perbesar QR Maksimal</span>
+</button>
+<!-- Secondary Utilities Split -->
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="h-10 px-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 shadow-sm active:bg-surface-container transition-colors truncate" id="btnCopyHash" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">content_copy</span>
+<span id="copyTextLabel">Salin Token</span>
+</button>
+<button class="h-10 px-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 shadow-sm active:bg-surface-container transition-colors truncate" onclick="history.back()" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">description</span>
+<span>Rincian Dokumen</span>
+</button>
+</div>
+</section>
+<!-- Cryptographic Authority Footer -->
+<footer class="px-gutter-mobile pt-space-sm pb-space-xl">
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col items-center text-center gap-1.5 shadow-xs">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold">Validasi Kampus Terpadu</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Pass resmi diproduksi secara kriptografis oleh Pos Keamanan Terpadu FT &amp; Simpul Validasi
+        <span class="font-code-telemetry text-code-telemetry text-primary font-semibold">node-ft.untidar.ac.id</span>
+</p>
+<div class="flex items-center gap-space-sm mt-1 text-on-surface-variant">
+<span class="font-label-sm text-label-sm">ISO 27001 Certified</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm">UNTIDAR Smart Campus 2025</span>
+</div>
+</div>
+</footer>
+<!-- Modal Fullscreen QR Maximizer Overlay -->
+<div class="hidden fixed inset-0 z-50 bg-on-surface/90 backdrop-blur-md p-gutter-mobile flex flex-col items-center justify-center" id="qrModal">
+<div class="w-full max-w-sm bg-surface-container-lowest rounded-xl p-space-lg shadow-2xl flex flex-col items-center gap-space-md">
+<div class="w-full flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Pemindaian Cepat Gerbang</span>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container text-on-surface flex items-center justify-center" id="btnCloseModal" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-4 bg-surface-container-lowest rounded-xl shadow-inner flex items-center justify-center">
+<!-- Enlarged Target QR Clone -->
+<svg class="w-72 h-72 text-primary" fill="none" viewbox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+<rect fill="currentColor" height="56" rx="4" width="56" x="12" y="12"></rect>
+<rect fill="white" height="40" rx="2" width="40" x="20" y="20"></rect>
+<rect fill="currentColor" height="24" rx="2" width="24" x="28" y="28"></rect>
+<rect fill="currentColor" height="56" rx="4" width="56" x="172" y="12"></rect>
+<rect fill="white" height="40" rx="2" width="40" x="180" y="20"></rect>
+<rect fill="currentColor" height="24" rx="2" width="24" x="188" y="28"></rect>
+<rect fill="currentColor" height="56" rx="4" width="56" x="12" y="172"></rect>
+<rect fill="white" height="40" rx="2" width="40" x="20" y="180"></rect>
+<rect fill="currentColor" height="24" rx="2" width="24" x="28" y="188"></rect>
+<rect fill="currentColor" height="8" width="8" x="76" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="92" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="108" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="124" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="140" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="156" y="28"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="76"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="92"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="108"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="124"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="140"></rect>
+<rect fill="currentColor" height="8" width="8" x="28" y="156"></rect>
+<rect fill="currentColor" height="12" width="12" x="76" y="76"></rect>
+<rect fill="currentColor" height="8" width="16" x="96" y="76"></rect>
+<rect fill="currentColor" height="16" width="8" x="120" y="76"></rect>
+<rect fill="currentColor" height="8" width="20" x="136" y="76"></rect>
+<rect fill="currentColor" height="12" width="12" x="164" y="76"></rect>
+<rect fill="currentColor" height="16" width="8" x="184" y="76"></rect>
+<rect fill="currentColor" height="8" width="16" x="76" y="96"></rect>
+<rect fill="currentColor" height="16" width="8" x="100" y="92"></rect>
+<rect fill="currentColor" height="12" width="16" x="140" y="92"></rect>
+<rect fill="currentColor" height="8" width="16" x="168" y="96"></rect>
+<rect fill="currentColor" height="12" width="12" x="192" y="96"></rect>
+<rect fill="currentColor" height="8" width="8" x="212" y="96"></rect>
+<rect fill="currentColor" height="8" width="8" x="12" y="76"></rect>
+<rect fill="currentColor" height="12" width="12" x="8" y="96"></rect>
+<rect fill="currentColor" height="16" width="8" x="44" y="76"></rect>
+<rect fill="currentColor" height="8" width="16" x="52" y="100"></rect>
+<rect fill="currentColor" height="20" width="8" x="76" y="144"></rect>
+<rect fill="currentColor" height="8" width="16" x="92" y="148"></rect>
+<rect fill="currentColor" height="16" width="12" x="116" y="140"></rect>
+<rect fill="currentColor" height="8" width="20" x="136" y="148"></rect>
+<rect fill="currentColor" height="12" width="12" x="164" y="144"></rect>
+<rect fill="currentColor" height="20" width="8" x="184" y="140"></rect>
+<rect fill="currentColor" height="8" width="16" x="200" y="144"></rect>
+<rect fill="currentColor" height="8" width="20" x="76" y="172"></rect>
+<rect fill="currentColor" height="16" width="8" x="104" y="168"></rect>
+<rect fill="currentColor" height="8" width="16" x="120" y="172"></rect>
+<rect fill="currentColor" height="12" width="12" x="144" y="168"></rect>
+<rect fill="currentColor" height="8" width="16" x="164" y="172"></rect>
+<rect fill="currentColor" height="16" width="8" x="188" y="168"></rect>
+<rect fill="currentColor" height="12" width="16" x="204" y="172"></rect>
+<rect fill="currentColor" height="16" width="12" x="76" y="196"></rect>
+<rect fill="currentColor" height="8" width="16" x="96" y="200"></rect>
+<rect fill="currentColor" height="16" width="8" x="120" y="196"></rect>
+<rect fill="currentColor" height="8" width="20" x="136" y="200"></rect>
+<rect fill="currentColor" height="12" width="16" x="164" y="196"></rect>
+<rect fill="currentColor" height="8" width="16" x="188" y="200"></rect>
+<rect fill="currentColor" height="16" width="8" x="212" y="196"></rect>
+<!-- Medallion Center Shield -->
+<rect fill="white" height="52" rx="10" width="52" x="94" y="94"></rect>
+<rect fill="#1e3a8a" height="44" rx="8" width="44" x="98" y="98"></rect>
+<path d="M120 106L132 111V122C132 129.5 126.8 136.5 120 138C113.2 136.5 108 129.5 108 122V111L120 106Z" fill="#ffdcc3"></path>
+<path d="M116.5 121.5L113.5 118.5L111.5 120.5L116.5 125.5L127 115L125 113L116.5 121.5Z" fill="#1e3a8a"></path>
+</svg>
+</div>
+<div class="text-center flex flex-col gap-1">
+<span class="font-body-md text-body-md font-semibold text-on-surface">Pindai dengan Scanner Gerbang</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Arahkan barcode scanner 15-20 cm dari permukaan layar</span>
+</div>
+<button class="w-full h-10 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md" id="btnDismissModal" type="button">
+        Tutup Tampilan Penuh
+      </button>
+</div>
+</div>
+<script>
+    (function () {
+      var btnZoom = document.getElementById('btnZoomQr');
+      var modal = document.getElementById('qrModal');
+      var btnClose = document.getElementById('btnCloseModal');
+      var btnDismiss = document.getElementById('btnDismissModal');
+      var btnCopy = document.getElementById('btnCopyHash');
+      var copyLabel = document.getElementById('copyTextLabel');
+
+      if (btnZoom && modal) {
+        btnZoom.addEventListener('click', function () {
+          modal.classList.remove('hidden');
+        });
+      }
+
+      function hideModal() {
+        if (modal) modal.classList.add('hidden');
+      }
+
+      if (btnClose) btnClose.addEventListener('click', hideModal);
+      if (btnDismiss) btnDismiss.addEventListener('click', hideModal);
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) hideModal();
+        });
+      }
+
+      if (btnCopy) {
+        btnCopy.addEventListener('click', function () {
+          var token = 'https://node-ft.untidar.ac.id/verify/pass?id=026.a-E-PM-HIMATIF-UNTIDAR-IX-2026&hash=7f83b165c719efb09d10e74b321a084c8e718b9588046b856cecd79ad24f603c';
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(token).then(showCopied).catch(fallbackCopy);
+          } else {
+            fallbackCopy();
+          }
+
+          function showCopied() {
+            if (copyLabel) {
+              var prev = copyLabel.textContent;
+              copyLabel.textContent = 'Tersalin!';
+              setTimeout(function () {
+                copyLabel.textContent = prev;
+              }, 2000);
+            }
+          }
+
+          function fallbackCopy() {
+            var temp = document.createElement('textarea');
+            temp.value = token;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showCopied();
+          }
+        });
+      }
+    })();
+  </script>
+</div></main></body></html>

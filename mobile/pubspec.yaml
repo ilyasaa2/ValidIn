@@ -1,0 +1,33 @@
+name: validin_mobile
+description: "Aplikasi Mobile Pengajuan & Pelacakan Surat Izin Resmi FT UNTIDAR"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # State Management & Network
+  provider: ^6.1.1
+  dio: ^5.4.0
+  # QR & Verification
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^3.5.6
+  # PDF Viewing & Files
+  flutter_pdfview: ^1.3.2
+  path_provider: ^2.1.2
+  # UI & Typography
+  google_fonts: ^6.1.0
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/img/logo_untidar.png

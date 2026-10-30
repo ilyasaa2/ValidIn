@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ValidIn FT UNTIDAR - Sistem Validasi &amp; Pengesahan Dokumen Digital Resmi</title>
+<!-- Material Symbols & Typography -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-fixed": "#2f1500",
+            "surface-container-low": "#f2f3ff",
+            "inverse-on-surface": "#eef0ff",
+            "on-background": "#131b2e",
+            "on-primary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "surface": "#faf8ff",
+            "on-tertiary-fixed-variant": "#93000b",
+            "secondary-fixed": "#ffdcc3",
+            "surface-container-high": "#e2e7ff",
+            "on-error": "#ffffff",
+            "error": "#ba1a1a",
+            "on-secondary-fixed-variant": "#6e3900",
+            "on-secondary-container": "#663500",
+            "on-tertiary-container": "#ff8b7f",
+            "primary-container": "#1e3a8a",
+            "tertiary-fixed-dim": "#ffb4ab",
+            "on-surface-variant": "#444651",
+            "surface-bright": "#faf8ff",
+            "surface-container": "#eaedff",
+            "secondary": "#904d00",
+            "surface-dim": "#d2d9f4",
+            "tertiary-container": "#870009",
+            "on-tertiary-fixed": "#410002",
+            "on-surface": "#131b2e",
+            "on-secondary": "#ffffff",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#b6c4ff",
+            "secondary-container": "#fe932c",
+            "on-primary-fixed": "#00164e",
+            "inverse-primary": "#b6c4ff",
+            "primary-fixed": "#dce1ff",
+            "primary": "#00236f",
+            "tertiary-fixed": "#ffdad6",
+            "inverse-surface": "#283044",
+            "on-primary-container": "#90a8ff",
+            "surface-variant": "#dae2fd",
+            "on-primary-fixed-variant": "#264191",
+            "surface-tint": "#4059aa",
+            "outline-variant": "#c5c5d3",
+            "surface-container-highest": "#dae2fd",
+            "surface-container-lowest": "#ffffff",
+            "secondary-fixed-dim": "#ffb77d",
+            "background": "#faf8ff",
+            "on-error-container": "#93000a",
+            "tertiary": "#5d0004",
+            "outline": "#757682"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-xl": "2.5rem",
+            "margin": "3rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "margin-mobile": "1.25rem",
+            "gutter-mobile": "1rem",
+            "space-md": "1rem",
+            "margin-tablet": "2rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "title-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-sm": ["\"Source Serif 4\""],
+            "display": ["\"Source Serif 4\""],
+            "body-lg": ["\"Source Serif 4\""],
+            "label-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-md": ["\"Source Serif 4\""],
+            "code-telemetry": ["JetBrains Mono"],
+            "headline-lg": ["\"Source Serif 4\""],
+            "headline-lg-mobile": ["\"Source Serif 4\""],
+            "label-sm": ["Inter"]
+          },
+          "fontSize": {
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "code-telemetry": ["12px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    
+    /* Document realistic paper texture & elevation */
+    .official-letterhead-border {
+      border-top: 3px solid #00236f;
+      border-bottom: 1px solid #00236f;
+      margin-top: 10px;
+      margin-bottom: 22px;
+      padding-top: 2px;
+    }
+
+    .paper-shadow {
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 12px 28px -6px rgba(15, 23, 42, 0.08);
+    }
+
+    .seal-ring-blue {
+      border: 2px dashed #1e3a8a;
+      outline: 1px solid #1e3a8a;
+      outline-offset: 3px;
+    }
+
+    .seal-ring-red {
+      border: 2px dashed #b91c1c;
+      outline: 1px solid #b91c1c;
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body class="bg-[#fbfbfa] text-on-surface antialiased min-h-screen flex flex-col font-body-md text-body-md selection:bg-surface-variant">
+<!-- TOP INSTITUTIONAL APPBAR (Shared Component: TopNavBar) -->
+<header class="w-full px-margin py-space-sm flex items-center justify-between border-b border-outline-variant bg-surface-container-lowest sticky top-0 z-50 shadow-sm">
+<div class="flex items-center space-x-6">
+<!-- Institutional Identity Brand Anchor -->
+<div class="flex items-center space-x-3.5">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary shadow-sm ring-2 ring-primary/20">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-bold text-primary tracking-tight">ValidIn FT UNTIDAR</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium tracking-wide">Fakultas Teknik Universitas Tidar • Kemendiktisaintek</span>
+</div>
+</div>
+<!-- Navigation Clusters -->
+<nav class="hidden lg:flex items-center space-x-6 ml-6">
+<a class="text-on-surface-variant hover:text-on-surface font-body-md text-body-md pb-1 transition-colors duration-150" href="#dashboard">Dashboard</a>
+<!-- Active Tab: Permohonan -->
+<a class="border-b-2 border-primary text-primary font-title-md text-title-md pb-1 flex items-center gap-1.5" href="#permohonan">
+<span>Permohonan</span>
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface font-body-md text-body-md pb-1 transition-colors duration-150" href="#verifikasi-qr">Verifikasi QR</a>
+<a class="text-on-surface-variant hover:text-on-surface font-body-md text-body-md pb-1 transition-colors duration-150" href="#arsip-digital">Arsip Digital</a>
+<a class="text-on-surface-variant hover:text-on-surface font-body-md text-body-md pb-1 transition-colors duration-150" href="#profil-pejabat">Profil Pejabat</a>
+</nav>
+</div>
+<!-- Trailing Controls & Institutional Official Profile Profile Info -->
+<div class="flex items-center space-x-4">
+<!-- Search Input Micro-bar -->
+<div class="relative hidden xl:block">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]" data-icon="search">search</span>
+<input class="h-9 pl-9 pr-3 text-body-sm font-body-sm bg-surface-container-low rounded-lg border border-outline-variant focus:outline-none focus:border-primary w-56 text-on-surface placeholder:text-outline" placeholder="Cari No. SK / Berkas / NPM..." type="text"/>
+</div>
+<!-- Institutional Security Badge / Token Indicator -->
+<div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant">
+<span class="material-symbols-outlined text-[#059669] text-[18px]" data-icon="lock" style="font-variation-settings: 'FILL' 1;">lock</span>
+<div class="text-left">
+<p class="font-label-sm text-[10px] uppercase font-bold text-primary tracking-wider leading-none">BSrE - BSSN Terkoneksi</p>
+<p class="font-code-telemetry text-[10px] text-outline leading-tight">SHA-256 HSM Aktif</p>
+</div>
+</div>
+<!-- Icon Action Buttons -->
+<div class="flex items-center gap-1 text-on-surface-variant">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-surface-container-low transition-colors duration-150 relative text-on-surface" title="Pemberitahuan">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-surface-container-low transition-colors duration-150 text-on-surface" title="Bantuan &amp; Petunjuk Sistem">
+<span class="material-symbols-outlined text-[20px]" data-icon="help_center">help_center</span>
+</button>
+</div>
+<!-- Official Signee Profile Widget -->
+<div class="flex items-center pl-3 border-l border-outline-variant space-x-3">
+<div class="relative">
+<img class="w-10 h-10 rounded-lg object-cover border border-outline-variant shadow-xs" data-alt="Official photographic academic portrait of Dr. Sigit Iswahyudi in formal navy academic university suit with official Indonesian institutional pin and subtle golden university emblem on lapel, studio lighting, dignified university dean expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAloJjHF0JbQqVcRR2E2IjE2e9Eh7UYA4TvyQUhv1WVCplDdH2wJbfDUR1xIkiBRmvUGHXsu6kx7XK4D3aUzaNL7Hqrpx8UmJIXMsNtslsq-AOGuzjEyJ9EhOA7p8NLGx3BWt1LwAd4H75bBahP93yApSl-VEy4yyBTKbtq_q2PDasftaVz963hwG0ltCtV0mQwHCZ3IYyX4RKMrFlX-qK1ICiCXMYzQMLSRwfHtwHQuSkMoP-2GElwY3sDUlJ3xJ4nPlTnaUFnpE"/>
+<span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#059669] border-2 border-surface-container-lowest rounded-full" title="Token Kriptografis Aktif"></span>
+</div>
+<div class="hidden md:flex flex-col text-left">
+<span class="font-title-md text-body-sm font-semibold text-on-surface leading-tight">Dr. Sigit Iswahyudi, S.T., M.T.</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Wakil Dekan I FT UNTIDAR • NIP. 197806122005011002</span>
+</div>
+</div>
+</div>
+</header>
+<!-- SUB-HEADER / ACTION METADATA STRIP -->
+<section class="w-full bg-surface-container-lowest border-b border-outline-variant px-margin py-3">
+<div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<a class="inline-flex items-center gap-1 px-2.5 py-1 text-label-md font-label-md rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-low" href="#kembali">
+<span class="material-symbols-outlined text-[16px]" data-icon="arrow_back">arrow_back</span>
+          Daftar Surat Masuk
+        </a>
+<div class="h-4 w-px bg-outline-variant"></div>
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Nomor Registrasi Berkas:</span>
+<span class="font-code-telemetry text-body-sm font-semibold text-primary ml-1.5">042/HIMATIF-FT/UNTIDAR/X/2025</span>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded text-[11px] font-label-sm uppercase font-semibold bg-[#fffbeb] text-[#d97706] border border-[#fde68a]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#d97706] mr-1.5 animate-pulse"></span>
+          Menunggu Tanda Tangan Tahap Akhir (Wakil Dekan I)
+        </span>
+</div>
+<!-- Document Viewport Auxiliary Tools -->
+<div class="flex items-center gap-2">
+<button class="h-8 px-3 rounded border border-outline-variant text-body-sm font-body-sm text-on-surface hover:bg-surface-container-low flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+<span>Berkas Sebelumnya</span>
+</button>
+<button class="h-8 px-3 rounded border border-outline-variant text-body-sm font-body-sm text-on-surface hover:bg-surface-container-low flex items-center gap-1.5 transition-colors">
+<span>Berkas Berikutnya</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+<div class="h-4 w-px bg-outline-variant"></div>
+<button class="h-8 px-2.5 rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-low" title="Tampilan Penuh">
+<span class="material-symbols-outlined text-[18px]" data-icon="fullscreen">fullscreen</span>
+</button>
+<button class="h-8 px-2.5 rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-low" title="Riwayat Audit Trail">
+<span class="material-symbols-outlined text-[18px]" data-icon="history">history</span>
+</button>
+</div>
+</div>
+</section>
+<!-- MAIN DUAL-PANE WORKSPACE (12-Column Responsive Academic Layout) -->
+<main class="flex-1 max-w-[1440px] w-full mx-auto px-margin py-6">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- LEFT & CENTER: A4 OFFICIAL ACADEMIC DOCUMENT DOSSIER (Cols 1-8) -->
+<div class="lg:col-span-8 flex flex-col items-center">
+<!-- Floating Document Bar Controls -->
+<div class="w-full max-w-[794px] mb-3 flex items-center justify-between text-body-sm text-on-surface-variant px-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="description">description</span>
+<span class="font-medium text-on-surface">Pratinjau Lembar Surat Asli (Format ISO A4 Resmi)</span>
+</div>
+<div class="flex items-center gap-3 text-label-sm font-code-telemetry text-outline">
+<span>Skala: 100% (794 x 1123 px)</span>
+<span>•</span>
+<span class="text-[#059669] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified">verified</span> Integritas Terjamin
+            </span>
+</div>
+</div>
+<!-- THE PHYSICAL A4 PAPER SIMULATION -->
+<div class="w-full max-w-[794px] bg-[#ffffff] paper-shadow rounded border border-[#e2e8f0] p-10 md:p-14 relative selection:bg-surface-variant">
+<!-- KOP SURAT RESMI GANDA (UNTIDAR & HIMATIF) -->
+<div class="relative">
+<div class="flex items-center justify-between pb-2">
+<!-- Logo Kiri: UNTIDAR Official Crest -->
+<div class="w-20 h-20 flex-shrink-0 flex items-center justify-center border-2 border-primary/40 rounded-full p-1 bg-surface-container-lowest">
+<div class="w-full h-full rounded-full border border-primary flex flex-col items-center justify-center text-center text-primary">
+<span class="material-symbols-outlined text-[30px]" data-icon="school">school</span>
+<span class="font-label-sm text-[8px] font-bold tracking-tighter uppercase leading-none mt-0.5">UNTIDAR</span>
+</div>
+</div>
+<!-- Header Text Birokrasi / Kementerian -->
+<div class="flex-1 text-center px-4">
+<h3 class="font-headline-sm text-[13px] uppercase tracking-wider font-bold text-on-surface leading-tight">
+                  KEMENTERIAN PENDIDIKAN TINGGI, SAINS, DAN TEKNOLOGI
+                </h3>
+<h2 class="font-headline-md text-[16px] uppercase tracking-wide font-extrabold text-primary leading-tight mt-0.5">
+                  UNIVERSITAS TIDAR • FAKULTAS TEKNIK
+                </h2>
+<h4 class="font-headline-sm text-[14px] uppercase tracking-normal font-bold text-[#1d4ed8] mt-0.5">
+                  HIMPUNAN MAHASISWA TEKNIK INFORMATIKA (HIMATIF)
+                </h4>
+<p class="font-body-sm text-[10.5px] text-on-surface-variant leading-tight mt-1">
+                  Sekretariat: Gedung FT 02 Kampus Tuguran, Jl. Kapten Suparman No. 39, Potrobangsan, Magelang 56116<br/>
+                  Laman: <span class="text-primary font-medium">ft.untidar.ac.id</span> | Pos-el: <span class="text-primary font-medium">himatif@untidar.ac.id</span> | Layanan Teknis: ft@untidar.ac.id
+                </p>
+</div>
+<!-- Logo Kanan: HIMATIF FT UNTIDAR Logo Emblem -->
+<div class="w-20 h-20 flex-shrink-0 flex items-center justify-center border-2 border-[#1d4ed8]/40 rounded-full p-1 bg-surface-container-lowest">
+<div class="w-full h-full rounded-full border border-[#1d4ed8] flex flex-col items-center justify-center text-center text-[#1d4ed8]">
+<span class="material-symbols-outlined text-[30px]" data-icon="terminal">terminal</span>
+<span class="font-label-sm text-[8px] font-bold tracking-tighter uppercase leading-none mt-0.5">HIMATIF</span>
+</div>
+</div>
+</div>
+<!-- Double Rule (Tebal-Tipis Resmi Dinas) -->
+<div class="official-letterhead-border"></div>
+</div>
+<!-- SURAT METADATA STRIP -->
+<div class="flex justify-between items-start font-body-md text-[13.5px] leading-relaxed text-on-surface mb-6">
+<table class="w-2/3 border-collapse">
+<tbody><tr>
+<td class="w-20 font-medium py-0.5">Nomor</td>
+<td class="w-3 text-center py-0.5">:</td>
+<td class="font-code-telemetry font-semibold py-0.5 text-primary">042/HIMATIF-FT/UNTIDAR/X/2025</td>
+</tr>
+<tr>
+<td class="font-medium py-0.5">Lampiran</td>
+<td class="text-center py-0.5">:</td>
+<td class="py-0.5">1 (satu) Berkas Proposal &amp; Susunan Acara</td>
+</tr>
+<tr>
+<td class="font-medium py-0.5 align-top">Hal</td>
+<td class="text-center py-0.5 align-top">:</td>
+<td class="py-0.5 font-semibold text-on-surface align-top">
+                  Permohonan Izin Peminjaman Gedung FT 03 &amp; Fasilitas Sound System untuk Pengenalan Informatika 2025
+                </td>
+</tr>
+</tbody></table>
+<div class="text-right">
+<p class="font-body-md text-[13.5px]">Magelang, 24 Oktober 2025</p>
+</div>
+</div>
+<!-- YTH RECIPIENT BLOCK -->
+<div class="mb-5 font-body-md text-[13.5px] leading-relaxed text-on-surface">
+<p>Yth. <span class="font-semibold">Dekan Fakultas Teknik Universitas Tidar</span></p>
+<p class="italic text-on-surface-variant">c.q. Wakil Dekan I Bidang Akademik dan Kemahasiswaan</p>
+<p>Fakultas Teknik Universitas Tidar</p>
+<p>di Magelang</p>
+</div>
+<!-- SURAT BODY -->
+<div class="space-y-3 font-body-md text-[13.5px] leading-relaxed text-justify text-on-surface">
+<p>
+              Dengan hormat, sehubungan dengan pelaksanaan Program Kerja Himpunan Mahasiswa Teknik Informatika (HIMATIF) Fakultas Teknik Universitas Tidar Periode 2025/2026, kami bermaksud menyelenggarakan kegiatan pengenalan kurikulum serta laboratorium keahlian komputasi bertajuk <span class="font-semibold">"Pengenalan Informatika FT UNTIDAR 2025"</span> bagi mahasiswa angkatan 2025.
+            </p>
+<p>
+              Guna mendukung kelancaran dan ketertiban agenda akademik mahasiswa tersebut, kami mengajukan permohonan izin peminjaman ruangan dan fasilitas sarana prasarana penunjang kegiatan dengan rincian operasional sebagai berikut:
+            </p>
+<!-- Table of Requested Resources -->
+<div class="my-3 border border-[#cbd5e1] rounded overflow-hidden">
+<table class="w-full text-left font-body-sm text-[12.5px]">
+<thead class="bg-surface-container-low border-b border-[#cbd5e1] font-title-md text-primary">
+<tr>
+<th class="py-2 px-3 border-r border-[#cbd5e1] w-36">Parameter</th>
+<th class="py-2 px-3">Rincian Fasilitas &amp; Waktu Penggunaan</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#e2e8f0]">
+<tr>
+<td class="py-2 px-3 font-medium bg-[#faf8ff] border-r border-[#cbd5e1]">Hari, Tanggal</td>
+<td class="py-2 px-3 font-semibold">Sabtu, 1 November 2025 s.d. Minggu, 2 November 2025</td>
+</tr>
+<tr>
+<td class="py-2 px-3 font-medium bg-[#faf8ff] border-r border-[#cbd5e1]">Waktu Pelaksanaan</td>
+<td class="py-2 px-3">07.30 WIB – 16.30 WIB (Tepat Waktu)</td>
+</tr>
+<tr>
+<td class="py-2 px-3 font-medium bg-[#faf8ff] border-r border-[#cbd5e1]">Tempat / Ruangan</td>
+<td class="py-2 px-3 font-semibold text-primary">Ruang Auditorium Gedung FT 03 Lt. 2 (Ruang Teori &amp; Presentasi)</td>
+</tr>
+<tr>
+<td class="py-2 px-3 font-medium bg-[#faf8ff] border-r border-[#cbd5e1]">Sarana &amp; Prasarana</td>
+<td class="py-2 px-3">Sound System Utama (2 Mic Wireless), LCD Proyektor HDMI, AC Sentral, &amp; 120 Kursi Kuliah</td>
+</tr>
+<tr>
+<td class="py-2 px-3 font-medium bg-[#faf8ff] border-r border-[#cbd5e1]">Estimasi Partisipan</td>
+<td class="py-2 px-3">115 Mahasiswa Baru + 25 Panitia Penyelenggara HIMATIF</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>
+              Seluruh panitia pelaksana berkomitmen penuh menjaga kebersihan, ketertiban fasilitas inventaris, serta mematuhi peraturan jam malam sivitas akademika Universitas Tidar. Demikian surat permohonan ini kami sampaikan, atas perhatian dan persetujuan Bapak, kami ucapkan terima kasih.
+            </p>
+</div>
+<!-- APPROVAL WORKFLOW PROGRESS (5-Stage Sequential Approval Stepper) -->
+<div class="my-6 p-4 bg-surface-container-low rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between mb-3">
+<span class="font-title-md text-[12px] uppercase tracking-wider text-primary font-bold">
+                Alur Jenjang Validasi Digital Berjenjang (Sequential Signature Flow)
+              </span>
+<span class="font-label-sm text-[11px] text-outline font-code-telemetry">Tahap 5 dari 5</span>
+</div>
+<div class="grid grid-cols-5 gap-2 text-center relative">
+<!-- Step 1: Disetujui -->
+<div class="flex flex-col items-center">
+<div class="w-7 h-7 rounded-full bg-[#059669] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[16px]" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-[10px] font-semibold text-on-surface mt-1.5 leading-tight">Sekretaris HMJ</span>
+<span class="font-code-telemetry text-[9px] text-[#059669]">24 Okt 09:15</span>
+</div>
+<!-- Step 2: Disetujui -->
+<div class="flex flex-col items-center">
+<div class="w-7 h-7 rounded-full bg-[#059669] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[16px]" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-[10px] font-semibold text-on-surface mt-1.5 leading-tight">Ketua Pelaksana</span>
+<span class="font-code-telemetry text-[9px] text-[#059669]">24 Okt 10:30</span>
+</div>
+<!-- Step 3: Disetujui -->
+<div class="flex flex-col items-center">
+<div class="w-7 h-7 rounded-full bg-[#059669] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[16px]" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-[10px] font-semibold text-on-surface mt-1.5 leading-tight">Ketum HIMATIF</span>
+<span class="font-code-telemetry text-[9px] text-[#059669]">24 Okt 13:45</span>
+</div>
+<!-- Step 4: Disetujui -->
+<div class="flex flex-col items-center">
+<div class="w-7 h-7 rounded-full bg-[#059669] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[16px]" data-icon="check">check</span>
+</div>
+<span class="font-label-sm text-[10px] font-semibold text-on-surface mt-1.5 leading-tight">Pembina HMJ</span>
+<span class="font-code-telemetry text-[9px] text-[#059669]">25 Okt 08:20</span>
+</div>
+<!-- Step 5: Menunggu Pengesahan Final (CURRENT USER: WD 1) -->
+<div class="flex flex-col items-center">
+<div class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center ring-4 ring-primary/20 animate-pulse">
+<span class="material-symbols-outlined text-[16px]" data-icon="edit_document">edit_document</span>
+</div>
+<span class="font-label-sm text-[10px] font-bold text-primary mt-1.5 leading-tight">Wadek I FT</span>
+<span class="font-code-telemetry text-[9px] text-secondary font-semibold">Giliran Anda</span>
+</div>
+</div>
+</div>
+<!-- MATRIKS TANDA TANGAN BERTINGKAT 2 BARIS (Hierarchical Signature Matrix) -->
+<div class="mt-8 border-t border-[#cbd5e1] pt-6 space-y-8">
+<!-- ROW 1: TINGKAT PANITIA PELAKSANA (Ketua & Sekretaris Pelaksana) -->
+<div class="grid grid-cols-2 gap-8 text-center text-on-surface font-body-sm">
+<!-- Kolom Kiri: Ketua Pelaksana -->
+<div class="flex flex-col items-center justify-between min-h-[140px] p-2 relative">
+<div>
+<p class="font-semibold text-on-surface">Ketua Pelaksana,</p>
+</div>
+<!-- Specimen Digital TTD & Ormawa Blue Stamp -->
+<div class="my-1 relative flex items-center justify-center w-full h-16">
+<!-- Watermark Stempel Panitia Biru -->
+<div class="absolute w-20 h-20 rounded-full border border-dashed border-[#1d4ed8]/50 flex items-center justify-center opacity-40 rotate-12 pointer-events-none">
+<span class="font-label-sm text-[7px] text-[#1d4ed8] uppercase font-bold text-center leading-none">PANITIA PELAKSANA<br/>HIMATIF FT<br/>UNTIDAR</span>
+</div>
+<!-- Cursive Digital Ink Signature -->
+<span class="font-display italic text-[26px] text-[#1d4ed8] select-none font-bold">Naufal F. Akbar</span>
+</div>
+<div>
+<p class="font-semibold text-on-surface underline">Naufal Fadhil Akbar</p>
+<p class="font-code-telemetry text-[11px] text-outline">NPM. 2310501045</p>
+</div>
+</div>
+<!-- Kolom Kanan: Sekretaris Pelaksana -->
+<div class="flex flex-col items-center justify-between min-h-[140px] p-2">
+<div>
+<p class="font-semibold text-on-surface">Sekretaris Pelaksana,</p>
+</div>
+<!-- Specimen Digital TTD -->
+<div class="my-1 relative flex items-center justify-center w-full h-16">
+<span class="font-display italic text-[26px] text-[#1d4ed8] select-none font-bold">Adinda Putri M.</span>
+</div>
+<div>
+<p class="font-semibold text-on-surface underline">Adinda Putri Maharani</p>
+<p class="font-code-telemetry text-[11px] text-outline">NPM. 2310501012</p>
+</div>
+</div>
+</div>
+<!-- ROW 2: TINGKAT PENGESAHAN EKSEKUTIF & DEKANAT -->
+<div class="grid grid-cols-2 gap-8 text-center text-on-surface font-body-sm pt-4 border-t border-dashed border-[#cbd5e1]">
+<!-- Kolom Kiri: Mengetahui Ketua Umum HIMATIF -->
+<div class="flex flex-col items-center justify-between min-h-[160px] p-2 relative">
+<div>
+<p class="text-on-surface-variant">Mengetahui,</p>
+<p class="font-semibold text-on-surface">Ketua Umum HIMATIF FT UNTIDAR</p>
+</div>
+<!-- Digital Blue Stamp HIMATIF + Tanda Tangan -->
+<div class="my-2 relative flex items-center justify-center w-full h-20">
+<!-- Stempel Resmi Biru Bulat Ormawa -->
+<div class="absolute w-24 h-24 rounded-full seal-ring-blue flex items-center justify-center rotate-[-8deg] bg-white/70 shadow-xs">
+<div class="w-20 h-20 rounded-full border border-[#1d4ed8] flex flex-col items-center justify-center text-[#1d4ed8] p-1 text-center">
+<span class="font-label-sm text-[7px] font-bold uppercase tracking-tight leading-none">HIMPUNAN MAHASISWA</span>
+<span class="material-symbols-outlined text-[14px] my-0.5" data-icon="verified">verified</span>
+<span class="font-label-sm text-[6.5px] font-bold uppercase tracking-tight leading-none">TEKNIK INFORMATIKA<br/>FT UNTIDAR</span>
+</div>
+</div>
+<span class="font-display italic text-[28px] text-[#1d4ed8] z-10 select-none">M. Farhan</span>
+</div>
+<div>
+<p class="font-semibold text-on-surface underline">Muhammad Farhan</p>
+<p class="font-code-telemetry text-[11px] text-outline">NPM. 2210501008</p>
+</div>
+</div>
+<!-- Kolom Kanan: PENGESAHAN WAKIL DEKAN I (ACTIVE SIGNATURE TARGET SLOT) -->
+<div class="flex flex-col items-center justify-between min-h-[160px] p-2 rounded-lg bg-surface-container-low/70 border-2 border-dashed border-primary/50 relative">
+<!-- Pin Watermark Indicator -->
+<div class="absolute -top-2.5 right-2 px-2 py-0.5 rounded bg-primary text-on-primary font-label-sm text-[9px] uppercase tracking-wider font-bold shadow-xs">
+                  Area Pengesahan Anda
+                </div>
+<div>
+<p class="text-on-surface-variant">Menyetujui &amp; Mengesahkan,</p>
+<p class="font-semibold text-primary">Wakil Dekan I FT UNTIDAR</p>
+</div>
+<!-- DOKUMEN SIAP TTD / SEAL CONTAINER -->
+<div class="my-2 flex items-center justify-center gap-4 w-full h-20">
+<!-- Stempel Merah Resmi UNTIDAR (Preview Watermark) -->
+<div class="w-20 h-20 rounded-full seal-ring-red flex items-center justify-center rotate-[4deg] bg-white/80 opacity-90 shadow-xs">
+<div class="w-16 h-16 rounded-full border border-[#b91c1c] flex flex-col items-center justify-center text-[#b91c1c] p-0.5 text-center">
+<span class="font-label-sm text-[6px] font-bold uppercase leading-none">FAKULTAS TEKNIK</span>
+<span class="material-symbols-outlined text-[14px] text-[#b91c1c] my-0.5" data-icon="account_balance">account_balance</span>
+<span class="font-label-sm text-[6px] font-bold uppercase leading-none">UNIVERSITAS TIDAR</span>
+</div>
+</div>
+<!-- QR Barcode Sertifikasi BSrE -->
+<div class="w-16 h-16 p-1 bg-white border border-[#cbd5e1] rounded flex flex-col items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[36px] text-on-surface" data-icon="qr_code_2">qr_code_2</span>
+<span class="font-code-telemetry text-[7px] text-outline font-bold leading-none">BSrE VERIFIED</span>
+</div>
+</div>
+<div>
+<p class="font-bold text-primary underline">Dr. Sigit Iswahyudi, S.T., M.T.</p>
+<p class="font-code-telemetry text-[11px] text-on-surface-variant font-medium">NIP. 197806122005011002</p>
+</div>
+</div>
+</div>
+</div>
+<!-- FOOTER DOKUMEN ASLI: CRYPTOGRAPHIC FOOTNOTE TELEMETRY -->
+<div class="mt-10 pt-4 border-t border-[#e2e8f0] flex flex-wrap items-center justify-between text-[10px] font-code-telemetry text-outline">
+<div>
+<span>DocID: <span class="text-on-surface font-medium">UNTIDAR-FT-2025-042-HM-K</span></span>
+<span class="mx-2">•</span>
+<span>Integritas: <span class="text-on-surface font-medium">SHA256: 7f83b165...9d10e</span></span>
+</div>
+<div>
+<span>Sertifikasi Balai Sertifikasi Elektronik (BSrE - BSSN) RI</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: OFFICIAL DISPOSITION PANEL & AUDIT CONTROLS (Cols 9-12) -->
+<aside class="lg:col-span-4 flex flex-col space-y-6">
+<!-- 1. KARTU DISPOSISI KUNING KHAS DINAS (Yellow Disposition Sticky Note Card) -->
+<div class="bg-[#fffbeb] border-2 border-[#fde68a] rounded-lg p-5 shadow-sm relative">
+<!-- Pin Emas / Clip Emblem -->
+<div class="absolute -top-3 left-6 flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#fef3c7] border border-[#f59e0b] shadow-xs">
+<span class="material-symbols-outlined text-[16px] text-[#b45309]" data-icon="push_pin" style="font-variation-settings: 'FILL' 1;">push_pin</span>
+<span class="font-label-sm text-[10px] font-bold text-[#b45309] uppercase tracking-wide">Lembar Catatan Disposisi Pimpinan</span>
+</div>
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md font-bold text-[#92400e]">Instruksi Wakil Dekan I:</span>
+<span class="font-code-telemetry text-[11px] text-[#b45309]">Sifat: PENTING / SEGERA</span>
+</div>
+<!-- Catatan Kalimat Dinas Berwibawa -->
+<div class="p-3.5 bg-white/80 rounded border border-[#fde68a] font-headline-sm text-[14px] leading-relaxed text-[#78350f] italic shadow-inner">
+              “Disetujui. Buka Gedung FT 03 Lantai 2 dan pastikan seluruh perlengkapan sound system serta AC dicek sebelum hari-H. Mahasiswa wajib menjaga kebersihan ruangan &amp; koordinasikan jadwal dengan Tim Perlengkapan serta Satpam jaga.”
+            </div>
+<!-- Checklist Pilihan Disposisi Resmi -->
+<div class="mt-4 space-y-2">
+<span class="font-label-sm text-[11px] font-bold text-[#92400e] uppercase tracking-wider block">Tindakan Lanjutan Disposisi:</span>
+<label class="flex items-center gap-2 text-body-sm text-[#78350f] cursor-pointer">
+<input checked="" class="rounded text-primary focus:ring-primary h-4 w-4 border-[#d97706]" type="checkbox"/>
+<span class="font-medium">Teruskan ke Subbag Umum &amp; Perlengkapan FT</span>
+</label>
+<label class="flex items-center gap-2 text-body-sm text-[#78350f] cursor-pointer">
+<input checked="" class="rounded text-primary focus:ring-primary h-4 w-4 border-[#d97706]" type="checkbox"/>
+<span class="font-medium">Tembusan ke Komandan Regu Keamanan Kampus Tuguran</span>
+</label>
+<label class="flex items-center gap-2 text-body-sm text-[#78350f] cursor-pointer">
+<input class="rounded text-primary focus:ring-primary h-4 w-4 border-[#d97706]" type="checkbox"/>
+<span>Salinan Otomatis ke Pembina HIMATIF</span>
+</label>
+</div>
+</div>
+</div>
+<!-- 2. EXECUTIVE ACTION TOOLBAR (Pengesahan & Tanda Tangan BSrE) -->
+<div class="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant shadow-sm space-y-4">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]" data-icon="signature">signature</span>
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Eksekusi Pengesahan</h4>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-code-telemetry font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
+              TOKEN SIAP
+            </span>
+</div>
+<!-- Passphrase Input PIN Pejabat E-Sign -->
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold flex justify-between">
+<span>PIN Passphrase Kriptografis BSrE</span>
+<a class="text-primary normal-case font-normal text-body-sm hover:underline" href="#reset-pin">Lupa PIN?</a>
+</label>
+<div class="relative">
+<input class="h-10 w-full pl-3 pr-10 rounded border border-outline-variant bg-surface-container-lowest text-on-surface font-code-telemetry focus:border-primary focus:ring-2 focus:ring-primary/10" type="password" value="••••••••••••"/>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-outline text-[18px] cursor-pointer" data-icon="key">key</span>
+</div>
+<p class="font-label-sm text-[11px] text-outline">Sertifikat terikat NIP 197806122005011002 (Otoritas BSrE BSSN RI).</p>
+</div>
+<!-- Action Buttons Cluster -->
+<div class="space-y-2.5 pt-2">
+<!-- PRIMARY INSTITUTIONAL BUTTON (Emerald Green Approval) -->
+<button class="w-full h-12 rounded bg-[#059669] hover:bg-[#047857] text-white font-title-md text-body-md font-semibold flex items-center justify-center gap-2 shadow-sm transition-all duration-150 active:scale-[0.99]">
+<span class="material-symbols-outlined text-[20px]" data-icon="task_alt" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+<span>Sahkan &amp; Bubuhkan Tanda Tangan</span>
+</button>
+<!-- SECONDARY ACTION BUTTON (Revision / Modification) -->
+<button class="w-full h-10 rounded bg-surface-container-lowest border border-[#d97706] text-[#b45309] hover:bg-[#fffbeb] font-title-md text-body-sm font-semibold flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit_note">edit_note</span>
+<span>Kembalikan / Minta Revisi Berkas</span>
+</button>
+<!-- TERTIARY UTILITIES -->
+<div class="grid grid-cols-2 gap-2 pt-1">
+<button class="h-9 rounded border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-title-md text-body-sm flex items-center justify-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="download">download</span>
+<span>Unduh Draft</span>
+</button>
+<button class="h-9 rounded border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-title-md text-body-sm flex items-center justify-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="print">print</span>
+<span>Cetak Lembar</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 3. PARAMETER KRIPTOGRAFIS & INTEGRITAS BSrE PANEL -->
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-outline-variant shadow-sm space-y-3">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant">
+<span class="font-title-md text-body-sm font-bold text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]" data-icon="security">security</span>
+              Parameter Kriptografis &amp; Integritas
+            </span>
+<span class="font-code-telemetry text-[11px] text-[#059669] font-semibold">VALID</span>
+</div>
+<div class="space-y-2.5 font-body-sm text-[12px]">
+<div>
+<span class="text-outline block font-label-sm text-[10.5px] uppercase">SHA-256 Digest Dokumen:</span>
+<span class="font-code-telemetry text-[11px] text-on-surface break-all bg-surface-container-low p-1.5 rounded block border border-outline-variant/50 mt-0.5">
+                8f49a2c3901b0f5926c483a992e59178ad018b3e215444382f9dca12b7a9f932
+              </span>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-surface-container">
+<span class="text-on-surface-variant">Protokol Waktu (RFC-3161):</span>
+<span class="font-code-telemetry text-on-surface font-semibold">TSA-BSSN-2025.10.25</span>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-surface-container">
+<span class="text-on-surface-variant">Masa Berlaku Sertifikat:</span>
+<span class="font-code-telemetry text-on-surface">s.d. 31 Des 2026 (Aktif)</span>
+</div>
+<div class="flex justify-between items-center py-1">
+<span class="text-on-surface-variant">Status Sertifikasi:</span>
+<span class="inline-flex items-center gap-1 text-[#059669] font-medium">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified_user">verified_user</span> Root CA Kemkominfo / BSrE
+              </span>
+</div>
+</div>
+</div>
+<!-- 4. RIWAYAT LOG AUDIT ALUR DOKUMEN (Digital Audit Trail) -->
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-outline-variant shadow-sm">
+<div class="flex items-center justify-between pb-3 mb-3 border-b border-outline-variant">
+<span class="font-title-md text-body-sm font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]" data-icon="manage_history">manage_history</span>
+              Audit Trail Alur Persetujuan
+            </span>
+<span class="font-label-sm text-[11px] text-primary hover:underline cursor-pointer">Unduh Log Lengkap</span>
+</div>
+<!-- Timeline Strip -->
+<div class="relative pl-5 space-y-4 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-outline-variant text-[12px]">
+<!-- Log Entry 1 -->
+<div class="relative">
+<span class="absolute -left-[17px] top-0.5 w-3 h-3 rounded-full bg-[#059669] ring-2 ring-white"></span>
+<p class="font-semibold text-on-surface leading-tight">Pengesahan oleh Pembina HIMATIF</p>
+<p class="text-on-surface-variant text-[11px]">Agus Romadhon, S.T., M.Eng. (NIP. 198504...)</p>
+<span class="font-code-telemetry text-[10px] text-outline">25 Okt 2025, 08:20 WIB • IP: 10.14.2.110</span>
+</div>
+<!-- Log Entry 2 -->
+<div class="relative">
+<span class="absolute -left-[17px] top-0.5 w-3 h-3 rounded-full bg-[#059669] ring-2 ring-white"></span>
+<p class="font-semibold text-on-surface leading-tight">Persetujuan Ketua Umum HIMATIF</p>
+<p class="text-on-surface-variant text-[11px]">Muhammad Farhan (NPM. 2210501008)</p>
+<span class="font-code-telemetry text-[10px] text-outline">24 Okt 2025, 13:45 WIB • Valid E-Sign</span>
+</div>
+<!-- Log Entry 3 -->
+<div class="relative">
+<span class="absolute -left-[17px] top-0.5 w-3 h-3 rounded-full bg-primary ring-2 ring-white"></span>
+<p class="font-semibold text-primary leading-tight">Dokumen Diunggah oleh Sekretaris</p>
+<p class="text-on-surface-variant text-[11px]">Adinda Putri Maharani (Proposal Terlampir)</p>
+<span class="font-code-telemetry text-[10px] text-outline">24 Okt 2025, 09:15 WIB • Portal Kemahasiswaan</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- INSTITUTIONAL DOCUMENT FOOTER (Shared Component: Footer) -->
+<footer class="mt-auto bg-surface-container-low border-t border-outline-variant">
+<div class="w-full px-margin py-space-lg flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4">
+<!-- Legal / Copyright Anchor -->
+<div class="flex flex-col text-center md:text-left">
+<div class="flex items-center justify-center md:justify-start space-x-2">
+<span class="font-headline-sm text-headline-sm font-semibold text-primary">ValidIn FT UNTIDAR</span>
+<span class="text-outline">•</span>
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Portal Pengesahan Digital Terpercaya</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+          © 2025 Fakultas Teknik Universitas Tidar. Hak Cipta Dilindungi Undang-Undang. Layanan Sertifikasi &amp; Pengesahan Digital Terenkripsi SHA-256.
+        </p>
+<p class="font-code-telemetry text-[11px] text-outline mt-0.5">
+          Sesuai Regulasi UU ITE No. 11/2008 &amp; PP No. 71/2019 tentang Penyelenggaraan Sistem dan Transaksi Elektronik.
+        </p>
+</div>
+<!-- Institutional Directives & Help Links -->
+<div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-body-sm text-body-sm">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-150" href="#panduan-verifikasi">Panduan Verifikasi Ijazah &amp; SK</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-150" href="#kebijakan-kriptografis">Kebijakan Kriptografis BSrE</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-150" href="#integritas-dokumen">Integritas Dokumen Digital</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-150" href="#bantuan-pengaduan">Bantuan &amp; Pengaduan</a>
+</div>
+</div>
+</footer>
+</body></html>

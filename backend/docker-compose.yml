@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  # 1. API GATEWAY (Port 8000)
+  api-gateway:
+    image: nginx:alpine
+    container_name: validin_gateway
+    ports:
+      - "8000:80"
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - auth-service
+      - document-service
+      - notary-service
+      - verification-service
+    networks:
+      - validin_net
+
+  # 2. AUTH & IDENTITY SERVICE (Port 8001)
+  auth-service:
+    build:
+      context: ./services/auth-service
+    container_name: validin_auth_svc
+    environment:
+      - PORT=8001
+      - DB_HOST=mysql-db
+      - DB_NAME=validin_auth
+      - JWT_SECRET=untidar_secret_key_2026
+    ports:
+      - "8001:8001"
+    networks:
+      - validin_net
+
+  # 3. DOCUMENT & WORKFLOW SERVICE (Port 8002)
+  document-service:
+    build:
+      context: ./services/document-service
+    container_name: validin_document_svc
+    environment:
+      - PORT=8002
+      - DB_HOST=mysql-db
+      - DB_NAME=validin_documents
+      - NOTARY_SVC_URL=http://notary-service:8003
+    ports:
+      - "8002:8002"
+    networks:
+      - validin_net
+
+  # 4. NOTARY & SIGNATURE SERVICE (Port 8003)
+  notary-service:
+    build:
+      context: ./services/notary-service
+    container_name: validin_notary_svc
+    environment:
+      - PORT=8003
+      - VERIFY_CACHE_URL=http://verification-service:8004
+    ports:
+      - "8003:8003"
+    networks:
+      - validin_net
+
+  # 5. PUBLIC VERIFICATION SERVICE (Port 8004) - SATPAM GATEWAY
+  verification-service:
+    build:
+      context: ./services/verification-service
+    container_name: validin_verify_svc
+    environment:
+      - PORT=8004
+      - CACHE_HOST=redis-cache
+    ports:
+      - "8004:8004"
+    networks:
+      - validin_net
+
+  # 6. SHARED INFRASTRUCTURE (MySQL & Redis)
+  mysql-db:
+    image: mysql:8.0
+    container_name: validin_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=untidar_root_pass
+      - MYSQL_DATABASE=validin_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - validin_net
+
+  redis-cache:
+    image: redis:alpine
+    container_name: validin_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - validin_net
+
+networks:
+  validin_net:
+    driver: bridge
+
+volumes:
+  mysql_data:
