@@ -177,26 +177,66 @@ body {
   gap: 12px;
 }
 
-.role-badge-box {
+.user-account-chip {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background-color: var(--bg-subtle);
-  border: 1px solid var(--border-light);
-  padding: 4px 10px;
+  gap: 10px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  padding: 5px 12px 5px 6px;
   border-radius: var(--radius-sm);
-  font-size: 0.8rem;
+  box-shadow: var(--shadow-subtle);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.role-badge-box select {
-  font-family: inherit;
+.user-account-chip:hover {
+  background-color: var(--bg-subtle);
+  border-color: var(--navy-900);
+}
+
+.user-chip-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-xs);
+  background-color: var(--navy-900);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.user-chip-meta {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.user-chip-name {
   font-size: 0.82rem;
-  font-weight: 600;
-  border: none;
-  background: transparent;
+  font-weight: 800;
   color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.user-chip-role {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.user-chip-select {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
   cursor: pointer;
-  outline: none;
+  width: 100%;
+  height: 100%;
 }
 
 /* Page Layout */

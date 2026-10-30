@@ -1,28 +1,29 @@
 # REST API Specification - ValidIn
+### Kontrak Layanan Backend &bull; HIMATIF Fakultas Teknik Universitas Tidar (UNTIDAR)
 
 Base URL: `http://localhost:8000/api/v1`
 
-Semua respons menggunakan format JSON standar:
+Seluruh respons menggunakan format JSON standar:
 ```json
 {
   "success": true,
-  "message": "Pesan deskriptif",
+  "message": "Pesan deskriptif keberhasilan/kegagalan",
   "data": {}
 }
 ```
 
 ---
 
-## 1. Autentikasi
+## 1. Autentikasi & Profil Pejabat
 
 ### `POST /login`
-Masuk ke sistem dan menerima token bearer (Sanctum).
+Masuk ke portal dengan Nomor Pokok Mahasiswa / Nomor Induk Pegawai dan kata sandi SSO.
 
 **Request Body:**
 ```json
 {
-  "nim_nip": "220101001",
-  "password": "secretpassword"
+  "nim_nip": "2420506041",
+  "password": "password123"
 }
 ```
 
@@ -30,17 +31,18 @@ Masuk ke sistem dan menerima token bearer (Sanctum).
 ```json
 {
   "success": true,
-  "message": "Login berhasil",
+  "message": "Autentikasi pejabat berhasil",
   "data": {
-    "token": "1|sanctum_token_string_here...",
+    "token": "1|sanctum_token_untidar_validin_xyz...",
     "user": {
       "id": 1,
-      "name": "Ahmad Fauzi",
-      "nim_nip": "220101001",
-      "role": "mahasiswa",
+      "name": "Hanif Abdillah Alatas",
+      "nim_nip": "2420506041",
+      "role": "sekretaris",
       "organization": {
         "id": 1,
-        "name": "Himpunan Mahasiswa Informatika (HMIF)"
+        "name": "Himpunan Mahasiswa Teknologi Informasi (HIMATIF UNTIDAR)",
+        "faculty": "Fakultas Teknik"
       }
     }
   }
@@ -49,110 +51,145 @@ Masuk ke sistem dan menerima token bearer (Sanctum).
 
 ---
 
-## 2. Pengajuan & Manajemen Dokumen
+## 2. Pengajuan Surat Permohonan Fasilitas
 
 ### `POST /documents`
-Mengunggah pengajuan dokumen baru (Hanya Mahasiswa).
+Mengajukan permohonan peminjaman ruangan/alat atau permohonan izin kegiatan resmi.
 
 **Headers:** `Authorization: Bearer {token}`, `Content-Type: multipart/form-data`
 
 **Request Body (Form-Data):**
-- `title`: `Proposal Makrab Informatika 2026`
-- `event_name`: `Malam Keakraban Mahasiswa 2026`
-- `event_date`: `2026-11-20`
-- `type`: `proposal`
-- `file`: `[File PDF, maks 5MB]`
+- `title`: `Surat Permohonan Peminjaman Gedung FT 03 Ruang Kelas`
+- `event_name`: `Peningkatan Kompetensi Mahasiswa DigitalWave 2026`
+- `type`: `Peminjaman Tempat / Gedung`
+- `event_date`: `Minggu dan Sabtu, 27 September dan 3 Oktober 2026`
+- `event_time`: `06.00 - 16.00 WIB`
+- `location`: `Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06`
+- `borrowed_items`: `Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06`
+- `contact_person`: `+62 851-8470-9553 (Ilyasa)`
+- `secretary_name`: `Hanif Abdillah Alatas`
+- `secretary_nim`: `2420506041`
+- `submitter_name`: `Emannuel Henji Pratama Putra`
+- `submitter_nim`: `2505060012`
+- `file`: `[File PDF Surat UNTIDAR, maks 5MB]`
+- `init_action`: `as_sekretaris` *(pilihan: as_sekretaris | as_pelaksana)*
 
 **Response (201 Created):**
 ```json
 {
   "success": true,
-  "message": "Dokumen berhasil diajukan untuk ditinjau Ketua",
+  "message": "Surat permohonan berhasil didaftarkan ke sistem ValidIn UNTIDAR",
   "data": {
-    "id": 10,
-    "document_number": "DOC/2026/10/HMIF/001",
-    "title": "Proposal Makrab Informatika 2026",
-    "current_status": "menunggu_ketua",
-    "created_at": "2026-10-30T06:00:00Z"
+    "id": "DOC-UNTIDAR-030A",
+    "document_number": "030.a/E/PM/HIMATIF/UNTIDAR/X/2026",
+    "title": "Surat Permohonan Peminjaman Gedung FT 03 Ruang Kelas",
+    "current_status": "menunggu_pelaksana",
+    "created_at": "2026-10-30T07:00:00Z"
   }
 }
 ```
 
 ---
 
-### `GET /documents/me`
-Melihat daftar riwayat dokumen yang diajukan oleh pengguna yang sedang login.
+## 3. Penandatanganan Berjenjang & Keputusan Pejabat
+
+### `PATCH /documents/{id}/signature`
+Membubuhi paraf atau tanda tangan digital sesuai hak akses pejabat yang sedang login.
 
 **Headers:** `Authorization: Bearer {token}`
 
-**Response (200 OK):**
+#### Skenario A: Sekretaris Panitia (Paraf Awal)
 ```json
 {
-  "success": true,
-  "data": [
-    {
-      "id": 10,
-      "document_number": "DOC/2026/10/HMIF/001",
-      "title": "Proposal Makrab Informatika 2026",
-      "event_name": "Malam Keakraban Mahasiswa 2026",
-      "current_status": "menunggu_pembina",
-      "latest_version": 1,
-      "created_at": "2026-10-30T06:00:00Z"
-    }
-  ]
+  "action": "sign_secretary"
 }
 ```
+*Mengubah status dari `menunggu_sekretaris` menjadi `menunggu_pelaksana`.*
 
----
-
-### `GET /documents/pending`
-Melihat antrean dokumen masuk untuk ditinjau (Peran: Ketua / Pembina).
-
-**Headers:** `Authorization: Bearer {token}`
-
----
-
-### `PATCH /documents/{id}/status`
-Memberikan keputusan (Approve / Request Revision / Reject).
-
-**Headers:** `Authorization: Bearer {token}`
-
-**Request Body:**
+#### Skenario B: Ketua Pelaksana (Tanda Tangan & Cap Panitia)
 ```json
 {
-  "action": "approve", // 'approve' | 'request_revision' | 'reject'
-  "notes": "Format anggaran sudah sesuai. Disetujui untuk diteruskan ke Pembina."
+  "action": "sign_pelaksana"
 }
 ```
+*Mengubah status dari `menunggu_pelaksana` menjadi `menunggu_ketua`.*
+
+#### Skenario C: Ketua HIMATIF UNTIDAR (Paraf & Cap Resmi Ormawa)
+```json
+{
+  "action": "approve_himatif"
+}
+```
+*Mengubah status dari `menunggu_ketua` menjadi `menunggu_pembina`.*
+
+#### Skenario D: Wakil Dekan FT UNTIDAR (Disposisi Pejabat, Cap Dekanat, & QR Code)
+```json
+{
+  "action": "approve_wadek",
+  "disposition_note": "ACC dt 23/9/26: Satpam mhn bantuan u/ buka gd & kls sesuai jam pinjam. Mhn pastikan ketertiban & kebersihan dr mhs. Tks."
+}
+```
+*Mengubah status dari `menunggu_pembina` menjadi `disetujui`, menyematkan catatan disposisi, dan otomatis menerbitkan token QR Code UUID.*
+
+#### Skenario E: Permintaan Revisi (Oleh Pejabat Mana Pun)
+```json
+{
+  "action": "request_revision",
+  "notes": "Mohon cantumkan lembar pengantar proposal dan rincian penanggung jawab per ruangan."
+}
+```
+*Mengubah status menjadi `revisi`.*
 
 ---
 
-### `GET /documents/{id}/download`
-Mengunduh berkas PDF yang aman (hanya untuk pengaju bersangkutan dan pihak berwenang).
-
-**Headers:** `Authorization: Bearer {token}`
-
----
-
-## 3. Verifikasi Publik (Tanpa Autentikasi)
+## 4. Verifikasi Publik QR Code (Layanan Khusus Satpam)
 
 ### `GET /verify/{token}`
-Verifikasi keabsahan dokumen saat QR Code dipindai oleh pihak luar/keamanan kampus.
+Endpoint publik tanpa autentikasi yang diakses saat Petugas Keamanan memindai kode QR pada lembar surat izin.
 
-**Response (200 OK):**
+**Response (200 OK - Dokumen Sah):**
 ```json
 {
   "success": true,
-  "message": "Dokumen Asli dan Sah",
+  "message": "Dokumen resmi terverifikasi sah",
   "data": {
     "status": "VALID",
-    "document_number": "DOC/2026/10/HMIF/001",
-    "title": "Proposal Makrab Informatika 2026",
-    "organization": "Himpunan Mahasiswa Informatika (HMIF)",
-    "pengaju": "Ahmad Fauzi (220101001)",
-    "signed_by": "Dr. Ir. Budi Santoso, M.Kom (Pembina HMIF)",
-    "signed_at": "2026-10-30 14:20:00 WIB",
-    "verification_url": "https://validin.kampus.ac.id/verify/e8b74c20-..."
+    "is_approved": true,
+    "document_number": "026.a/E/PM/HIMATIF/UNTIDAR/IX/2026",
+    "organization": "Himpunan Mahasiswa Teknologi Informasi (HIMATIF UNTIDAR)",
+    "faculty": "Fakultas Teknik Universitas Tidar",
+    "event_title": "Surat Permohonan Peminjaman Gedung FT 03 Ruang Kelas (Peningkatan Kompetensi Mahasiswa DigitalWave 2026)",
+    "permitted_rooms": "Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06",
+    "permitted_datetime": "Minggu dan Sabtu, 27 September dan 3 Oktober 2026 (06.00 - 16.00 WIB)",
+    "disposition_note": "ACC dt 23/9/26: Satpam mhn bantuan u/ buka gd & kls sesuai jam pinjam. Mhn pastikan ketertiban & kebersihan dr mhs. Tks.",
+    "contact_person": "+62 851-8470-9553 (Ilyasa)",
+    "submitter": {
+      "name": "Emannuel Henji Pratama Putra",
+      "npm": "2505060012",
+      "role": "Ketua Pelaksana"
+    },
+    "secretary": {
+      "name": "Hanif Abdillah Alatas",
+      "npm": "2420506041"
+    },
+    "authorized_by": {
+      "name": "Dr. Sigit Iswahyudi, S.T., M.T.",
+      "nip": "197510302021211005",
+      "title": "Wakil Dekan Bidang Akademik dan Kemahasiswaan Fakultas Teknik"
+    },
+    "signed_at": "2026-09-23T11:15:00Z",
+    "qr_token": "7e4b2d19-8663-4871-9f93-c4083a48e89f",
+    "hash_sha256": "4d830fba98e104928bfa102934ec784910293847561928374650192837461524"
   }
 }
 ```
+
+---
+
+## 5. Arsip & Ekspor Dokumen
+
+### `GET /documents/archive/export-csv`
+Mengunduh seluruh berkas data surat yang terdaftar dalam format file `.csv`.
+
+**Headers:** `Authorization: Bearer {token}`
+**Content-Type:** `text/csv`

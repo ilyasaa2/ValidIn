@@ -1,38 +1,45 @@
 # Software Requirements Specification (SRS) - ValidIn
-
-## 1. Identifikasi Masalah (5 Whys)
-- **Gejala:** Mahasiswa bolak-balik ke sekretariat, waktu pengesahan proposal lama (>3 hari), dokumen sering tertumpuk atau hilang.
-- **Mengapa 1?** Tanda tangan dan pengesahan harus dilakukan secara fisik oleh Ketua dan Dosen Pembina.
-- **Mengapa 2?** Belum ada sistem terpusat yang bisa menampung dokumen digital dan memvalidasi alur persetujuan.
-- **Mengapa 3?** Proses administrasi masih menggunakan paradigma berbasis kertas (*paper-based*).
-- **Akar Masalah:** Tidak ada platform digital yang memfasilitasi pengunggahan, peninjauan, dan pengesahan dokumen secara terpusat dengan bukti validasi yang dapat dipertanggungjawabkan (QR Code).
+### Sistem Pengesahan & Validasi Dokumen Digital &bull; HIMATIF Fakultas Teknik Universitas Tidar
 
 ---
 
-## 2. Analisis Stakeholder
+## 1. Identifikasi Masalah (5 Whys)
 
-| Stakeholder | Kategori | Kepentingan Utama |
+- **Gejala:** Mahasiswa dan panitia kegiatan bolak-balik ke ruang dosen dan pos satpam, waktu pengesahan surat peminjaman ruang kelas/gedung FT 03 memakan waktu lama (>3 hari), berkas fisik rawan terselip atau rusak.
+- **Mengapa 1?** Tanda tangan dan pengesahan dilakukan secara fisik berurutan oleh 4 pejabat berbeda (Sekretaris, Ketua Pelaksana, Ketua Himpunan, dan Wakil Dekan Fakultas).
+- **Mengapa 2?** Belum ada sistem digital terpadu yang memfasilitasi persetujuan berjenjang dan mencatat jejak audit (*audit trail*) secara otomatis.
+- **Mengapa 3?** Proses perizinan peminjaman fasilitas kampus masih menerapkan paradigma berbasis kertas (*paper-based*).
+- **Akar Masalah:** Tidak tersedianya platform digital kampus yang mampu mengotomatisasi penandatanganan berjenjang berstempel resmi, pencatatan disposisi pejabat untuk satpam, dan pembuktian legalitas instan berbasis QR Code.
+
+---
+
+## 2. Analisis Stakeholder & Peran Pengguna
+
+| Stakeholder / Pejabat | Kategori | Hak Akses & Kepentingan Utama |
 | :--- | :--- | :--- |
-| **Mahasiswa / Organisasi** | Pengguna Primer (Mobile Flutter) | Mengajukan dokumen secara instan, memantau posisi dokumen (*tracking*), mengunduh file sah. |
-| **Ketua Organisasi** | Pengguna Primer (Panel Web) | Meninjau antrean proposal, membaca berkas di browser, memberi catatan revisi atau persetujuan tahap 1. |
-| **Dosen Pembina** | Pengguna Primer (Panel Web) | Memberikan pengesahan akhir, memastikan kepatuhan aturan, memicu penerbitan QR Code valid. |
-| **Bagian Kemahasiswaan & Keamanan** | Pengguna Sekunder (Web Verifikasi) | Memverifikasi keabsahan surat kegiatan/izin secara instan via QR Scanner. |
-| **Unit TIK Kampus** | Pendukung Teknis | Pengelolaan server/hosting, keamanan berkas privat, dan integritas data. |
+| **Sekretaris Panitia**<br>(Hanif Abdillah Alatas) | Pengguna Primer (Web / Mobile) | Menyusun draf permohonan surat peminjaman, registrasi nomor surat, melampirkan berkas permohonan, dan membubuhi paraf kesekretariatan. |
+| **Ketua Pelaksana**<br>(Emannuel Henji Pratama Putra) | Pengguna Primer (Web / Mobile) | Bertindak sebagai penanggung jawab operasional kegiatan, memeriksa draf, menandatangani surat, dan membubuhi Cap Panitia Pelaksana. |
+| **Ketua HIMATIF UNTIDAR**<br>(Naufal Miftakhul Siddiq) | Pengguna Primer (Panel Web) | Meninjau kepatuhan kegiatan dengan program kerja ormawa, membubuhi paraf mengetahui, dan membubuhi stempel resmi lingkaran ganda HIMATIF. |
+| **Wakil Dekan FT UNTIDAR**<br>(Dr. Sigit Iswahyudi, S.T., M.T.) | Pengguna Primer (Panel Web) | Memberikan catatan disposisi pejabat (instruksi satpam/sarpras), pengesahan tingkat fakultas, cap Dekanat FT, dan menerbitkan QR Code sah. |
+| **Petugas Keamanan (Satpam) & Sarpras** | Pengguna Sekunder (Web Verifikasi Publik) | Memindai QR Code di lapangan tanpa login untuk memastikan keabsahan izin gedung/ruangan, waktu kegiatan, dan instruksi Wadek FT. |
+| **Unit TIK & Pengelola Kampus** | Pendukung Teknis | Pengelolaan infrastruktur server, integritas berkas privat, dan pemeliharaan basis data. |
 
 ---
 
 ## 3. Kebutuhan Fungsional (MoSCoW)
 
-| Kode | Kebutuhan Fungsional | Prioritas |
-| :--- | :--- | :--- |
-| **KF-01** | Sistem harus menyediakan fitur autentikasi (login & profil) dengan pemisahan peran (Mahasiswa, Ketua, Pembina). | **Must Have** |
-| **KF-02** | Sistem harus memungkinkan mahasiswa mengunggah dokumen format PDF (maks. 5MB) beserta metadata (kegiatan, tanggal). | **Must Have** |
-| **KF-03** | Sistem harus mencatat dan menampilkan status alur dokumen (`Draft`, `Menunggu_Ketua`, `Menunggu_Pembina`, `Disetujui`, `Revisi`). | **Must Have** |
-| **KF-04** | Sistem harus menampilkan daftar antrean dokumen masuk pada panel web khusus untuk Ketua dan Pembina. | **Must Have** |
-| **KF-05** | Sistem harus memungkinkan Ketua/Pembina menyetujui atau menolak dokumen disertai catatan revisi yang terarsip. | **Must Have** |
-| **KF-06** | Sistem harus otomatis membuat token unik dan QR Code pengesahan saat dokumen disetujui penuh oleh Pembina. | **Should Have** |
-| **KF-07** | Sistem harus menyediakan halaman web publik untuk validasi dokumen berdasarkan token/QR Code tanpa harus login. | **Should Have** |
-| **KF-08** | Sistem harus menyediakan riwayat notifikasi dokumen (in-app notification / push notification). | **Could Have** |
+| Kode | Kebutuhan Fungsional | Deskripsi Rinci | Prioritas |
+| :--- | :--- | :--- | :--- |
+| **KF-01** | **Autentikasi & Otoritas 4 Pejabat** | Sistem menyediakan mekanisme autentikasi dengan pemisahan wewenang yang tegas untuk Sekretaris, Ketua Pelaksana, Ketua HIMATIF, dan Wadek FT. | **Must Have** |
+| **KF-02** | **Pengajuan Permohonan Peminjaman** | Sistem memungkinkan panitia mengajukan surat peminjaman fasilitas (Gedung FT 03, kelas, sound system) dengan template cepat dan lampiran PDF. | **Must Have** |
+| **KF-03** | **Alur Status Berjenjang 5 Tahap** | Sistem mengelola dan mencatat alur status dokumen secara berurutan: `menunggu_sekretaris` &rarr; `menunggu_pelaksana` &rarr; `menunggu_ketua` &rarr; `menunggu_pembina` &rarr; `disetujui` (disertai status `revisi`). | **Must Have** |
+| **KF-04** | **Dashboard Adaptif per Pejabat** | Sistem menampilkan statistik KPI terukur, antrean berkas yang memerlukan tindakan, dan penyaringan dinamis sesuai akun pejabat yang aktif. | **Must Have** |
+| **KF-05** | **Penandatanganan Digital & Cap Lembaga** | Sistem menyematkan paraf Sekretaris, tanda tangan & Cap Panitia Pelaksana, stempel resmi HIMATIF, serta stempel Dekanat FT pada lembar surat. | **Must Have** |
+| **KF-06** | **Catatan Disposisi Resmi Pejabat** | Sistem memungkinkan Wakil Dekan FT menuliskan catatan disposisi resmi (instruksi satpam) yang tampil pada surat fisik dan hasil scan QR. | **Must Have** |
+| **KF-07** | **Penerbitan Kriptografis QR Code** | Sistem otomatis membuat token UUID v4 unik dan sidik jari kriptografis SHA-256 saat dokumen disahkan penuh oleh Wakil Dekan FT. | **Must Have** |
+| **KF-08** | **Layanan Publik Verifikasi Satpam** | Sistem menyediakan laman web verifikasi publik tanpa login untuk memeriksa status sah, instruksi disposisi, dan kontak panitia (Ilyasa). | **Must Have** |
+| **KF-09** | **Buku Register & Ekspor CSV** | Sistem mengarsipkan seluruh riwayat surat resmi dan menyediakan fitur ekspor berkas data CSV terstruktur. | **Should Have** |
+| **KF-10** | **Pemberitahuan Status Berkas** | Sistem menampilkan notifikasi toast interaktif dan riwayat alur persetujuan (*stepper audit trail*). | **Should Have** |
 
 ---
 
@@ -40,18 +47,18 @@
 
 | Kode | Karakteristik | Parameter Pengukuran Terukur |
 | :--- | :--- | :--- |
-| **KNF-01** | **Keamanan (*Security*)** | Berkas PDF disimpan di penyimpanan privat (bukan folder *public*). Akses unduh divalidasi via *token/middleware policy*. |
-| **KNF-02** | **Kinerja (*Performance*)** | Pembuatan token QR Code dan pembaruan status tidak boleh melebihi 3 detik. Waktu respon API rata-rata < 800ms. |
-| **KNF-03** | **Kompatibilitas (*Compatibility*)** | Aplikasi mobile berjalan lancar di Android versi 8.0 (Oreo) ke atas. API mengembalikan JSON berstandar RESTful. |
-| **KNF-04** | **Kemudahan Penggunaan (*Usability*)** | Mahasiswa dapat menyelesaikan alur pengajuan dokumen baru dalam waktu $\le$ 2 menit sejak login. |
-| **KNF-05** | **Keandalan (*Reliability*)** | Sistem menangani kegagalan koneksi saat proses unggah file dengan menampilkan pesan galat yang jelas tanpa *crash*. |
+| **KNF-01** | **Keamanan (*Security*)** | Integritas dokumen divalidasi via hash kriptografis SHA-256. Token QR bersifat acak (UUID v4) dan tidak dapat ditebak. |
+| **KNF-02** | **Kinerja (*Performance*)** | Pemuatan halaman surat dan pemindaian token verifikasi QR selesai dalam waktu $\le$ 1 detik pada koneksi internet standar kampus. |
+| **KNF-03** | **Kompatibilitas (*Compatibility*)** | Web responsif dan optimal pada resolusi desktop maupun layar seluler (Satpam). Format cetak bersih sesuai standar kertas A4/F4. |
+| **KNF-04** | **Kemudahan Penggunaan (*Usability*)** | Pejabat dapat menyelesaikan proses disposisi dan penandatanganan surat dalam $\le$ 3 klik sejak membuka berkas. |
+| **KNF-05** | **Keandalan (*Reliability*)** | Sistem menyimpan kondisi alur secara konsisten dengan mekanisme *state machine* yang mencegah lompatan alur persetujuan secara ilegal. |
 
 ---
 
 ## 5. Kriteria Keberhasilan (SMART)
 
-- **Specific:** Memangkas birokrasi dan waktu tunggu pengesahan proposal kegiatan kampus.
-- **Measurable:** 100% dokumen yang disetujui memiliki QR Code unik yang terverifikasi saat dipindai.
-- **Achievable:** Waktu proses pengesahan dari pengajuan hingga persetujuan Pembina berkurang dari $\approx$ 3 hari menjadi $\le$ 1 hari.
-- **Relevant:** Mengurangi penggunaan kertas (*paperless office*) dan meminimalisir risiko dokumen terselip/rusak.
-- **Time-bound:** Prototipe aplikasi mobile dan backend web ter-deploy dan diuji coba minimal pada 1 organisasi mahasiswa dalam 1 semester.
+- **Specific:** Mengotomatisasi alur permohonan peminjaman fasilitas dan izin kegiatan HIMATIF Fakultas Teknik UNTIDAR dari draf panitia hingga verifikasi satpam.
+- **Measurable:** 100% surat yang disahkan Wadek FT memiliki token QR terdaftar dan dapat divalidasi oleh Satpam kampus.
+- **Achievable:** Mengurangi durasi birokrasi pengesahan berantai dari 3-5 hari kerja menjadi $\le$ 24 jam.
+- **Relevant:** Menghilangkan risiko surat izin palsu di pos keamanan serta mendukung inisiatif kampus ramah lingkungan (*paperless*).
+- **Time-bound:** Prototipe dan sistem teruji fungsional penuh pada lingkungan HIMATIF UNTIDAR pada semester perkuliahan berjalan.

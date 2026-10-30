@@ -3,64 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profil & Pengaturan Segel - ValidIn</title>
+  <title>Profil Otoritas & Segel - ValidIn UNTIDAR</title>
   <link rel="stylesheet" href="css/main.css">
+  <style>
+    .officer-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .officer-card-btn {
+      background: white;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.15s ease;
+    }
+    .officer-card-btn:hover {
+      border-color: var(--navy-900);
+      background: #f8fafc;
+      transform: translateY(-1px);
+    }
+    .officer-card-btn.active {
+      border: 2px solid var(--navy-900);
+      background: #eff6ff;
+    }
+  </style>
 </head>
 <body>
   <header class="site-header" id="siteHeader"></header>
 
   <main class="page-wrapper">
     <div class="breadcrumbs">
-      <a href="index.html">Portal ValidIn</a> &gt; <span>Profil Pejabat Pengesah</span>
+      <a href="index.html">Portal ValidIn UNTIDAR</a> &gt; <span>Profil Otoritas Pengesahan</span>
     </div>
 
     <div class="page-header-row">
       <div class="page-intro">
-        <h1>Profil & Otoritas Pengesahan</h1>
-        <p>Data pejabat berwenang, tanda tangan digital tersertifikasi, dan hak akses organisasi.</p>
+        <h1>Profil & Otoritas Pengesahan Kampus</h1>
+        <p>Data identitas pejabat pengesah, sertifikat digital, dan cap ormawa/fakultas resmi Universitas Tidar.</p>
+      </div>
+      <div>
+        <button class="btn btn-outline" onclick="resetDemoData()">Muat Ulang Data Bawaan UNTIDAR</button>
+      </div>
+    </div>
+
+    <!-- Quick Switcher Between All 4 Officers -->
+    <div style="margin-bottom: 8px;">
+      <div style="font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); margin-bottom: 8px;">
+        PILIH AKUN PEJABAT PENGESAH UNTIDAR:
+      </div>
+      <div class="officer-selector-grid">
+        <div class="officer-card-btn" id="cardBtn_sekretaris" onclick="selectProfileOfficer('sekretaris')">
+          <div style="width: 34px; height: 34px; border-radius: var(--radius-xs); background: #0284c7; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">HA</div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.82rem;">Hanif Abdillah A.</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary);">Sekretaris Panitia</div>
+          </div>
+        </div>
+
+        <div class="officer-card-btn" id="cardBtn_ketua_pelaksana" onclick="selectProfileOfficer('ketua_pelaksana')">
+          <div style="width: 34px; height: 34px; border-radius: var(--radius-xs); background: #2563eb; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">EH</div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.82rem;">Emannuel Henji P.</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary);">Ketua Pelaksana</div>
+          </div>
+        </div>
+
+        <div class="officer-card-btn" id="cardBtn_ketua_himatif" onclick="selectProfileOfficer('ketua_himatif')">
+          <div style="width: 34px; height: 34px; border-radius: var(--radius-xs); background: #1e3a8a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">NM</div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.82rem;">Naufal Miftakhul S.</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary);">Ketua HIMATIF</div>
+          </div>
+        </div>
+
+        <div class="officer-card-btn" id="cardBtn_wadek" onclick="selectProfileOfficer('wadek')">
+          <div style="width: 34px; height: 34px; border-radius: var(--radius-xs); background: #991b1b; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">SI</div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.82rem;">Dr. Sigit Iswahyudi</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary);">Wakil Dekan FT</div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div style="max-width: 760px; margin: 0 auto;">
       <div class="card-panel" style="padding: 32px;">
         <div style="display: flex; gap: 24px; align-items: center; margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--border-light);">
-          <div style="width: 72px; height: 72px; border-radius: var(--radius-sm); background: var(--navy-900); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800;" id="profileAvatar">
-            MH
+          <div style="width: 76px; height: 76px; border-radius: var(--radius-sm); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" id="profileAvatar">
+            HA
           </div>
           <div>
-            <h2 style="font-size: 1.25rem; font-weight: 800;" id="profileName">M. Hafiz, S.Kom</h2>
-            <p style="color: var(--text-secondary); font-size: 0.88rem;" id="profileRoleDesc">Ketua Badan Eksekutif Mahasiswa (BEM) 2026/2027</p>
-            <div style="margin-top: 6px;">
-              <span class="badge-status badge-approved">Otoritas Aktif Kampus</span>
+            <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--navy-900);" id="profileName">Nama Pejabat</h2>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;" id="profileRoleDesc">Jabatan Resmi</p>
+            <div style="margin-top: 8px;">
+              <span class="badge-status badge-approved" id="profileBadgeText">Otoritas Aktif ValidIn UNTIDAR</span>
             </div>
           </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
           <div class="form-group">
-            <label class="form-label">Nomor Induk (NIM / NIP)</label>
-            <input type="text" class="form-input" id="profileIdNum" value="210102045" readonly>
+            <label class="form-label">Nomor Induk Resmi (NPM / NIP)</label>
+            <input type="text" class="form-input" id="profileIdNum" readonly style="font-family: var(--font-mono); font-weight: 700;">
           </div>
           <div class="form-group">
-            <label class="form-label">Alamat Surel Institusi</label>
-            <input type="email" class="form-input" id="profileEmail" value="hafiz@bem.kampus.ac.id" readonly>
+            <label class="form-label">Alamat Surel Resmi UNTIDAR</label>
+            <input type="email" class="form-input" id="profileEmail" readonly>
           </div>
         </div>
 
-        <!-- Digital Paraf / Seal Section -->
+        <div class="form-group" style="margin-bottom: 24px;">
+          <label class="form-label">Tugas Pokok & Wewenang Pengesahan</label>
+          <div style="font-size: 0.86rem; color: var(--text-secondary); background: var(--bg-canvas); padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);" id="profileDutyDesc">
+            Deskripsi tugas...
+          </div>
+        </div>
+
+        <!-- Digital Signature & Official Seal Preview -->
         <div style="background-color: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 28px;">
-          <h3 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 6px;">Segel Paraf Digital Resmi</h3>
-          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px;">Paraf digital ini dibubuhkan secara otomatis pada lembar dokumen PDF saat Anda mengonfirmasi persetujuan.</p>
+          <h3 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 4px;">Pratinjau Tanda Tangan & Cap Lembaga</h3>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px;">Stempel dan tanda tangan digital ini dibubuhkan otomatis pada lembar fisik surat saat Anda memberikan persetujuan resmi.</p>
 
-          <div style="background: white; border: 1px dashed var(--border-strong); padding: 18px; border-radius: var(--radius-xs); text-align: center;">
-            <div style="font-family: cursive; font-size: 1.6rem; color: #1e3a8a;" id="profileSignaturePreview">M. Hafiz</div>
-            <div style="font-size: 0.68rem; color: var(--text-tertiary); font-family: var(--font-mono); margin-top: 4px;">KUNCI KRIPTOGRAFIS TERSINKRONISASI DENGAN SERVER KAMPUS</div>
+          <div style="background: white; border: 1.5px dashed var(--border-strong); padding: 26px; border-radius: var(--radius-xs); text-align: center; position: relative;">
+            <div style="margin-bottom: 10px;">
+              <img id="profileLogoImg" src="assets/img/logo_himatif.jpg" alt="Logo Lembaga" style="width: 60px; height: 60px; object-fit: contain;">
+            </div>
+            <div style="font-family: 'Brush Script MT', cursive, sans-serif; font-size: 2.2rem; color: #1e3a8a; font-style: italic;" id="profileSignaturePreview">
+              Tanda Tangan
+            </div>
+            <div style="display: inline-block; margin-top: 10px; border: 2px solid #2563eb; color: #2563eb; font-size: 0.68rem; font-weight: 800; padding: 4px 12px; border-radius: var(--radius-xs); text-transform: uppercase; letter-spacing: 0.05em;" id="profileStampType">
+              CAP RESMI
+            </div>
+            <div style="font-size: 0.68rem; color: var(--text-tertiary); font-family: var(--font-mono); margin-top: 8px;" id="profileRegisteredSub">
+              TERDAFTAR RESMI PADA FAKULTAS TEKNIK UNIVERSITAS TIDAR
+            </div>
           </div>
         </div>
 
-        <div style="display: flex; justify-content: flex-end; gap: 12px;">
-          <button class="btn btn-primary" onclick="showToast('Perubahan profil berhasil disimpan.')">
-            Simpan Pembaruan
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div style="font-size: 0.8rem; color: var(--text-tertiary);">Status Kredensial: <strong>Terverifikasi Aktif ✓</strong></div>
+          <button class="btn btn-primary" onclick="showToast('Data identitas dan sertifikat digital disinkronisasi!')">
+            Sinkronkan Kredensial
           </button>
         </div>
       </div>
@@ -74,24 +164,49 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderHeader('profile');
       renderFooter();
-
-      const role = getCurrentRole();
-      if (role === 'pembina') {
-        document.getElementById('profileAvatar').textContent = 'BS';
-        document.getElementById('profileName').textContent = 'Dr. Ir. Budi Santoso, M.Kom';
-        document.getElementById('profileRoleDesc').textContent = 'Dosen Pembina Kemahasiswaan & Organisasi Kampus';
-        document.getElementById('profileIdNum').value = '197508152002121002';
-        document.getElementById('profileEmail').value = 'budi.santoso@dosen.kampus.ac.id';
-        document.getElementById('profileSignaturePreview').textContent = 'Dr. Budi Santoso';
-      } else if (role === 'mahasiswa') {
-        document.getElementById('profileAvatar').textContent = 'AF';
-        document.getElementById('profileName').textContent = 'Ahmad Fauzi';
-        document.getElementById('profileRoleDesc').textContent = 'Mahasiswa / Pengurus HMIF (Pengaju)';
-        document.getElementById('profileIdNum').value = '220101001';
-        document.getElementById('profileEmail').value = 'ahmad.fauzi@mahasiswa.kampus.ac.id';
-        document.getElementById('profileSignaturePreview').textContent = 'A. Fauzi';
-      }
+      loadProfileData(getCurrentRole());
     });
+
+    function selectProfileOfficer(roleKey) {
+      setCurrentRole(roleKey);
+      renderHeader('profile');
+      loadProfileData(roleKey);
+      showToast(`Beralih profil ke: ${getUserProfileByRole(roleKey).name}`);
+    }
+
+    function loadProfileData(roleKey) {
+      const prof = getUserProfileByRole(roleKey);
+
+      // Active button highlight
+      document.querySelectorAll('.officer-card-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`cardBtn_${prof.roleKey}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      document.getElementById('profileAvatar').textContent = prof.initials;
+      document.getElementById('profileAvatar').style.backgroundColor = prof.stampColor;
+      document.getElementById('profileName').textContent = prof.name;
+      document.getElementById('profileRoleDesc').textContent = `${prof.roleLabel} &bull; ${prof.org}`;
+      document.getElementById('profileIdNum').value = prof.idNum;
+      document.getElementById('profileEmail').value = prof.email;
+      document.getElementById('profileDutyDesc').textContent = prof.dutyDesc;
+      document.getElementById('profileSignaturePreview').textContent = prof.signatureText;
+      
+      const stampBadge = document.getElementById('profileStampType');
+      stampBadge.textContent = prof.stampName;
+      stampBadge.style.borderColor = prof.stampColor;
+      stampBadge.style.color = prof.stampColor;
+
+      const logoImg = document.getElementById('profileLogoImg');
+      if (logoImg) {
+        if (prof.roleKey === 'wadek') {
+          logoImg.src = 'assets/img/logo_untidar.png';
+          logoImg.style.borderRadius = '0';
+        } else {
+          logoImg.src = 'assets/img/logo_himatif.jpg';
+          logoImg.style.borderRadius = '50%';
+        }
+      }
+    }
   </script>
 </body>
 </html>

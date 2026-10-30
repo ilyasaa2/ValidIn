@@ -1,51 +1,90 @@
 # ValidIn - Sistem Pengesahan & Validasi Dokumen Digital Organisasi Kampus
+### Edisi Khusus: Himpunan Mahasiswa Teknologi Informasi (HIMATIF) &bull; Fakultas Teknik Universitas Tidar (UNTIDAR)
 
 ![Status](https://img.shields.io/badge/Status-Development-blue)
-![Laravel](https://img.shields.io/badge/Backend-Laravel_11-red)
-![Flutter](https://img.shields.io/badge/Mobile-Flutter-blue)
+![Backend](https://img.shields.io/badge/Backend-Laravel_11-red)
+![Mobile](https://img.shields.io/badge/Mobile-Flutter-blue)
 ![Database](https://img.shields.io/badge/Database-MySQL-orange)
+![Institution](https://img.shields.io/badge/Institusi-Universitas_Tidar-1e3a8a)
 
-ValidIn adalah platform manajemen pengesahan dokumen kegiatan (proposal, surat izin kegiatan, laporan pertanggungjawaban/LPJ) di lingkungan organisasi kampus berbasis aplikasi mobile (Flutter) dan panel web (Laravel). Dilengkapi dengan **Auto-generate QR Code Stamping** untuk verifikasi keaslian dokumen secara instan tanpa perlu login.
+ValidIn adalah platform tata kelola dan pengesahan surat permohonan peminjaman fasilitas (gedung/kelas FT 03, alat/sound system) serta perizinan kegiatan organisasi mahasiswa di lingkungan Fakultas Teknik Universitas Tidar. Dilengkapi dengan **Auto-generate Cryptographic QR Code Stamping** dan **Catatan Disposisi Pejabat Fakultas** untuk verifikasi izin seketika di pos Petugas Keamanan (Satpam) kampus tanpa perlu login.
 
 ---
 
 ## 📌 Latar Belakang & Masalah (5 Whys)
 
-1. **Gejala:** Mahasiswa bolak-balik ke sekretariat kampus, pengesahan proposal memakan waktu lama (rata-rata >3 hari), dan berkas fisik rawan terselip atau rusak.
-2. **Mengapa 1?** Tanda tangan dan paraf pengesahan masih dilakukan secara fisik oleh Ketua Organisasi dan Dosen Pembina.
-3. **Mengapa 2?** Belum ada sistem terpusat yang menampung berkas digital dan memvalidasi alur persetujuan.
-4. **Mengapa 3?** Proses administrasi masih menerapkan paradigma kertas (*paper-based*).
-5. **Akar Masalah:** Ketiadaan platform terpadu yang memfasilitasi pengunggahan, peninjauan berjenjang, dan pembuktian validasi dokumen yang dapat dipertanggungjawabkan (via QR Code).
+1. **Gejala:** Mahasiswa dan panitia kegiatan bolak-balik ke ruang dosen dan pos satpam, proses pengesahan surat peminjaman gedung/kelas memakan waktu lama (>3 hari), dan berkas fisik rawan tertumpuk atau terselip.
+2. **Mengapa 1?** Tanda tangan, paraf, stempel ormawa, dan lembar disposisi izin ruangan masih dilakukan secara manual pada kertas fisik secara berantai.
+3. **Mengapa 2?** Belum ada sistem terpusat yang memfasilitasi alur bertingkat antara Sekretaris, Ketua Pelaksana, Ketua Himpunan, hingga Wakil Dekan.
+4. **Mengapa 3?** Proses persuratan kampus masih bergantung pada paradigma dokumen kertas (*paper-based*).
+5. **Akar Masalah:** Ketiadaan platform digital terpadu yang memfasilitasi verifikasi berjenjang autentik berstempel resmi dan pembuktian legalitas cepat yang dapat divalidasi langsung oleh Satpam melalui pemindaian QR Code.
 
 ---
 
-## 👥 Peran Pengguna & Platform
+## 👥 Struktur Peran & Pejabat Resmi UNTIDAR
 
-| Peran | Platform | Fitur Utama |
-| :--- | :--- | :--- |
-| **Mahasiswa / Pengaju** | Mobile (Flutter) | Unggah PDF proposal/surat izin, lacak progres persetujuan (*stepper timeline*), dan unduh dokumen terverifikasi. |
-| **Ketua Organisasi** | Web (Laravel Blade/Livewire) | Tinjau berkas via *inline PDF preview*, setujui / tolak dengan catatan revisi tahap 1. |
-| **Dosen Pembina** | Web (Laravel Blade/Livewire) | Tinjau berkas yang disetujui Ketua, berikan persetujuan akhir (otomatis generate token & QR Code). |
-| **Pihak Keamanan / Publik** | Web Publik | Pindai QR Code pada dokumen fisik/digital untuk memvalidasi keaslian berkas tanpa perlu login. |
+Sistem ValidIn mengadopsi struktur pengesahan resmi 4 pejabat berjenjang sesuai tata persuratan Fakultas Teknik Universitas Tidar:
+
+| No | Pejabat / Peran | Identitas Resmi | Platform | Wewenang & Tanggung Jawab Utama |
+| :-: | :--- | :--- | :--- | :--- |
+| **1** | **Sekretaris Panitia** | **Hanif Abdillah Alatas**<br>(NPM. 2420506041) | Web & Mobile | &bull; Menyusun draf surat permohonan peminjaman ruangan/alat.<br>&bull; Mengisi rincian hari, jam, fasilitas, dan contact person panitia.<br>&bull; Membubuhi paraf draf kesekretariatan awal. |
+| **2** | **Ketua Pelaksana** | **Emannuel Henji Pratama Putra**<br>(NPM. 2505060012) | Web & Mobile | &bull; Bertindak selaku penanggung jawab operasional kegiatan.<br>&bull; Menandatangani berkas permohonan resmi panitia.<br>&bull; Membubuhi Cap Panitia Pelaksana DigitalWave. |
+| **3** | **Ketua HIMATIF UNTIDAR** | **Naufal Miftakhul Siddiq**<br>(NPM. 2440506060) | Panel Web | &bull; Meninjau kepatuhan agenda terhadap program kerja ormawa.<br>&bull; Membubuhi paraf mengetahui Ketua Himpunan.<br>&bull; Membubuhi stempel resmi lingkaran ganda biru HIMATIF UNTIDAR. |
+| **4** | **Wakil Dekan FT UNTIDAR**<br>(Bidang Akademik & Kemahasiswaan) | **Dr. Sigit Iswahyudi, S.T., M.T.**<br>(NIP. 197510302021211005) | Panel Web | &bull; Menuliskan catatan disposisi resmi pejabat (instruksi satpam/sarpras).<br>&bull; Memberikan tanda tangan pengesahan akhir tingkat fakultas.<br>&bull; Membubuhi stempel resmi lingkaran merah Fakultas Teknik.<br>&bull; Mengaktifkan QR Code validasi untuk keamanan kampus. |
+| **5** | **Petugas Keamanan (Satpam) & Sarpras** | Unit Keamanan Kampus Tuguran UNTIDAR | Portal Publik Web (Tanpa Login) | &bull; Memindai QR Code surat pemohon untuk memeriksa keaslian izin.<br>&bull; Membaca instruksi disposisi Wadek FT (ruang yang boleh dibuka).<br>&bull; Mencetak kartu izin akses ruangan kegiatan. |
 
 ---
 
-## 🏛️ Arsitektur Sistem
+## 🔄 Alur Pengesahan Berjenjang (*State Machine 5 Tahap*)
+
+Alur status surat permohonan dirancang berurutan dengan riwayat audit trail lengkap:
+
+```mermaid
+stateDiagram-v2
+    [*] --> menunggu_sekretaris: Draf Diajukan
+    menunggu_sekretaris --> menunggu_pelaksana: Diparaf Sekretaris (Hanif)
+    menunggu_pelaksana --> menunggu_ketua: Ditandatangani Pelaksana (Henji) + Cap Panitia
+    menunggu_pelaksana --> revisi: Dikembalikan Pelaksana
+
+    menunggu_ketua --> menunggu_pembina: Diparaf Ketua HIMATIF (Naufal) + Cap HIMATIF
+    menunggu_ketua --> revisi: Revisi Ormawa
+
+    menunggu_pembina --> disetujui: Disahkan Wadek FT (Dr. Sigit) + Disposisi + Cap FT + QR Terbit
+    menunggu_pembina --> revisi: Revisi Dekanat
+
+    revisi --> menunggu_sekretaris: Draf Diperbaiki Panitia
+
+    disetujui --> Validasi_Satpam: Satpam Pindai QR di Lapangan
+    Validasi_Satpam --> [*]: Ruang Dibukakan & Terverifikasi
+```
+
+### Rincian Perubahan Status:
+1. `menunggu_sekretaris`: Draf surat baru dibuat, menunggu pemeriksaan redaksional dan paraf dari Sekretaris Panitia.
+2. `menunggu_pelaksana`: Surat telah diparaf sekretaris, menunggu tanda tangan komitmen dari Ketua Pelaksana kegiatan.
+3. `menunggu_ketua`: Berkas panitia telah lengkap, menunggu peninjauan dan pembubuhan stempel resmi dari Ketua HIMATIF UNTIDAR.
+4. `menunggu_pembina`: Berkas ormawa telah lolos, menunggu disposisi instruksi satpam dan pengesahan dari Wakil Dekan Fakultas Teknik.
+5. `disetujui`: Surat resmi sah tingkat fakultas. Sistem otomatis menerbitkan token QR Code UUID unik dan sidik jari SHA-256 yang siap dipindai oleh Satpam kampus.
+6. `revisi`: Surat dikembalikan dengan catatan perbaikan dari pejabat peninjau.
+
+---
+
+## 🏛️ Arsitektur Sistem Monorepo
 
 ```
 +-----------------------------------+       +-----------------------------------+
-|      Mahasiswa / Pengaju          |       |     Ketua / Dosen Pembina         |
-|        (Flutter Mobile)           |       |   (Laravel Blade / Livewire)      |
+|   Panitia (Sekretaris / Pelaksana)|       |     Ketua HIMATIF / Wadek FT      |
+|    (Flutter Mobile & Portal Web)  |       |   (Laravel Blade / Livewire Web)  |
 +-----------------+-----------------+       +-----------------+-----------------+
                   |                                           |
-                  | HTTPS / REST API                          | Web Session
+                  | HTTPS / REST API                          | Web Session (SSO)
                   v                                           v
 +-------------------------------------------------------------------------------+
 |                             Laravel Backend Service                           |
 |  - Auth & Role Management (Sanctum)                                           |
-|  - Document State Machine (Draft -> Menunggu_Ketua -> Menunggu_Pembina -> ...) |
-|  - Storage Engine (Private PDF Storage)                                       |
-|  - QR Code Generator & PDF Stamping Engine (FPDI / Endroid QR)                |
+|  - 4-Tier Hierarchical State Machine Controller                               |
+|  - Dual Emblem Letterhead & Matrix Signature Engine                           |
+|  - Handwritten-Style Disposition Injector (Instruksi Satpam)                  |
+|  - Cryptographic QR Code Tokenizer (UUID v4 / SHA-256 Digest)                 |
 +---------------------------------------+---------------------------------------+
                                         |
                                         v
@@ -56,59 +95,47 @@ ValidIn adalah platform manajemen pengesahan dokumen kegiatan (proposal, surat i
 
 ---
 
-## 🔄 Alur Status Dokumen (*State Machine*)
-
-```
-[Mahasiswa Unggah PDF]
-         │
-         ▼
-[Menunggu_Ketua] ──(Revisi/Tolak)──► [Revisi] ──(Upload Perbaikan)──► [Menunggu_Ketua]
-         │
-    (Disetujui)
-         │
-         ▼
-[Menunggu_Pembina] ──(Revisi/Tolak)──► [Revisi]
-         │
-    (Disetujui)
-         │
-         ▼
-[Disetujui] ──► (Sistem menempelkan QR Code unik ke PDF)
-         │
-         ▼
-[Publik Scan QR] ──► Mengarah ke `/verify/{token}` (Status: Valid)
-```
-
----
-
-## 📂 Struktur Repositori Monorepo
+## 📂 Struktur Repositori
 
 ```
 ValidIn/
-├── docs/                        # Dokumentasi spesifikasi, ERD, dan kontrak API
+├── docs/                        # Dokumentasi spesifikasi lengkap proyek
 │   ├── SRS.md                   # Software Requirements Specification (MoSCoW & ISO 25010)
-│   ├── ERD.md                   # Entity Relationship Diagram & Data Dictionary
-│   ├── API_CONTRACT.md          # Spesifikasi Endpoint REST API
-│   └── TEAM_RESPONSIBILITIES.md # Pembagian Tugas & Tanggung Jawab Tim (4 Anggota)
-├── backend/                     # Laravel REST API & Web Panel Dashboard
-└── mobile/                      # Flutter Application (Android Target)
+│   ├── ERD.md                   # Entity Relationship Diagram & Data Dictionary MySQL
+│   ├── API_CONTRACT.md          # Kontrak Endpoint REST API v1
+│   ├── DESIGN_SYSTEM.md         # Standar Desain Notarial & Kop Surat UNTIDAR
+│   └── TEAM_RESPONSIBILITIES.md # Matriks Pembagian Tugas Tim 4 Anggota & RACI
+├── web/                         # Prototipe Web Modular (Aktif pada port 8080)
+│   ├── index.html               # Dashboard utama adaptif 4 pejabat (KPI, filter, aksi cepat)
+│   ├── review.html              # Lembar surat fisik UNTIDAR, matriks 2 baris tanda tangan & disposisi
+│   ├── submit.html              # Formulir pengajuan peminjaman gedung/alat dengan template cepat
+│   ├── verify.html              # Portal publik verifikasi QR Satpam (tanpa login)
+│   ├── archive.html             # Buku register digital dan ekspor CSV
+│   ├── profile.html             # Profil pejabat, sertifikat digital, dan cap lembaga
+│   ├── login.html               # Halaman masuk akun pejabat resmi UNTIDAR
+│   ├── css/                     # Desain sistem notarial (main.css & document.css)
+│   └── js/                      # State manager (shared.js)
+├── backend/                     # Layanan API REST Laravel 11 (Fase Implementasi)
+└── mobile/                      # Aplikasi Android Flutter (Fase Implementasi)
 ```
 
 ---
 
-## 🛠️ Rencana Teknologi
+## 🛠️ Rencana Teknologi & Standar
 
 - **Backend:** PHP 8.2+, Laravel 11.x, Laravel Sanctum, Livewire / Blade.
-- **Mobile:** Flutter 3.x (Dart), `flutter_pdfview`, `dio` / `http`.
+- **Mobile:** Flutter 3.x (Dart), `flutter_pdfview`, `dio` / `http`, `mobile_scanner`.
 - **Database:** MySQL 8.x.
-- **Validasi Dokumen:** QR Code Tokenization (UUID v4 / SHA-256 Hash) & PDF Watermark Stamp.
+- **Protokol Verifikasi:** UUID v4 Tokenization, SHA-256 Integrity Digest, & Stempel QR Code Notarial.
+- **Standar Format Surat:** Format Resmi Surat Peminjaman HIMATIF Fakultas Teknik UNTIDAR (Jalan Kapten Suparman 39 Magelang 56116).
 
 ---
 
-## 👨‍💻 Tim Pengembang 
+## 👨‍💻 Tim Pengembang (Kelompok 4 Anggota)
 
-Detail pembagian tugas, matriks RACI, dan deliverable dapat dilihat pada [docs/TEAM_RESPONSIBILITIES.md](docs/TEAM_RESPONSIBILITIES.md).
+Detail pembagian tugas, deliverable, dan matriks RACI tercatat pada [docs/TEAM_RESPONSIBILITIES.md](docs/TEAM_RESPONSIBILITIES.md).
 
-1. **Ketua Kelompok & System Analyst:** (Manajemen Proyek, Desain UI/UX Figma, & Analisis Sistem)
-2. **Backend Developer:** (REST API Laravel 11, Database MySQL, QR Stamping, & Web Panel)
-3. **Mobile Developer:** (Aplikasi Flutter Android, Integrasi API, & In-App PDF Preview)
-4. **QA Tester & Technical Writer:** (Black Box Testing, Postman Collection, & Laporan Akhir)
+1. **Ketua Kelompok & System Analyst:** (Manajemen Proyek, Analisis Kebutuhan SRS, Wireframe UI/UX Figma, & State Machine Alur).
+2. **Backend Developer:** (REST API Laravel 11, Database MySQL, QR Generator & Stamping, Web Dashboard).
+3. **Mobile Developer:** (Aplikasi Android Flutter, Slicing UI, Integrasi API, In-App PDF Preview).
+4. **QA Tester & Technical Writer:** (Skenario Pengujian UAT / Black Box, Koleksi Postman API, Notulensi, & Laporan Akhir).

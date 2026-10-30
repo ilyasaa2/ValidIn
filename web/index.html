@@ -3,73 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Antrean Dokumen - ValidIn</title>
+  <title>Portal Pengesahan Surat - ValidIn UNTIDAR</title>
   <link rel="stylesheet" href="css/main.css">
+  <style>
+    .metric-tile.clickable {
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+    .metric-tile.clickable:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-elevated);
+      border-color: var(--navy-900);
+    }
+    .metric-tile.active-filter {
+      border: 2px solid var(--navy-900);
+      background-color: #f8fafc;
+    }
+    .action-attention-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #b45309;
+      background: #fef3c7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+    .role-banner-box {
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      color: white;
+      padding: 20px 24px;
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: var(--shadow-elevated);
+    }
+  </style>
 </head>
 <body>
-  <!-- Global Shared Site Header -->
   <header class="site-header" id="siteHeader"></header>
 
   <main class="page-wrapper">
     <div class="breadcrumbs">
-      <a href="index.html">Portal ValidIn</a> &gt; <span>Antrean Dokumen Masuk</span>
+      <a href="index.html">Portal ValidIn UNTIDAR</a> &gt; <span id="breadRoleTitle">Dashboard</span>
     </div>
 
-    <div class="page-header-row">
-      <div class="page-intro">
-        <h1>Antrean Pengesahan Dokumen</h1>
-        <p>Daftar proposal, surat izin kegiatan, dan laporan pertanggungjawaban yang masuk untuk ditinjau secara berjenjang.</p>
-      </div>
+    <!-- Dynamic Officer Welcome Banner -->
+    <div class="role-banner-box">
       <div>
-        <a href="submit.html" class="btn btn-primary">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-          Ajukan Dokumen Baru
-        </a>
+        <div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; font-weight: 700;" id="bannerOfficerSubtitle">AKUN RESMI TERHUBUNG</div>
+        <h2 style="font-size: 1.35rem; font-weight: 800; margin: 4px 0;" id="bannerOfficerName">Nama Pejabat</h2>
+        <p style="font-size: 0.86rem; opacity: 0.9; max-width: 680px;" id="bannerOfficerDuty">Deskripsi wewenang dan tugas...</p>
+      </div>
+      <div id="bannerActionBtn">
+        <!-- Injected dynamically -->
       </div>
     </div>
 
-    <!-- Institutional KPI Metrics Tiles -->
-    <div class="metrics-row">
-      <div class="metric-tile">
-        <span class="metric-label">Menunggu Tinjauan Anda</span>
-        <div class="metric-value" id="kpiPending">-</div>
-        <div class="metric-sub">Memerlukan keputusan persetujuan</div>
-      </div>
-      <div class="metric-tile">
-        <span class="metric-label">Dalam Status Revisi</span>
-        <div class="metric-value" id="kpiRevision">-</div>
-        <div class="metric-sub">Menunggu perbaikan dari mahasiswa</div>
-      </div>
-      <div class="metric-tile">
-        <span class="metric-label">Selesai & Sah (QR Terbit)</span>
-        <div class="metric-value" id="kpiApproved">-</div>
-        <div class="metric-sub">Telah divalidasi resmi oleh Pembina</div>
-      </div>
-      <div class="metric-tile">
-        <span class="metric-label">Total Arsip Berkas</span>
-        <div class="metric-value" id="kpiTotal">-</div>
-        <div class="metric-sub">Tercatat dalam basis data kampus</div>
-      </div>
+    <!-- Role-Adapted KPI Metrics Tiles (Clickable to Filter!) -->
+    <div class="metrics-row" id="metricsRowContainer">
+      <!-- Injected dynamically via JS based on current active user -->
     </div>
 
     <!-- Main Table Container -->
     <div class="card-panel">
       <div class="table-filter-bar">
-        <input type="text" id="searchInput" class="search-input" placeholder="Cari nomor berkas, judul kegiatan, atau pengaju...">
-        <div style="display: flex; gap: 10px;">
-          <select id="typeFilter" class="select-filter">
-            <option value="all">Semua Jenis Dokumen</option>
-            <option value="Proposal Kegiatan">Proposal Kegiatan</option>
-            <option value="Surat Izin">Surat Izin</option>
-            <option value="LPJ">LPJ</option>
+        <input type="text" id="searchInput" class="search-input" placeholder="Cari nomor surat, agenda, atau panitia...">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+          <select id="typeFilter" class="select-filter" aria-label="Filter Kategori Surat">
+            <option value="all">Semua Kategori Surat</option>
+            <option value="Peminjaman Tempat / Gedung">Peminjaman Gedung FT 03 / Ruang Kelas</option>
+            <option value="Peminjaman Fasilitas / Alat">Peminjaman Sound & Mikrofon</option>
+            <option value="Permohonan Izin Kegiatan">Permohonan Izin Kegiatan Resmi</option>
           </select>
-          <select id="statusFilter" class="select-filter">
-            <option value="all">Semua Status</option>
-            <option value="menunggu_ketua">Menunggu Ketua</option>
-            <option value="menunggu_pembina">Menunggu Pembina</option>
-            <option value="disetujui">Disetujui (Sah)</option>
-            <option value="revisi">Revisi</option>
+          <select id="statusFilter" class="select-filter" aria-label="Filter Status Alur">
+            <option value="all">Semua Status Alur (5 Tahap)</option>
+            <option value="needs_my_action">★ Perlu Tindakan Saya</option>
+            <option value="menunggu_sekretaris">1. Menunggu Paraf Sekretaris</option>
+            <option value="menunggu_pelaksana">2. Menunggu Tanda Tangan Pelaksana</option>
+            <option value="menunggu_ketua">3. Menunggu Cap Ketua HIMATIF</option>
+            <option value="menunggu_pembina">4. Menunggu Disposisi Wadek FT</option>
+            <option value="disetujui">5. Telah Disahkan (QR Terbit)</option>
+            <option value="revisi">Perlu Revisi</option>
           </select>
+          <button class="btn btn-outline btn-sm" onclick="resetFilters()">Reset Filter</button>
         </div>
       </div>
 
@@ -77,16 +101,16 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>Nomor & Judul Dokumen</th>
-              <th>Jenis Berkas</th>
-              <th>Pemohon / Organisasi</th>
-              <th>Status Alur</th>
-              <th>Tanggal Pengajuan</th>
+              <th>Nomor & Agenda Surat</th>
+              <th>Kategori Permohonan</th>
+              <th>Penyusun & Penanggung Jawab</th>
+              <th>Status Alur Berjenjang</th>
+              <th>Tanggal</th>
               <th style="text-align: right;">Aksi</th>
             </tr>
           </thead>
           <tbody id="documentsTableBody">
-            <!-- Populated via index.js -->
+            <!-- Populated via loadDashboardData -->
           </tbody>
         </table>
       </div>
@@ -97,42 +121,150 @@
 
   <script src="js/shared.js"></script>
   <script>
+    let activeFilterStatus = 'all';
+
     document.addEventListener('DOMContentLoaded', () => {
       renderHeader('dashboard');
       renderFooter();
+      applyRolePerspective();
       loadDashboardData();
 
-      document.getElementById('searchInput').addEventListener('input', loadDashboardData);
-      document.getElementById('typeFilter').addEventListener('change', loadDashboardData);
-      document.getElementById('statusFilter').addEventListener('change', loadDashboardData);
+      document.getElementById('searchInput').addEventListener('input', () => loadDashboardData());
+      document.getElementById('typeFilter').addEventListener('change', () => loadDashboardData());
+      document.getElementById('statusFilter').addEventListener('change', (e) => {
+        activeFilterStatus = e.target.value;
+        loadDashboardData();
+      });
     });
+
+    function applyRolePerspective() {
+      const role = getCurrentRole();
+      const profile = getUserProfileByRole(role);
+
+      document.getElementById('breadRoleTitle').textContent = profile.roleLabel;
+      document.getElementById('bannerOfficerSubtitle').textContent = `AKUN RESMI: ${profile.roleLabel.toUpperCase()} &bull; ${profile.dept}`;
+      document.getElementById('bannerOfficerName').textContent = `${profile.name} (${profile.idNum})`;
+      document.getElementById('bannerOfficerDuty').textContent = profile.dutyDesc;
+
+      const bannerAction = document.getElementById('bannerActionBtn');
+      if (role === 'sekretaris' || role === 'ketua_pelaksana') {
+        bannerAction.innerHTML = `
+          <a href="submit.html" class="btn btn-secondary btn-lg" style="white-space: nowrap;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            + Buat Surat Permohonan
+          </a>
+        `;
+      } else if (role === 'ketua_himatif') {
+        bannerAction.innerHTML = `
+          <a href="profile.html" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white; white-space: nowrap;">
+            Lihat Cap Resmi HIMATIF &rarr;
+          </a>
+        `;
+      } else {
+        bannerAction.innerHTML = `
+          <a href="archive.html" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white; white-space: nowrap;">
+            Arsip Lengkap FT UNTIDAR &rarr;
+          </a>
+        `;
+      }
+    }
+
+    function setStatusFilter(statusVal) {
+      activeFilterStatus = statusVal;
+      document.getElementById('statusFilter').value = statusVal;
+      loadDashboardData();
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('typeFilter').value = 'all';
+      document.getElementById('statusFilter').value = 'all';
+      activeFilterStatus = 'all';
+      loadDashboardData();
+    }
 
     function loadDashboardData() {
       const docs = getDocs();
       const role = getCurrentRole();
 
-      // Calculate Counters
+      // Counts
+      const pendingSekretaris = docs.filter(d => d.status === 'menunggu_sekretaris').length;
+      const pendingPelaksana = docs.filter(d => d.status === 'menunggu_pelaksana').length;
       const pendingKetua = docs.filter(d => d.status === 'menunggu_ketua').length;
       const pendingPembina = docs.filter(d => d.status === 'menunggu_pembina').length;
-      const needAction = (role === 'pembina') ? pendingPembina : (role === 'ketua' ? pendingKetua : (pendingKetua + pendingPembina));
+      const approved = docs.filter(d => d.status === 'disetujui').length;
 
-      document.getElementById('kpiPending').textContent = needAction;
-      document.getElementById('kpiRevision').textContent = docs.filter(d => d.status === 'revisi').length;
-      document.getElementById('kpiApproved').textContent = docs.filter(d => d.status === 'disetujui').length;
-      document.getElementById('kpiTotal').textContent = docs.length;
+      // Determine "Needs My Action" count
+      let myActionCount = 0;
+      let myActionStatusKey = 'all';
+      let myActionLabel = '';
 
-      // Filter
+      if (role === 'sekretaris') {
+        myActionCount = pendingSekretaris;
+        myActionStatusKey = 'menunggu_sekretaris';
+        myActionLabel = 'Perlu Paraf Sekretaris';
+      } else if (role === 'ketua_pelaksana') {
+        myActionCount = pendingPelaksana;
+        myActionStatusKey = 'menunggu_pelaksana';
+        myActionLabel = 'Perlu Tanda Tangan Anda';
+      } else if (role === 'ketua_himatif') {
+        myActionCount = pendingKetua;
+        myActionStatusKey = 'menunggu_ketua';
+        myActionLabel = 'Perlu Cap HIMATIF';
+      } else if (role === 'wadek') {
+        myActionCount = pendingPembina;
+        myActionStatusKey = 'menunggu_pembina';
+        myActionLabel = 'Perlu Disposisi Wadek';
+      }
+
+      // Render KPI Tiles
+      const metricsRow = document.getElementById('metricsRowContainer');
+      metricsRow.innerHTML = `
+        <div class="metric-tile clickable ${activeFilterStatus === myActionStatusKey ? 'active-filter' : ''}" onclick="setStatusFilter('${myActionStatusKey}')" style="border-left: 4px solid #b45309;">
+          <span class="metric-label" style="color: #b45309;">⚡ ${myActionLabel}</span>
+          <div class="metric-value" style="color: #b45309;">${myActionCount}</div>
+          <div class="metric-sub">Menunggu tindakan akun Anda</div>
+        </div>
+
+        <div class="metric-tile clickable ${activeFilterStatus === 'all' ? 'active-filter' : ''}" onclick="setStatusFilter('all')">
+          <span class="metric-label">Total Surat Masuk</span>
+          <div class="metric-value">${docs.length}</div>
+          <div class="metric-sub">Seluruh pengajuan terdaftar</div>
+        </div>
+
+        <div class="metric-tile clickable ${activeFilterStatus === 'menunggu_pembina' ? 'active-filter' : ''}" onclick="setStatusFilter('menunggu_pembina')">
+          <span class="metric-label">Dalam Meja Wadek FT</span>
+          <div class="metric-value" style="color: #4338ca;">${pendingPembina}</div>
+          <div class="metric-sub">Menunggu persetujuan dekanat</div>
+        </div>
+
+        <div class="metric-tile clickable ${activeFilterStatus === 'disetujui' ? 'active-filter' : ''}" onclick="setStatusFilter('disetujui')">
+          <span class="metric-label">Telah Disahkan (QR Sah)</span>
+          <div class="metric-value" style="color: var(--seal-green);">${approved}</div>
+          <div class="metric-sub">Izin resmi aktif untuk Satpam</div>
+        </div>
+      `;
+
+      // Filter Data
       const q = document.getElementById('searchInput').value.toLowerCase();
       const type = document.getElementById('typeFilter').value;
-      const status = document.getElementById('statusFilter').value;
+      const status = activeFilterStatus;
 
       const filtered = docs.filter(doc => {
         const matchQ = doc.title.toLowerCase().includes(q) ||
                        doc.regNumber.toLowerCase().includes(q) ||
                        doc.submitterName.toLowerCase().includes(q) ||
-                       doc.organization.toLowerCase().includes(q);
+                       doc.secretaryName.toLowerCase().includes(q) ||
+                       doc.eventName.toLowerCase().includes(q);
         const matchType = (type === 'all') || (doc.type === type);
-        const matchStatus = (status === 'all') || (doc.status === status);
+        
+        let matchStatus = true;
+        if (status === 'needs_my_action') {
+          matchStatus = (doc.status === myActionStatusKey);
+        } else if (status !== 'all') {
+          matchStatus = (doc.status === status);
+        }
+
         return matchQ && matchType && matchStatus;
       });
 
@@ -142,8 +274,10 @@
       if (filtered.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-tertiary);">
-              Tidak ada dokumen yang sesuai dengan kriteria penyaringan.
+            <td colspan="6" style="text-align: center; padding: 48px 20px; color: var(--text-tertiary);">
+              <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 10px; opacity: 0.5;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <div style="font-weight: 700; color: var(--text-secondary); margin-bottom: 4px;">Tidak ada surat yang sesuai</div>
+              <div style="font-size: 0.82rem;">Coba sesuaikan kata kunci pencarian atau ubah filter status di atas.</div>
             </td>
           </tr>
         `;
@@ -151,23 +285,49 @@
       }
 
       filtered.forEach(doc => {
+        // Determine role-specific quick action
+        let actionBtnMarkup = '';
+        let isNeedsMyAction = false;
+
+        if (role === 'sekretaris' && doc.status === 'menunggu_sekretaris') {
+          isNeedsMyAction = true;
+          actionBtnMarkup = `<a href="review.html?id=${doc.id}" class="btn btn-primary btn-sm" style="background: #0284c7; border-color: #0284c7;">Paraf Draf &rarr;</a>`;
+        } else if (role === 'ketua_pelaksana' && doc.status === 'menunggu_pelaksana') {
+          isNeedsMyAction = true;
+          actionBtnMarkup = `<a href="review.html?id=${doc.id}" class="btn btn-primary btn-sm" style="background: #2563eb; border-color: #2563eb;">Tandatangani &rarr;</a>`;
+        } else if (role === 'ketua_himatif' && doc.status === 'menunggu_ketua') {
+          isNeedsMyAction = true;
+          actionBtnMarkup = `<a href="review.html?id=${doc.id}" class="btn btn-primary btn-sm" style="background: #1d4ed8; border-color: #1d4ed8;">Bubuhi Cap HIMATIF &rarr;</a>`;
+        } else if (role === 'wadek' && doc.status === 'menunggu_pembina') {
+          isNeedsMyAction = true;
+          actionBtnMarkup = `<a href="review.html?id=${doc.id}" class="btn btn-success btn-sm">Beri Disposisi & QR &rarr;</a>`;
+        } else if (doc.status === 'disetujui') {
+          actionBtnMarkup = `<a href="review.html?id=${doc.id}" class="btn btn-outline btn-sm" style="border-color: var(--seal-green); color: var(--seal-green);">Lihat Surat Sah & QR</a>`;
+        } else {
+          actionBtnMarkup = `<a href="review.html?id=${doc.id}" class="btn btn-outline btn-sm">Buka Surat</a>`;
+        }
+
         const tr = document.createElement('tr');
+        if (isNeedsMyAction) {
+          tr.style.backgroundColor = '#fffbeb';
+        }
+
         tr.innerHTML = `
           <td>
             <div style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-secondary);">${doc.regNumber}</div>
-            <a href="review.html?id=${doc.id}" style="font-weight: 700; color: var(--text-primary); text-decoration: none;">${doc.title}</a>
+            <a href="review.html?id=${doc.id}" style="font-weight: 700; color: var(--text-primary); text-decoration: none; font-size: 0.92rem;">${doc.title}</a>
+            <div style="font-size: 0.78rem; color: var(--blue-600); font-weight: 600;">${doc.eventName}</div>
+            ${isNeedsMyAction ? `<div class="action-attention-badge">★ Menunggu Tindakan Akun Anda</div>` : ''}
           </td>
           <td><span class="badge-status badge-type">${doc.type}</span></td>
           <td>
-            <div style="font-weight: 600;">${doc.submitterName}</div>
-            <div style="font-size: 0.75rem; color: var(--text-secondary);">${doc.organization}</div>
+            <div style="font-weight: 600; font-size: 0.84rem;">Pelaksana: ${doc.submitterName}</div>
+            <div style="font-size: 0.76rem; color: var(--text-secondary);">Sekretaris: ${doc.secretaryName}</div>
           </td>
           <td>${getStatusBadgeMarkup(doc.status)}</td>
-          <td style="font-size: 0.8rem; color: var(--text-secondary);">${doc.createdAt}</td>
-          <td style="text-align: right;">
-            <a href="review.html?id=${doc.id}" class="btn btn-outline btn-sm">
-              Tinjau Berkas
-            </a>
+          <td style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;">${doc.createdAt}</td>
+          <td style="text-align: right; white-space: nowrap;">
+            ${actionBtnMarkup}
           </td>
         `;
         tbody.appendChild(tr);

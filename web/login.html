@@ -3,61 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Masuk ke Portal - ValidIn</title>
+  <title>Masuk ke Portal - ValidIn UNTIDAR</title>
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body style="justify-content: center; align-items: center; background-color: var(--bg-canvas);">
-  <div style="max-width: 440px; width: 100%; padding: 20px;">
-    <div style="text-align: center; margin-bottom: 28px;">
-      <div class="brand-symbol" style="width: 44px; height: 44px; font-size: 1.3rem; margin: 0 auto 12px; border-radius: var(--radius-sm);">V</div>
-      <h1 style="font-size: 1.4rem; font-weight: 800; color: var(--navy-900); letter-spacing: -0.02em;">ValidIn Campus Registry</h1>
-      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Portal Otentikasi Pengesahan & Pengajuan Dokumen</p>
+  <div style="max-width: 520px; width: 100%; padding: 20px;">
+    <div style="text-align: center; margin-bottom: 24px;">
+      <img src="assets/img/logo_untidar.png" alt="Logo UNTIDAR" style="width: 72px; height: 72px; object-fit: contain; margin: 0 auto 12px; display: block;">
+      <h1 style="font-size: 1.5rem; font-weight: 800; color: var(--navy-900); letter-spacing: -0.02em;">ValidIn UNTIDAR</h1>
+      <p style="font-size: 0.86rem; color: var(--text-secondary); margin-top: 4px;">Sistem Pengesahan Dokumen Digital Himpunan Mahasiswa Teknologi Informasi<br>Fakultas Teknik Universitas Tidar</p>
     </div>
 
     <div class="card-panel" style="padding: 32px;">
-      <form onsubmit="event.preventDefault(); window.location.href='index.html';">
+      <form onsubmit="handleRegularLogin(event)">
         <div class="form-group">
-          <label class="form-label">Nomor Induk (NIM / NIP)</label>
-          <input type="text" class="form-input" value="210102045" placeholder="Masukkan NIM atau NIP..." required>
+          <label class="form-label" for="loginIdInput">Nomor Induk Mahasiswa / Dosen (NPM / NIP)</label>
+          <input type="text" id="loginIdInput" class="form-input" value="2420506041" placeholder="Masukkan NPM atau NIP..." required style="font-family: var(--font-mono);">
         </div>
 
         <div class="form-group">
-          <label class="form-label">Kata Sandi</label>
-          <input type="password" class="form-input" value="password123" placeholder="••••••••" required>
+          <label class="form-label" for="loginPasswordInput">Kata Sandi Akun SSO UNTIDAR</label>
+          <input type="password" id="loginPasswordInput" class="form-input" value="password123" placeholder="••••••••" required>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 10px;">
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 10px; background: var(--navy-900);">
           Masuk ke Portal
         </button>
       </form>
 
-      <!-- Quick Role Selection for Demonstration -->
+      <!-- Quick Officer Selection with Real UNTIDAR Names -->
       <div style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border-strong);">
         <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); text-align: center; margin-bottom: 12px;">
-          Pilih Peran untuk Evaluasi Cepat:
+          PILIH AKUN PEJABAT / PENGGUNA RESMI:
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-          <button class="btn btn-outline btn-sm" onclick="loginAs('ketua')">Ketua Organisasi</button>
-          <button class="btn btn-outline btn-sm" onclick="loginAs('pembina')">Dosen Pembina</button>
-          <button class="btn btn-outline btn-sm" onclick="loginAs('mahasiswa')">Mahasiswa</button>
-          <button class="btn btn-outline btn-sm" onclick="loginAs('admin')">Admin Kampus</button>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn btn-outline btn-sm" style="text-align: left; justify-content: flex-start; padding: 10px 14px;" onclick="loginAs('sekretaris')">
+            <span style="display: inline-block; width: 26px; height: 26px; border-radius: 4px; background: #0284c7; color: white; text-align: center; line-height: 26px; font-weight: 800; font-size: 0.75rem; margin-right: 8px;">HA</span>
+            <div>
+              <div style="font-weight: 800; color: var(--navy-900);">Hanif Abdillah Alatas</div>
+              <div style="font-size: 0.72rem; color: var(--text-secondary);">Sekretaris Panitia &bull; NPM. 2420506041</div>
+            </div>
+          </button>
+
+          <button class="btn btn-outline btn-sm" style="text-align: left; justify-content: flex-start; padding: 10px 14px;" onclick="loginAs('ketua_pelaksana')">
+            <span style="display: inline-block; width: 26px; height: 26px; border-radius: 4px; background: #2563eb; color: white; text-align: center; line-height: 26px; font-weight: 800; font-size: 0.75rem; margin-right: 8px;">EH</span>
+            <div>
+              <div style="font-weight: 800; color: var(--navy-900);">Emannuel Henji Pratama Putra</div>
+              <div style="font-size: 0.72rem; color: var(--text-secondary);">Ketua Pelaksana &bull; NPM. 2505060012</div>
+            </div>
+          </button>
+
+          <button class="btn btn-outline btn-sm" style="text-align: left; justify-content: flex-start; padding: 10px 14px;" onclick="loginAs('ketua_himatif')">
+            <span style="display: inline-block; width: 26px; height: 26px; border-radius: 4px; background: #1e3a8a; color: white; text-align: center; line-height: 26px; font-weight: 800; font-size: 0.75rem; margin-right: 8px;">NM</span>
+            <div>
+              <div style="font-weight: 800; color: var(--navy-900);">Naufal Miftakhul Siddiq</div>
+              <div style="font-size: 0.72rem; color: var(--text-secondary);">Ketua HIMATIF UNTIDAR &bull; NPM. 2440506060</div>
+            </div>
+          </button>
+
+          <button class="btn btn-outline btn-sm" style="text-align: left; justify-content: flex-start; padding: 10px 14px;" onclick="loginAs('wadek')">
+            <span style="display: inline-block; width: 26px; height: 26px; border-radius: 4px; background: #991b1b; color: white; text-align: center; line-height: 26px; font-weight: 800; font-size: 0.75rem; margin-right: 8px;">SI</span>
+            <div>
+              <div style="font-weight: 800; color: var(--navy-900);">Dr. Sigit Iswahyudi, S.T., M.T.</div>
+              <div style="font-size: 0.72rem; color: var(--text-secondary);">Wakil Dekan Bid. Akademik & Kemahasiswaan FT &bull; NIP. 197510302021211005</div>
+            </div>
+          </button>
         </div>
       </div>
     </div>
 
-    <div style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: var(--text-tertiary);">
-      Layanan Publik: <a href="verify.html" style="color: var(--blue-600); font-weight: 600;">Cek QR Code Tanpa Login &rarr;</a>
+    <div style="text-align: center; margin-top: 20px; font-size: 0.82rem; color: var(--text-secondary);">
+      Petugas Keamanan Kampus / Satpam: <a href="verify.html" style="color: var(--blue-600); font-weight: 700; text-decoration: none;">Verifikasi QR Surat Tanpa Login &rarr;</a>
     </div>
   </div>
 
   <script src="js/shared.js"></script>
   <script>
+    function handleRegularLogin(e) {
+      e.preventDefault();
+      const idVal = document.getElementById('loginIdInput').value.trim();
+      if (idVal.includes('1975')) {
+        loginAs('wadek');
+      } else if (idVal.includes('2440')) {
+        loginAs('ketua_himatif');
+      } else if (idVal.includes('2505')) {
+        loginAs('ketua_pelaksana');
+      } else {
+        loginAs('sekretaris');
+      }
+    }
+
     function loginAs(role) {
       setCurrentRole(role);
-      showToast(`Masuk sebagai ${role}`);
+      const prof = getUserProfileByRole(role);
+      showToast(`Masuk sebagai: ${prof.name} (${prof.roleLabel})`);
       setTimeout(() => {
         window.location.href = 'index.html';
-      }, 300);
+      }, 350);
     }
   </script>
 </body>
