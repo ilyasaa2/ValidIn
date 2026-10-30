@@ -123,7 +123,7 @@
       const approvedCount = docs.filter(d => d.status === 'disetujui').length;
       const wadekCount = docs.filter(d => d.status === 'menunggu_pembina').length;
       const himatifCount = docs.filter(d => d.status === 'menunggu_ketua').length;
-      const panitiaCount = docs.filter(d => d.status === 'menunggu_sekretaris' || d.status === 'menunggu_pelaksana').length;
+      const panitiaCount = docs.filter(d => d.status === 'menunggu_sekretaris' || d.status === 'menunggu_pelaksana' || d.status === 'revisi').length;
 
       const container = document.getElementById('archiveTabsContainer');
       container.innerHTML = `
@@ -140,7 +140,7 @@
           Menunggu HIMATIF <span class="archive-tab-badge">${himatifCount}</span>
         </button>
         <button class="archive-tab-btn ${activeArchiveTab === 'panitia' ? 'active' : ''}" onclick="setArchiveTab('panitia')">
-          Tahap Panitia Pelaksana <span class="archive-tab-badge">${panitiaCount}</span>
+          Tahap Panitia / Revisi <span class="archive-tab-badge">${panitiaCount}</span>
         </button>
       `;
     }
@@ -166,7 +166,7 @@
         if (activeArchiveTab === 'disetujui') matchTab = (d.status === 'disetujui');
         else if (activeArchiveTab === 'menunggu_pembina') matchTab = (d.status === 'menunggu_pembina');
         else if (activeArchiveTab === 'menunggu_ketua') matchTab = (d.status === 'menunggu_ketua');
-        else if (activeArchiveTab === 'panitia') matchTab = (d.status === 'menunggu_sekretaris' || d.status === 'menunggu_pelaksana');
+        else if (activeArchiveTab === 'panitia') matchTab = (d.status === 'menunggu_sekretaris' || d.status === 'menunggu_pelaksana' || d.status === 'revisi');
 
         return matchQ && matchTab;
       });
@@ -199,7 +199,11 @@
           <td>${getStatusBadgeMarkup(doc.status)}</td>
           <td><code style="font-family: var(--font-mono); font-size: 0.74rem; background: var(--bg-subtle); padding: 3px 6px; border-radius: var(--radius-xs);">${doc.qrToken.substring(0, 13)}...</code></td>
           <td style="text-align: right; white-space: nowrap;">
-            <a href="review.html?id=${doc.id}" class="btn btn-outline btn-sm">Buka</a>
+            ${doc.status === 'revisi' ? `
+              <a href="review.html?id=${doc.id}&action=edit" class="btn btn-warning btn-sm" style="background: #d97706; border-color: #d97706; color: white; font-weight: 700;">✏️ Perbaiki</a>
+            ` : `
+              <a href="review.html?id=${doc.id}" class="btn btn-outline btn-sm">Buka</a>
+            `}
             ${doc.status === 'disetujui' ? `<a href="verify.html?token=${doc.qrToken}" class="btn btn-outline btn-sm" style="color: var(--seal-green); border-color: var(--seal-green);">Cek QR</a>` : ''}
           </td>
         `;

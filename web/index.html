@@ -206,9 +206,10 @@
       let myActionLabel = '';
 
       if (role === 'sekretaris') {
-        myActionCount = pendingSekretaris;
-        myActionStatusKey = 'menunggu_sekretaris';
-        myActionLabel = 'Perlu Paraf Sekretaris';
+        const revisiCount = docs.filter(d => d.status === 'revisi').length;
+        myActionCount = pendingSekretaris + revisiCount;
+        myActionStatusKey = revisiCount > 0 ? 'revisi' : 'menunggu_sekretaris';
+        myActionLabel = revisiCount > 0 ? 'Perlu Perbaikan / Paraf' : 'Perlu Paraf Sekretaris';
       } else if (role === 'ketua_pelaksana') {
         myActionCount = pendingPelaksana;
         myActionStatusKey = 'menunggu_pelaksana';
@@ -295,7 +296,10 @@
         let actionBtnMarkup = '';
         let isNeedsMyAction = false;
 
-        if (role === 'sekretaris' && doc.status === 'menunggu_sekretaris') {
+        if (role === 'sekretaris' && doc.status === 'revisi') {
+          isNeedsMyAction = true;
+          actionBtnMarkup = `<a href="review.html?id=${doc.id}&action=edit" class="btn btn-warning btn-sm" style="background: #d97706; border-color: #d97706; color: white; font-weight: 700;">✏️ Perbaiki Surat &rarr;</a>`;
+        } else if (role === 'sekretaris' && doc.status === 'menunggu_sekretaris') {
           isNeedsMyAction = true;
           actionBtnMarkup = `<a href="review.html?id=${doc.id}" class="btn btn-primary btn-sm" style="background: #0284c7; border-color: #0284c7;">Paraf Draf &rarr;</a>`;
         } else if (role === 'ketua_pelaksana' && doc.status === 'menunggu_pelaksana') {
@@ -307,6 +311,8 @@
         } else if (role === 'wadek' && doc.status === 'menunggu_pembina') {
           isNeedsMyAction = true;
           actionBtnMarkup = `<a href="review.html?id=${doc.id}" class="btn btn-success btn-sm">Beri Disposisi & QR &rarr;</a>`;
+        } else if (doc.status === 'revisi') {
+          actionBtnMarkup = `<a href="review.html?id=${doc.id}&action=edit" class="btn btn-warning btn-sm" style="background: #d97706; border-color: #d97706; color: white;">✏️ Perbaiki Surat &rarr;</a>`;
         } else if (doc.status === 'disetujui') {
           actionBtnMarkup = `<a href="review.html?id=${doc.id}" class="btn btn-outline btn-sm" style="border-color: var(--seal-green); color: var(--seal-green);">Lihat Surat Sah & QR</a>`;
         } else {
@@ -315,7 +321,7 @@
 
         const tr = document.createElement('tr');
         if (isNeedsMyAction) {
-          tr.style.backgroundColor = '#fffbeb';
+          tr.style.backgroundColor = doc.status === 'revisi' ? '#fffbeb' : '#f0f9ff';
         }
 
         tr.innerHTML = `
@@ -323,7 +329,7 @@
             <div style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-secondary);">${doc.regNumber}</div>
             <a href="review.html?id=${doc.id}" style="font-weight: 700; color: var(--text-primary); text-decoration: none; font-size: 0.92rem;">${doc.title}</a>
             <div style="font-size: 0.78rem; color: var(--blue-600); font-weight: 600;">${doc.eventName}</div>
-            ${isNeedsMyAction ? `<div class="action-attention-badge">★ Menunggu Tindakan Akun Anda</div>` : ''}
+            ${doc.status === 'revisi' ? `<div class="action-attention-badge" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a;">⚠️ Perlu Perbaikan: ${doc.revisionNotes || 'Harap periksa rincian permohonan'}</div>` : (isNeedsMyAction ? `<div class="action-attention-badge">★ Menunggu Tindakan Akun Anda</div>` : '')}
           </td>
           <td><span class="badge-status badge-type">${doc.type}</span></td>
           <td>

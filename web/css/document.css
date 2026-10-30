@@ -529,7 +529,10 @@
   .page-header-row,
   .btn,
   #toastContainer,
-  #dispositionModal {
+  #dispositionModal,
+  #editDocModal,
+  .revision-banner,
+  #revisionAlertCallout {
     display: none !important;
   }
 

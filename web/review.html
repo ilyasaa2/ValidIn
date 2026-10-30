@@ -48,6 +48,10 @@
         <p>Pemeriksaan dan penandatanganan berjenjang permohonan resmi HIMATIF Fakultas Teknik Universitas Tidar.</p>
       </div>
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button id="btnTopEditDoc" class="btn btn-warning" onclick="openEditModal()" style="display: none; background: #d97706; border-color: #d97706; color: white;">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          Edit & Perbaiki Surat
+        </button>
         <button class="btn btn-outline" onclick="window.print()">
           <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
           Cetak Surat Resmi
@@ -59,6 +63,28 @@
     <div class="review-grid">
       <!-- Left: Desk Viewport & Authentic Paper -->
       <div class="desk-viewport">
+        <!-- Prominent Revision Banner (Shown when doc.status === 'revisi') -->
+        <div id="revisionAlertCallout" style="display: none; width: 100%; max-width: 740px; margin-bottom: 18px; background: #fffbeb; border: 1.5px solid #f59e0b; border-radius: var(--radius-sm); padding: 16px 20px; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.15);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 260px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="badge-status badge-revision" style="font-size: 0.74rem; padding: 2px 8px;">PERLU PERBAIKAN / REVISI</span>
+                <span style="font-size: 0.78rem; font-weight: 700; color: #b45309;">Catatan Peninjau Dokumen</span>
+              </div>
+              <div style="margin-top: 8px; font-size: 0.88rem; color: #78350f; font-weight: 600; line-height: 1.45; background: #fef3c7; border-left: 3.5px solid #d97706; padding: 8px 12px; border-radius: 4px;">
+                &ldquo;<span id="revisionNotesText">Harap sesuaikan tanggal kegiatan dan rincian ruangan kelas yang dipinjam.</span>&rdquo;
+              </div>
+              <div style="font-size: 0.78rem; color: #92400e; margin-top: 8px; line-height: 1.4;">
+                💡 <strong>Fitur Edit Langsung:</strong> Anda dapat langsung memperbaiki data surat ini di web tanpa perlu menghapus berkas atau mengulang proses unggah dari awal.
+              </div>
+            </div>
+            <button type="button" class="btn btn-warning" onclick="openEditModal()" style="background: #d97706; border-color: #d97706; color: white; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; margin-top: 2px; padding: 9px 16px;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              Edit & Perbaiki Surat Sekarang
+            </button>
+          </div>
+        </div>
+
         <div class="desk-controls">
           <span>FORMAT DOKUMEN RESMI UNTIDAR HIMATIF</span>
           <span>HALAMAN 1/1</span>
@@ -257,6 +283,112 @@
     </div>
   </div>
 
+  <!-- Direct Inline Edit Modal for Letter Revision -->
+  <div id="editDocModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 110; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: var(--radius-md); max-width: 740px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px; box-shadow: var(--shadow-modal); position: relative;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--navy-900); margin: 0; display: flex; align-items: center; gap: 8px;">
+            <span>✏️</span> Sunting & Perbaiki Lembar Surat Resmi
+          </h3>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 4px 0 0 0;">Perbarui data surat langsung di portal web tanpa harus menghapus berkas atau mengunggah ulang.</p>
+        </div>
+        <button type="button" onclick="closeEditModal()" style="background: none; border: none; font-size: 1.6rem; line-height: 1; cursor: pointer; color: var(--text-tertiary); padding: 0 4px;" title="Tutup Modal">&times;</button>
+      </div>
+
+      <div id="modalRevisionCallout" style="display: none; background: #fffbeb; border-left: 4px solid #d97706; padding: 12px 14px; border-radius: 4px; margin-bottom: 18px;">
+        <div style="font-size: 0.76rem; font-weight: 700; color: #b45309; text-transform: uppercase;">📌 Catatan Revisi yang Harus Diperbaiki:</div>
+        <div id="modalRevisionText" style="font-size: 0.86rem; color: #78350f; font-weight: 600; margin-top: 3px; font-style: italic;">-</div>
+      </div>
+
+      <form id="editLetterForm" onsubmit="saveDocumentEdits(event)">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="editRegNumber">Nomor Registrasi Surat</label>
+            <input type="text" id="editRegNumber" class="form-input" style="font-family: var(--font-mono); font-size: 0.82rem; background: #f8fafc;" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="editDocType">Kategori Surat Permohonan *</label>
+            <select id="editDocType" class="form-select" required>
+              <option value="Permohonan Izin Kegiatan">Permohonan Izin Kegiatan Resmi Ormawa</option>
+              <option value="Peminjaman Tempat / Gedung">Peminjaman Gedung FT 03 / Ruang Kelas</option>
+              <option value="Peminjaman Fasilitas / Alat">Peminjaman Fasilitas / Sound & Mikrofon</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editDocTitle">Perihal / Judul Surat *</label>
+          <input type="text" id="editDocTitle" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editEventName">Nama Program Kerja / Kegiatan *</label>
+          <input type="text" id="editEventName" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editDestination">Tujuan Surat Kepada *</label>
+          <input type="text" id="editDestination" class="form-input" required placeholder="Contoh: Yth. Wakil Rektor Bidang Kemahasiswaan dan Alumni di Universitas Tidar">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="editEventDate">Hari & Tanggal Pelaksanaan *</label>
+            <input type="text" id="editEventDate" class="form-input" required placeholder="Contoh: Minggu dan Sabtu, 27 September dan 3 Oktober 2026">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="editEventTime">Waktu Peminjaman *</label>
+            <input type="text" id="editEventTime" class="form-input" required placeholder="Contoh: 06.00 - 13.00 WIB">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editLocation">Tempat / Ruangan yang Dipinjam *</label>
+          <input type="text" id="editLocation" class="form-input" required placeholder="Contoh: Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editBorrowedItems">Rincian Fasilitas / Barang Pinjaman *</label>
+          <textarea id="editBorrowedItems" class="form-textarea" rows="2" required placeholder="Contoh: Izin kegiatan dan permohonan keamanan kampus"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editContactPerson">Nomor Contact Person (CP) *</label>
+          <input type="text" id="editContactPerson" class="form-input" required placeholder="Contoh: +62 851-8470-9553 (Ilyasa)">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-light);">
+          <div>
+            <div style="font-size: 0.74rem; font-weight: 700; color: var(--text-tertiary); margin-bottom: 6px;">DATA SEKRETARIS PANITIA</div>
+            <div class="form-group" style="margin-bottom: 8px;">
+              <input type="text" id="editSecretaryName" class="form-input" placeholder="Nama Sekretaris" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <input type="text" id="editSecretaryNim" class="form-input" placeholder="NPM Sekretaris" required>
+            </div>
+          </div>
+          <div>
+            <div style="font-size: 0.74rem; font-weight: 700; color: var(--text-tertiary); margin-bottom: 6px;">DATA KETUA PELAKSANA</div>
+            <div class="form-group" style="margin-bottom: 8px;">
+              <input type="text" id="editSubmitterName" class="form-input" placeholder="Nama Ketua Pelaksana" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <input type="text" id="editSubmitterNim" class="form-input" placeholder="NPM Ketua Pelaksana" required>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--border-light);">
+          <button type="button" class="btn btn-outline" onclick="closeEditModal()">Batal</button>
+          <button type="submit" class="btn btn-warning" style="background: #d97706; border-color: #d97706; color: white; font-weight: 700; padding: 10px 18px;">
+            💾 Simpan Perbaikan & Lanjutkan Pengesahan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <footer class="site-footer" id="siteFooter"></footer>
 
   <script src="js/shared.js"></script>
@@ -278,6 +410,10 @@
       }
 
       renderReviewView();
+
+      if (urlParams.get('edit') === 'true' || urlParams.get('action') === 'edit') {
+        setTimeout(openEditModal, 150);
+      }
     });
 
     function applyPreset(text) {
@@ -296,6 +432,24 @@
     function renderReviewView() {
       const doc = activeDoc;
       const role = getCurrentRole();
+
+      // Revision Notice Banner & Top Edit Button
+      const revCallout = document.getElementById('revisionAlertCallout');
+      const revText = document.getElementById('revisionNotesText');
+      const topEditBtn = document.getElementById('btnTopEditDoc');
+
+      if (doc.status === 'revisi') {
+        if (revCallout) revCallout.style.display = 'block';
+        if (revText) revText.textContent = doc.revisionNotes || 'Harap perbaiki rincian ruangan kelas dan jadwal pelaksanaan kegiatan.';
+        if (topEditBtn) topEditBtn.style.display = 'inline-flex';
+      } else {
+        if (revCallout) revCallout.style.display = 'none';
+        if (role === 'sekretaris' && doc.status !== 'disetujui') {
+          if (topEditBtn) topEditBtn.style.display = 'inline-flex';
+        } else {
+          if (topEditBtn) topEditBtn.style.display = 'none';
+        }
+      }
 
       // Meta & Titles
       document.getElementById('breadDocNumber').textContent = doc.regNumber;
@@ -382,12 +536,28 @@
 
     function renderAuditTrail() {
       const doc = activeDoc;
+      const isRevision = doc.status === 'revisi';
       const hasSecretary = !!doc.secretaryApproval;
       const hasPelaksana = !!doc.pelaksanaApproval;
       const hasKetua = doc.status === 'menunggu_pembina' || doc.status === 'disetujui' || !!doc.ketuaApproval;
       const isApproved = doc.status === 'disetujui';
 
+      let revisionCalloutAudit = '';
+      if (isRevision) {
+        revisionCalloutAudit = `
+          <div style="background: #fffbeb; border: 1.5px solid #f59e0b; border-radius: var(--radius-xs); padding: 10px 12px; margin-bottom: 12px;">
+            <div style="font-weight: 800; font-size: 0.78rem; color: #b45309; display: flex; align-items: center; gap: 5px;">
+              <span>⚠️</span> Alur Terjeda: Menunggu Revisi Panitia
+            </div>
+            <div style="font-size: 0.74rem; color: #78350f; margin-top: 3px; font-style: italic;">
+              Catatan: &ldquo;${doc.revisionNotes || 'Harap sesuaikan rincian data permohonan.'}&rdquo;
+            </div>
+          </div>
+        `;
+      }
+
       document.getElementById('auditTrailContainer').innerHTML = `
+        ${revisionCalloutAudit}
         <div class="audit-step ${hasSecretary ? 'done' : 'active'}">
           <div class="audit-marker">${hasSecretary ? '✓' : '1'}</div>
           <div class="audit-info">
@@ -396,7 +566,7 @@
           </div>
         </div>
 
-        <div class="audit-step ${hasPelaksana ? 'done' : (hasSecretary ? 'active' : '')}">
+        <div class="audit-step ${hasPelaksana ? 'done' : (hasSecretary && !isRevision ? 'active' : '')}">
           <div class="audit-marker">${hasPelaksana ? '✓' : '2'}</div>
           <div class="audit-info">
             <div class="audit-label">Tanda Tangan Ketua Pelaksana</div>
@@ -404,7 +574,7 @@
           </div>
         </div>
 
-        <div class="audit-step ${hasKetua ? 'done' : (hasPelaksana ? 'active' : '')}">
+        <div class="audit-step ${hasKetua ? 'done' : (hasPelaksana && !isRevision ? 'active' : '')}">
           <div class="audit-marker">${hasKetua ? '✓' : '3'}</div>
           <div class="audit-info">
             <div class="audit-label">Paraf & Cap Ketua HIMATIF</div>
@@ -412,7 +582,7 @@
           </div>
         </div>
 
-        <div class="audit-step ${isApproved ? 'done' : (hasKetua ? 'active' : '')}">
+        <div class="audit-step ${isApproved ? 'done' : (hasKetua && !isRevision ? 'active' : '')}">
           <div class="audit-marker">${isApproved ? '✓' : '4'}</div>
           <div class="audit-info">
             <div class="audit-label">Disposisi & Pengesahan Wadek FT</div>
@@ -434,6 +604,40 @@
       const doc = activeDoc;
       const role = getCurrentRole();
       const container = document.getElementById('actionButtonsContainer');
+
+      if (doc.status === 'revisi') {
+        container.innerHTML = `
+          <div style="background: #fffbeb; border: 1.5px solid #f59e0b; padding: 14px; border-radius: var(--radius-sm); margin-bottom: 12px;">
+            <div style="font-weight: 800; color: #b45309; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+              <span>⚠️</span> Perlu Perbaikan / Revisi
+            </div>
+            <div style="font-size: 0.8rem; color: #92400e; margin-top: 6px; line-height: 1.45;">
+              <strong>Catatan dari Peninjau:</strong>
+              <div style="background: #fef3c7; border-left: 3px solid #d97706; padding: 6px 10px; margin-top: 4px; border-radius: 3px; font-style: italic;">
+                "${doc.revisionNotes || 'Harap perbaiki rincian ruangan kelas dan jadwal pelaksanaan kegiatan.'}"
+              </div>
+            </div>
+            <div style="font-size: 0.74rem; color: #b45309; margin-top: 8px;">
+              💡 <em>Anda dapat langsung menyunting draf di portal web tanpa harus menghapus berkas atau mengulang proses unggah dokumen.</em>
+            </div>
+          </div>
+
+          <button class="btn btn-warning" style="width: 100%; font-weight: 700; background: #d97706; border-color: #d97706; color: white; padding: 10px 14px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="openEditModal()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            Edit & Perbaiki Surat di Sini
+          </button>
+
+          ${role !== 'sekretaris' ? `
+            <div class="quick-role-switch-banner" style="margin-top: 12px;">
+              <strong>Penyusun Berkas:</strong> Sekretaris Panitia (Hanif Abdillah Alatas).
+              <button class="btn btn-outline btn-sm" style="width: 100%; margin-top: 6px;" onclick="switchRoleAndSign('sekretaris')">
+                Beralih ke Hanif (Sekretaris) &rarr;
+              </button>
+            </div>
+          ` : ''}
+        `;
+        return;
+      }
 
       if (role === 'sekretaris') {
         if (!doc.secretaryApproval) {
@@ -630,6 +834,94 @@
         showToast('Status surat diubah menjadi revisi.');
         renderReviewView();
       }
+    }
+
+    function openEditModal() {
+      if (!activeDoc) return;
+      document.getElementById('editRegNumber').value = activeDoc.regNumber || '';
+      document.getElementById('editDocType').value = activeDoc.type || 'Permohonan Izin Kegiatan';
+      document.getElementById('editDocTitle').value = activeDoc.title || '';
+      document.getElementById('editEventName').value = activeDoc.eventName || '';
+      document.getElementById('editDestination').value = activeDoc.destination || '';
+      document.getElementById('editEventDate').value = activeDoc.eventDate || '';
+      document.getElementById('editEventTime').value = activeDoc.eventTime || '';
+      document.getElementById('editLocation').value = activeDoc.location || '';
+      document.getElementById('editBorrowedItems').value = activeDoc.borrowedItems || '';
+      document.getElementById('editContactPerson').value = activeDoc.contactPerson || '';
+      document.getElementById('editSecretaryName').value = activeDoc.secretaryName || 'Hanif Abdillah Alatas';
+      document.getElementById('editSecretaryNim').value = activeDoc.secretaryNim || '2420506041';
+      document.getElementById('editSubmitterName').value = activeDoc.submitterName || 'Emannuel Henji Pratama Putra';
+      document.getElementById('editSubmitterNim').value = activeDoc.submitterNim || '2505060012';
+
+      const modalRev = document.getElementById('modalRevisionCallout');
+      const modalRevText = document.getElementById('modalRevisionText');
+      if (activeDoc.status === 'revisi') {
+        modalRev.style.display = 'block';
+        modalRevText.textContent = activeDoc.revisionNotes || 'Harap perbaiki rincian ruangan kelas dan jadwal pelaksanaan kegiatan.';
+      } else {
+        modalRev.style.display = 'none';
+      }
+
+      document.getElementById('editDocModal').style.display = 'flex';
+    }
+
+    function closeEditModal() {
+      document.getElementById('editDocModal').style.display = 'none';
+    }
+
+    function saveDocumentEdits(e) {
+      if (e) e.preventDefault();
+      if (!activeDoc) return;
+
+      activeDoc.type = document.getElementById('editDocType').value;
+      activeDoc.title = document.getElementById('editDocTitle').value.trim();
+      activeDoc.eventName = document.getElementById('editEventName').value.trim();
+      activeDoc.destination = document.getElementById('editDestination').value.trim();
+      activeDoc.eventDate = document.getElementById('editEventDate').value.trim();
+      activeDoc.eventTime = document.getElementById('editEventTime').value.trim();
+      activeDoc.location = document.getElementById('editLocation').value.trim();
+      activeDoc.borrowedItems = document.getElementById('editBorrowedItems').value.trim();
+      activeDoc.contactPerson = document.getElementById('editContactPerson').value.trim();
+      activeDoc.secretaryName = document.getElementById('editSecretaryName').value.trim();
+      activeDoc.secretaryNim = document.getElementById('editSecretaryNim').value.trim();
+      activeDoc.submitterName = document.getElementById('editSubmitterName').value.trim();
+      activeDoc.submitterNim = document.getElementById('editSubmitterNim').value.trim();
+
+      const wasRevision = (activeDoc.status === 'revisi');
+
+      if (wasRevision) {
+        if (!activeDoc.revisionHistory) activeDoc.revisionHistory = [];
+        activeDoc.revisionHistory.push({
+          note: activeDoc.revisionNotes || 'Perbaikan data formulir surat',
+          resolvedAt: '30 Oktober 2026',
+          resolvedBy: activeDoc.secretaryName
+        });
+
+        // Re-advance to Ketua Pelaksana
+        activeDoc.status = 'menunggu_pelaksana';
+        activeDoc.revisionNotes = ''; // clear active notice
+        activeDoc.secretaryApproval = {
+          by: activeDoc.secretaryName,
+          npm: activeDoc.secretaryNim,
+          at: '30 Oktober 2026 (Revisi Disimpan)'
+        };
+        // Reset subsequent approvals so the newly edited document is cleanly signed with the latest content
+        activeDoc.pelaksanaApproval = null;
+        activeDoc.ketuaApproval = null;
+        activeDoc.pembinaApproval = null;
+        activeDoc.dispositionNote = '';
+      }
+
+      saveDoc(activeDoc);
+      closeEditModal();
+
+      if (wasRevision) {
+        showToast('✓ Berkas berhasil diperbaiki! Draf telah diperbarui dan dialihkan ke Ketua Pelaksana untuk ditandatangani ulang.');
+      } else {
+        showToast('✓ Perubahan data surat berhasil disimpan!');
+      }
+
+      renderReviewView();
     }
   </script>
 </body>
