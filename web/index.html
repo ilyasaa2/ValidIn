@@ -147,24 +147,30 @@
       document.getElementById('bannerOfficerDuty').textContent = profile.dutyDesc;
 
       const bannerAction = document.getElementById('bannerActionBtn');
-      if (role === 'sekretaris' || role === 'ketua_pelaksana') {
+      if (role === 'sekretaris') {
         bannerAction.innerHTML = `
           <a href="submit.html" class="btn btn-secondary btn-lg" style="white-space: nowrap;">
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            + Buat Surat Permohonan
+            + Buat & Unggah Surat Baru
           </a>
+        `;
+      } else if (role === 'ketua_pelaksana') {
+        bannerAction.innerHTML = `
+          <button onclick="setStatusFilter('menunggu_pelaksana')" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white; white-space: nowrap;">
+            Periksa Surat Perlu Tanda Tangan &rarr;
+          </button>
         `;
       } else if (role === 'ketua_himatif') {
         bannerAction.innerHTML = `
-          <a href="profile.html" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white; white-space: nowrap;">
-            Lihat Cap Resmi HIMATIF &rarr;
-          </a>
+          <button onclick="setStatusFilter('menunggu_ketua')" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white; white-space: nowrap;">
+            Periksa Antrean Cap HIMATIF &rarr;
+          </button>
         `;
       } else {
         bannerAction.innerHTML = `
-          <a href="archive.html" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white; white-space: nowrap;">
-            Arsip Lengkap FT UNTIDAR &rarr;
-          </a>
+          <button onclick="setStatusFilter('menunggu_pembina')" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white; white-space: nowrap;">
+            Buka Meja Disposisi Wadek FT &rarr;
+          </button>
         `;
       }
     }

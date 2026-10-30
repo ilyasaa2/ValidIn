@@ -64,6 +64,21 @@
     </div>
 
     <div class="form-card">
+      <!-- Non-Secretary Role Alert -->
+      <div id="roleAccessNotice" style="display: none; background: #fffbeb; border: 1.5px solid #fde047; padding: 14px 18px; border-radius: var(--radius-sm); margin-bottom: 20px;">
+        <div style="font-weight: 800; color: #b45309; font-size: 0.88rem;">
+          ⚠️ Perhatian Hak Akses: Anda sedang aktif sebagai <span id="currentRoleAlertName">-</span>
+        </div>
+        <div style="font-size: 0.82rem; color: #92400e; margin-top: 4px; line-height: 1.4;">
+          Sesuai tata persuratan resmi HIMATIF UNTIDAR, penyusunan dan pengunggahan berkas permohonan baru adalah wewenang <strong>Sekretaris Panitia (Hanif Abdillah Alatas)</strong>.
+          <div style="margin-top: 8px;">
+            <button type="button" class="btn btn-outline btn-sm" style="border-color: #b45309; color: #b45309; background: white;" onclick="switchToSekretaris()">
+              Beralih ke Akun Sekretaris Panitia &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Quick Template Autofill Buttons -->
       <div class="template-selector-box">
         <div style="font-size: 0.76rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 8px;">
@@ -154,18 +169,13 @@
           </div>
         </div>
 
-        <!-- Initial Status Option -->
-        <div class="form-group" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: var(--radius-sm);">
-          <label class="form-label">Tindakan Pengajuan Alur Surat:</label>
-          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
-            <label style="font-size: 0.86rem; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="initAction" value="as_sekretaris" checked>
-              <span><strong>Simpan & Bubuhi Paraf Sekretaris</strong> (Diteruskan ke Ketua Pelaksana untuk ditandatangani)</span>
-            </label>
-            <label style="font-size: 0.86rem; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="radio" name="initAction" value="as_pelaksana">
-              <span><strong>Tandatangani Langsung sebagai Pelaksana</strong> (Diteruskan ke Ketua HIMATIF UNTIDAR)</span>
-            </label>
+        <!-- Secretary Direct Submission Info -->
+        <div class="form-group" style="background: #eff6ff; border: 1.5px solid #bfdbfe; padding: 14px 18px; border-radius: var(--radius-sm);">
+          <div style="font-weight: 800; color: #1e3a8a; font-size: 0.86rem; margin-bottom: 4px;">
+            Alur Pengesahan Berjenjang (Tahap 1):
+          </div>
+          <div style="font-size: 0.82rem; color: #1e40af; line-height: 1.45;">
+            Surat disusun dan diunggah langsung oleh <strong>Sekretaris Panitia (Hanif Abdillah Alatas)</strong>. Setelah dikirim, surat otomatis dibubuhi paraf kesekretariatan dan diteruskan ke meja <strong>Ketua Pelaksana (Emannuel Henji Pratama Putra)</strong> untuk ditandatangani.
           </div>
         </div>
 
@@ -206,10 +216,20 @@
 
     function adaptToLoggedInUser() {
       const role = getCurrentRole();
-      if (role === 'ketua_pelaksana') {
-        const radios = document.getElementsByName('initAction');
-        if (radios[1]) radios[1].checked = true;
+      const prof = getUserProfileByRole(role);
+      const alertBox = document.getElementById('roleAccessNotice');
+      if (role !== 'sekretaris') {
+        alertBox.style.display = 'block';
+        document.getElementById('currentRoleAlertName').textContent = `${prof.name} (${prof.roleLabel})`;
+      } else {
+        alertBox.style.display = 'none';
       }
+    }
+
+    function switchToSekretaris() {
+      setCurrentRole('sekretaris');
+      showToast('Beralih ke akun Hanif Abdillah Alatas (Sekretaris Panitia)');
+      setTimeout(() => window.location.reload(), 300);
     }
 
     function applyFormTemplate(type) {
@@ -266,8 +286,6 @@
       const borrowedItems = document.getElementById('borrowedItems').value;
       const contactPerson = document.getElementById('contactPerson').value;
 
-      const initAction = document.querySelector('input[name="initAction"]:checked').value;
-
       const rand = Math.floor(30 + Math.random() * 69);
       let code = 'PM';
       if (docType.includes('Kegiatan')) code = 'PH';
@@ -276,30 +294,14 @@
       const newReg = `0${rand}.a/E/${code}/HIMATIF/UNTIDAR/X/2026`;
       const newUUID = '9a' + Math.random().toString(36).substring(2, 10) + '-4e81-8b29-' + Math.random().toString(36).substring(2, 12);
 
-      let secretaryApproval = null;
-      let pelaksanaApproval = null;
-      let initStatus = 'menunggu_pelaksana';
-
-      if (initAction === 'as_sekretaris') {
-        secretaryApproval = {
-          by: secretaryName,
-          npm: secretaryNim,
-          at: '30 Oktober 2026'
-        };
-        initStatus = 'menunggu_pelaksana';
-      } else {
-        secretaryApproval = {
-          by: secretaryName,
-          npm: secretaryNim,
-          at: '30 Oktober 2026'
-        };
-        pelaksanaApproval = {
-          by: submitterName,
-          npm: submitterNim,
-          at: '30 Oktober 2026'
-        };
-        initStatus = 'menunggu_ketua';
-      }
+      // Secretary signs initial draft; advances to Ketua Pelaksana
+      const secretaryApproval = {
+        by: secretaryName,
+        npm: secretaryNim,
+        at: '30 Oktober 2026'
+      };
+      const pelaksanaApproval = null;
+      const initStatus = 'menunggu_pelaksana';
 
       const newDoc = {
         id: newId,

@@ -369,9 +369,8 @@ function renderHeader(activePage = 'dashboard') {
   } else if (currentRole === 'ketua_pelaksana') {
     navItems = `
       <a href="index.html" class="nav-link ${activePage === 'dashboard' ? 'active' : ''}">Persetujuan Pelaksana</a>
-      <a href="submit.html" class="nav-link ${activePage === 'submit' ? 'active' : ''}">+ Ajukan Surat Baru</a>
-      <a href="archive.html" class="nav-link ${activePage === 'archive' ? 'active' : ''}">Arsip Surat</a>
-      <a href="profile.html" class="nav-link ${activePage === 'profile' ? 'active' : ''}">Profil & Cap</a>
+      <a href="archive.html" class="nav-link ${activePage === 'archive' ? 'active' : ''}">Arsip Surat Panitia</a>
+      <a href="profile.html" class="nav-link ${activePage === 'profile' ? 'active' : ''}">Profil & Cap Panitia</a>
       <a href="verify.html" class="nav-link ${activePage === 'verify' ? 'active' : ''}">Cek QR Validasi</a>
     `;
   } else if (currentRole === 'ketua_himatif') {
