@@ -95,6 +95,23 @@ stateDiagram-v2
 
 ---
 
+## 💡 Strategi Arsitektur Sinergi Web & Mobile (Flutter)
+
+Sesuai pembagian peran di atas, rekomendasi pembagian platform yang diterapkan pada proyek ValidIn adalah:
+
+### 1. Portal Web (Laptop / PC)
+- **Fokus Utama:** Digunakan oleh **Sekretaris Panitia (Hanif Abdillah Alatas)** sebagai *single point of entry* untuk menyusun draf surat permohonan, mengisi rincian fasilitas (gedung/alat), dan mengunggah berkas PDF (karena pengetikan rincian dokumen dan manajemen berkas jauh lebih cepat, presisi, dan nyaman melalui perangkat desktop/laptop).
+- **Akses Tambahan Pejabat:** Pejabat peninjau (**Ketua HIMATIF** dan **Wakil Dekan FT**) dapat mengakses meja disposisi melalui browser saat berada di meja kerja kantor dekanat.
+
+### 2. Aplikasi Mobile Flutter (Android)
+- **Fokus Utama:** Digunakan oleh **Ketua Pelaksana**, **Ketua HIMATIF**, dan **Wakil Dekan FT** untuk:
+  - **Notifikasi Cepat (*Push Notification*):** Menerima pemberitahuan seketika saat giliran tanda tangan mereka tiba (*"Surat Permohonan DigitalWave menunggu tanda tangan Anda"*).
+  - **Penandatanganan Cepat di Layar Sentuh (*Touch-Screen Digital Signature*):** Menandatangani berkas secara cepat melalui layar sentuh smartphone tanpa harus membuka laptop.
+  - **Pelacakan Berkas (*Status Tracking Stepper*):** Panitia dapat memantau riwayat alur persetujuan secara transparan langsung dari genggaman.
+- **Penggunaan Lapangan (Pos Keamanan / Sarpras):** Panitia pelaksana dapat menampilkan kode QR izin resmi yang telah disahkan langsung dari layar smartphone di depan Petugas Satpam untuk pembukaan pintu gedung FT 03.
+
+---
+
 ## 📂 Struktur Repositori
 
 ```

@@ -17,12 +17,24 @@
 
 | Stakeholder / Pejabat | Kategori | Hak Akses & Kepentingan Utama |
 | :--- | :--- | :--- |
-| **Sekretaris Panitia**<br>(Hanif Abdillah Alatas) | Pengguna Primer (Web / Mobile) | Menyusun draf permohonan surat peminjaman, registrasi nomor surat, melampirkan berkas permohonan, dan membubuhi paraf kesekretariatan. |
-| **Ketua Pelaksana**<br>(Emannuel Henji Pratama Putra) | Pengguna Primer (Web / Mobile) | Bertindak sebagai penanggung jawab operasional kegiatan, memeriksa draf, menandatangani surat, dan membubuhi Cap Panitia Pelaksana. |
-| **Ketua HIMATIF UNTIDAR**<br>(Naufal Miftakhul Siddiq) | Pengguna Primer (Panel Web) | Meninjau kepatuhan kegiatan dengan program kerja ormawa, membubuhi paraf mengetahui, dan membubuhi stempel resmi lingkaran ganda HIMATIF. |
-| **Wakil Dekan FT UNTIDAR**<br>(Dr. Sigit Iswahyudi, S.T., M.T.) | Pengguna Primer (Panel Web) | Memberikan catatan disposisi pejabat (instruksi satpam/sarpras), pengesahan tingkat fakultas, cap Dekanat FT, dan menerbitkan QR Code sah. |
-| **Petugas Keamanan (Satpam) & Sarpras** | Pengguna Sekunder (Web Verifikasi Publik) | Memindai QR Code di lapangan tanpa login untuk memastikan keabsahan izin gedung/ruangan, waktu kegiatan, dan instruksi Wadek FT. |
+| **Sekretaris Panitia**<br>(Hanif Abdillah Alatas) | Pengguna Primer (Portal Web Desktop) | Satu-satunya pembuat (*single point of entry*) dan pengunggah draf permohonan surat peminjaman, registrasi nomor surat, lampiran PDF, dan membubuhi paraf awal kesekretariatan. |
+| **Ketua Pelaksana**<br>(Emannuel Henji Pratama Putra) | Pengguna Primer (Mobile Flutter & Web) | Penanggung jawab operasional kegiatan, meninjau berkas permohonan yang disusun sekretaris, membubuhi tanda tangan digital, dan stempel Panitia Pelaksana. |
+| **Ketua HIMATIF UNTIDAR**<br>(Naufal Miftakhul Siddiq) | Pengguna Primer (Mobile Flutter & Web) | Meninjau kepatuhan kegiatan ormawa, membubuhi paraf mengetahui, dan membubuhi stempel resmi lingkaran ganda biru HIMATIF. |
+| **Wakil Dekan FT UNTIDAR**<br>(Dr. Sigit Iswahyudi, S.T., M.T.) | Pengguna Primer (Mobile Flutter & Web) | Memberikan catatan disposisi pejabat (instruksi satpam/sarpras), tanda tangan pengesahan tingkat fakultas, stempel Dekanat FT, dan mengaktifkan QR Code sah. |
+| **Petugas Keamanan (Satpam) & Sarpras** | Pengguna Sekunder (Web Verifikasi Publik) | Memindai QR Code di pos keamanan tanpa login untuk memastikan keabsahan izin gedung/ruangan, waktu kegiatan, dan instruksi tertulis Wadek FT. |
 | **Unit TIK & Pengelola Kampus** | Pendukung Teknis | Pengelolaan infrastruktur server, integritas berkas privat, dan pemeliharaan basis data. |
+
+### 2.1 Strategi Pembagian Platform (Sinergi Web & Mobile Flutter)
+
+- **Portal Web (Laptop / PC):**
+  - **Fokus Utama:** Digunakan oleh **Sekretaris Panitia** untuk menyusun surat dan mengunggah berkas PDF (karena pengetikan rincian dokumen dan manajemen berkas lampiran jauh lebih cepat, presisi, dan nyaman melalui perangkat desktop/laptop).
+  - Pejabat peninjau (**Ketua HIMATIF** dan **Wakil Dekan FT**) juga dapat menggunakannya saat berada di meja kerja kantor dekanat.
+- **Aplikasi Mobile Flutter (Android):**
+  - **Fokus Utama:** Digunakan oleh **Ketua Pelaksana**, **Ketua HIMATIF**, dan **Wakil Dekan FT** untuk:
+    - Menerima *Push Notification* realtime saat giliran tanda tangan mereka tiba (*"Surat Permohonan DigitalWave menunggu tanda tangan Anda"*).
+    - Menandatangani berkas secara cepat melalui layar sentuh smartphone (*touch-screen digital signature pad*).
+    - Memantau riwayat alur persetujuan (*status tracking stepper*) secara transparan langsung dari genggaman.
+  - **Penggunaan Lapangan (Pos Keamanan / Sarpras):** Panitia pelaksana dapat menampilkan kode QR izin resmi yang telah disahkan langsung dari layar smartphone di depan Petugas Satpam untuk pembukaan pintu gedung FT 03.
 
 ---
 
