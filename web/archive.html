@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arsip Dokumen - ValidIn</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader"></header>
+
+  <main class="page-wrapper">
+    <div class="breadcrumbs">
+      <a href="index.html">Portal ValidIn</a> &gt; <span>Arsip & Riwayat Pengesahan</span>
+    </div>
+
+    <div class="page-header-row">
+      <div class="page-intro">
+        <h1>Arsip & Riwayat Pengesahan Berkas</h1>
+        <p>Seluruh riwayat berkas organisasi yang telah diajukan, direvisi, dan disahkan lengkap dengan nomor registrasi serta token QR.</p>
+      </div>
+      <div>
+        <button class="btn btn-outline" onclick="showToast('Rekap data berkas berhasil diekspor (CSV).')">
+          Ekspor Data (CSV)
+        </button>
+      </div>
+    </div>
+
+    <div class="card-panel">
+      <div class="table-filter-bar">
+        <input type="text" id="archiveSearch" class="search-input" placeholder="Cari dalam arsip dokumen...">
+        <div style="font-size: 0.82rem; color: var(--text-secondary);" id="archiveCountLabel">Menampilkan seluruh data</div>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Nomor Registrasi</th>
+              <th>Judul Dokumen & Organisasi</th>
+              <th>Jenis</th>
+              <th>Status Dokumen</th>
+              <th>Token QR Validasi</th>
+              <th style="text-align: right;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="archiveTableBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="siteFooter"></footer>
+
+  <script src="js/shared.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('archive');
+      renderFooter();
+      loadArchive();
+
+      document.getElementById('archiveSearch').addEventListener('input', loadArchive);
+    });
+
+    function loadArchive() {
+      const docs = getDocs();
+      const q = document.getElementById('archiveSearch').value.toLowerCase();
+
+      const filtered = docs.filter(d => 
+        d.title.toLowerCase().includes(q) ||
+        d.regNumber.toLowerCase().includes(q) ||
+        d.organization.toLowerCase().includes(q) ||
+        d.qrToken.toLowerCase().includes(q)
+      );
+
+      document.getElementById('archiveCountLabel').textContent = `Menampilkan ${filtered.length} dari ${docs.length} berkas`;
+
+      const tbody = document.getElementById('archiveTableBody');
+      tbody.innerHTML = '';
+
+      filtered.forEach(doc => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span style="font-family: var(--font-mono); font-size: 0.78rem;">${doc.regNumber}</span></td>
+          <td>
+            <a href="review.html?id=${doc.id}" style="font-weight: 700; color: var(--text-primary); text-decoration: none;">${doc.title}</a>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">${doc.organization}</div>
+          </td>
+          <td><span class="badge-status badge-type">${doc.type}</span></td>
+          <td>${getStatusBadgeMarkup(doc.status)}</td>
+          <td><code style="font-family: var(--font-mono); font-size: 0.74rem; background: var(--bg-subtle); padding: 3px 6px; border-radius: var(--radius-xs);">${doc.qrToken.substring(0, 13)}...</code></td>
+          <td style="text-align: right;">
+            <a href="verify.html?token=${doc.qrToken}" class="btn btn-outline btn-sm">Periksa QR</a>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>

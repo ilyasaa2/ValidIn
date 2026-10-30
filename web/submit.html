@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajukan Dokumen Baru - ValidIn</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader"></header>
+
+  <main class="page-wrapper">
+    <div class="breadcrumbs">
+      <a href="index.html">Portal ValidIn</a> &gt; <span>Pengajuan Dokumen Baru</span>
+    </div>
+
+    <div class="page-header-row">
+      <div class="page-intro">
+        <h1>Formulir Pengajuan Dokumen Kegiatan</h1>
+        <p>Unggah berkas proposal, surat izin tempat, atau LPJ berformat PDF untuk diproses pengesahannya secara berjenjang.</p>
+      </div>
+      <div>
+        <a href="index.html" class="btn btn-outline">Batal & Kembali</a>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <form id="submitDocumentForm">
+        <div class="form-group">
+          <label class="form-label" for="docType">Jenis Dokumen Kegiatan *</label>
+          <select id="docType" class="form-select" required>
+            <option value="Proposal Kegiatan">Proposal Kegiatan</option>
+            <option value="Surat Izin">Surat Permohonan Izin Tempat / Fasilitas</option>
+            <option value="LPJ">Laporan Pertanggungjawaban (LPJ)</option>
+          </select>
+          <span class="form-hint">Pilih kategori berkas sesuai SOP Kemahasiswaan.</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="docTitle">Judul Lengkap Dokumen / Kegiatan *</label>
+          <input type="text" id="docTitle" class="form-input" placeholder="Contoh: Proposal Seminar Nasional Artificial Intelligence 2026" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="orgName">Organisasi / Lembaga Mahasiswa *</label>
+            <input type="text" id="orgName" class="form-input" value="Himpunan Mahasiswa Informatika (HMIF)" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="submitterName">Nama Ketua Pelaksana / Pemohon *</label>
+            <input type="text" id="submitterName" class="form-input" value="Fajar Ramadhan" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="submitterNim">NIM Pemohon *</label>
+            <input type="text" id="submitterNim" class="form-input" value="220101034" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="eventDate">Tanggal Pelaksanaan Kegiatan *</label>
+            <input type="date" id="eventDate" class="form-input" value="2026-11-28" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="eventLocation">Tempat / Lokasi Acara *</label>
+            <input type="text" id="eventLocation" class="form-input" placeholder="Contoh: Gedung Aula Graha Utama Kampus" value="Auditorium Gedung D" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="budget">Total Estimasi Anggaran (Rp) *</label>
+            <input type="text" id="budget" class="form-input" placeholder="Contoh: Rp 8.500.000" value="Rp 8.500.000" required>
+          </div>
+        </div>
+
+        <!-- File Upload Area -->
+        <div class="form-group" style="margin-top: 10px;">
+          <label class="form-label">Berkas Dokumen PDF (Maksimal 5MB) *</label>
+          <div class="file-upload-dropzone" id="dropzone">
+            <svg class="dropzone-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+            <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">Pilih Berkas PDF atau Seret ke Area Ini</div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">Format: PDF (.pdf), Maksimal ukuran: 5 Megabytes</div>
+            <div id="selectedFileName" style="margin-top: 12px; font-weight: 700; color: var(--blue-600); font-family: var(--font-mono); font-size: 0.85rem;">lampiran_proposal_resmi.pdf (1.8 MB)</div>
+          </div>
+        </div>
+
+        <!-- Integrity Declaration -->
+        <div style="padding: 14px; background: var(--bg-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-light); margin-bottom: 24px;">
+          <label style="display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 0.82rem; color: var(--text-secondary);">
+            <input type="checkbox" required checked style="margin-top: 3px;">
+            <span>Saya menyatakan bahwa informasi dan dokumen lampiran yang diajukan adalah benar, telah diperiksa format lembar pengesahannya, dan siap diproses ke tahap persetujuan Ketua Organisasi serta Dosen Pembina.</span>
+          </label>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <a href="index.html" class="btn btn-outline">Batal</a>
+          <button type="submit" class="btn btn-primary btn-lg">Kirim Pengajuan Dokumen</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="siteFooter"></footer>
+
+  <script src="js/shared.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('submit');
+      renderFooter();
+
+      const form = document.getElementById('submitDocumentForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const docType = document.getElementById('docType').value;
+        const docTitle = document.getElementById('docTitle').value;
+        const orgName = document.getElementById('orgName').value;
+        const submitterName = document.getElementById('submitterName').value;
+        const submitterNim = document.getElementById('submitterNim').value;
+        const eventDate = document.getElementById('eventDate').value;
+        const location = document.getElementById('eventLocation').value;
+        const budget = document.getElementById('budget').value;
+
+        // Generate unique numbers
+        const randomNum = Math.floor(100 + Math.random() * 900);
+        const newId = `DOC-2026-${randomNum}`;
+        const newReg = `DOC/2026/10/ORG/${randomNum}`;
+        const newUUID = 'e' + Math.random().toString(36).substring(2, 15) + '-4' + Math.random().toString(36).substring(2, 6) + '-8' + Math.random().toString(36).substring(2, 10);
+
+        const newDoc = {
+          id: newId,
+          regNumber: newReg,
+          title: docTitle,
+          type: docType,
+          organization: orgName,
+          submitterName: submitterName,
+          submitterNim: submitterNim,
+          eventDate: eventDate,
+          location: location,
+          budget: budget,
+          status: 'menunggu_ketua',
+          createdAt: 'Hari ini, baru saja',
+          ketuaApproval: null,
+          pembinaApproval: null,
+          revisionNotes: '',
+          qrToken: newUUID,
+          hashSha256: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        };
+
+        addDoc(newDoc);
+        showToast('Dokumen berhasil diajukan! Masuk ke antrean peninjauan Ketua.');
+        setTimeout(() => {
+          window.location.href = `review.html?id=${newId}`;
+        }, 800);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -3,583 +3,176 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ValidIn - Portal Pengesahan & Validasi Dokumen Organisasi Kampus</title>
-  <meta name="description" content="Platform terintegrasi pengesahan proposal kegiatan, surat izin, dan LPJ organisasi kampus dengan validasi QR Code resmi.">
-  <link rel="stylesheet" href="css/style.css">
+  <title>Antrean Dokumen - ValidIn</title>
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <a href="#mainContent" class="skip-link">Lewati ke Konten Utama</a>
+  <!-- Global Shared Site Header -->
+  <header class="site-header" id="siteHeader"></header>
 
-  <div class="app-container">
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar" aria-label="Navigasi Utama">
-      <div class="brand-section">
-        <a href="#" class="brand-logo" data-target-view="dashboard">
-          <div class="logo-badge">V</div>
-          <div class="brand-info">
-            <h1>ValidIn</h1>
-            <span class="brand-tag">Sistem Validasi Kampus</span>
-          </div>
+  <main class="page-wrapper">
+    <div class="breadcrumbs">
+      <a href="index.html">Portal ValidIn</a> &gt; <span>Antrean Dokumen Masuk</span>
+    </div>
+
+    <div class="page-header-row">
+      <div class="page-intro">
+        <h1>Antrean Pengesahan Dokumen</h1>
+        <p>Daftar proposal, surat izin kegiatan, dan laporan pertanggungjawaban yang masuk untuk ditinjau secara berjenjang.</p>
+      </div>
+      <div>
+        <a href="submit.html" class="btn btn-primary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Ajukan Dokumen Baru
         </a>
       </div>
+    </div>
 
-      <nav class="sidebar-nav">
-        <div class="nav-label">Menu Utama</div>
-        <button class="nav-item active" data-target-view="dashboard" id="navDashboard">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-          Antrean Dokumen
-          <span class="nav-count" id="sidebarQueueCount">2</span>
-        </button>
-
-        <button class="nav-item" data-target-view="review" id="navReview">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          Tinjau Dokumen
-        </button>
-
-        <button class="nav-item" data-target-view="archive" id="navArchive">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
-          Arsip & Riwayat
-        </button>
-
-        <div class="nav-label" style="margin-top: 12px;">Layanan Publik</div>
-        <button class="nav-item" data-target-view="verify" id="navVerify">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
-          Cek QR Validitas
-        </button>
-
-        <div class="nav-label" style="margin-top: 12px;">Akun & Sesi</div>
-        <button class="nav-item" data-target-view="profile" id="navProfile">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-          Profil & Organisasi
-        </button>
-
-        <button class="nav-item" data-target-view="login" id="navLogin">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
-          Ganti Akun (Login)
-        </button>
-      </nav>
-
-      <div class="sidebar-user">
-        <div class="user-avatar" id="sidebarAvatar">MH</div>
-        <div class="user-meta">
-          <div class="user-name" id="sidebarUserName">M. Hafiz, S.Kom</div>
-          <span class="user-role-badge" id="sidebarUserRole">Ketua Organisasi</span>
-        </div>
+    <!-- Institutional KPI Metrics Tiles -->
+    <div class="metrics-row">
+      <div class="metric-tile">
+        <span class="metric-label">Menunggu Tinjauan Anda</span>
+        <div class="metric-value" id="kpiPending">-</div>
+        <div class="metric-sub">Memerlukan keputusan persetujuan</div>
       </div>
-    </aside>
-
-    <!-- Main Content Area -->
-    <main class="main-wrapper" id="mainContent">
-      <!-- Top Application Header -->
-      <header class="top-header">
-        <div class="header-left">
-          <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Buka Menu Samping">
-            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          </button>
-          <div class="page-title" id="headerPageTitle">Antrean Dokumen Masuk</div>
-        </div>
-
-        <div class="header-actions">
-          <div class="role-switcher-container">
-            <label for="roleSelect" class="role-label">Mode Peran:</label>
-            <select id="roleSelect" class="role-select">
-              <option value="ketua">Ketua Organisasi</option>
-              <option value="pembina">Dosen Pembina</option>
-              <option value="admin">Administrator / Kemahasiswaan</option>
-            </select>
-          </div>
-
-          <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Ganti Tema Gelap atau Terang" title="Ganti Tema">
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-          </button>
-        </div>
-      </header>
-
-      <!-- Dynamic Views Container -->
-      <div class="page-content">
-
-        <!-- ==========================================
-             VIEW 1: DASHBOARD / QUEUE
-             ========================================== -->
-        <section class="view-section active" id="view-dashboard">
-          <!-- KPI Summary Cards -->
-          <div class="stats-grid">
-            <div class="stat-card blue">
-              <div class="stat-header">
-                <span class="stat-title">Perlu Tindakan</span>
-                <div class="stat-icon">
-                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-              </div>
-              <div class="stat-value" id="statPendingCount">2</div>
-              <span class="stat-hint">Dokumen menunggu review Anda</span>
-            </div>
-
-            <div class="stat-card amber">
-              <div class="stat-header">
-                <span class="stat-title">Dalam Revisi</span>
-                <div class="stat-icon">
-                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                </div>
-              </div>
-              <div class="stat-value" id="statRevisionCount">1</div>
-              <span class="stat-hint">Menunggu perbaikan mahasiswa</span>
-            </div>
-
-            <div class="stat-card green">
-              <div class="stat-header">
-                <span class="stat-title">Telah Disetujui</span>
-                <div class="stat-icon">
-                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-              </div>
-              <div class="stat-value" id="statApprovedCount">1</div>
-              <span class="stat-hint">Berstempel QR Code resmi</span>
-            </div>
-
-            <div class="stat-card purple">
-              <div class="stat-header">
-                <span class="stat-title">Total Berkas</span>
-                <div class="stat-icon">
-                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                </div>
-              </div>
-              <div class="stat-value" id="statTotalCount">4</div>
-              <span class="stat-hint">Arsip semester berjalan</span>
-            </div>
-          </div>
-
-          <!-- Document Table Panel -->
-          <div class="panel-card">
-            <div class="panel-header">
-              <div class="panel-heading">
-                <h2>Daftar Dokumen Kegiatan Masuk</h2>
-                <p>Klik tombol Tinjau pada baris dokumen untuk memeriksa lembar proposal dan memberikan persetujuan digital.</p>
-              </div>
-
-              <div class="panel-controls">
-                <div class="search-input-group">
-                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                  <input type="text" id="tableSearchInput" class="search-box" placeholder="Cari judul, NIM, atau nomor...">
-                </div>
-
-                <select id="typeFilterSelect" class="filter-select">
-                  <option value="all">Semua Jenis Dokumen</option>
-                  <option value="Proposal Kegiatan">Proposal Kegiatan</option>
-                  <option value="Surat Izin">Surat Izin</option>
-                  <option value="LPJ">LPJ</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Dokumen & Organisasi</th>
-                    <th>Jenis Berkas</th>
-                    <th>Pengaju</th>
-                    <th>Status Alur</th>
-                    <th>Waktu Masuk</th>
-                    <th style="text-align: right;">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="documentsTableBody">
-                  <!-- Generated by app.js -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==========================================
-             VIEW 2: DOCUMENT REVIEWER (SPLIT SCREEN)
-             ========================================== -->
-        <section class="view-section" id="view-review">
-          <div style="margin-bottom: 16px;">
-            <button class="btn btn-outline btn-sm" data-target-view="dashboard">
-              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-              Kembali ke Antrean
-            </button>
-          </div>
-
-          <div class="review-workspace">
-            <!-- Simulated In-Browser PDF Viewer Paper -->
-            <div class="document-paper-container">
-              <div class="document-toolbar">
-                <span>Pratinjau Lembar Pengesahan Resmi (PDF Standar Kampus)</span>
-                <span>Halaman 1 dari 1</span>
-              </div>
-
-              <article class="document-paper" id="printablePaper">
-                <!-- Academic Letterhead -->
-                <header class="letterhead">
-                  <div class="univ-name">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</div>
-                  <div class="faculty-name">FAKULTAS ILMU KOMPUTER DAN TEKNOLOGI INFORMASI</div>
-                  <div class="org-name" id="paperUnivOrg">Himpunan Mahasiswa Informatika (HMIF)</div>
-                  <div class="univ-address">Jalan Kampus Raya No. 1, Gedung Pusgiwa Lt. 2, Surel: kemahasiswaan@kampus.ac.id</div>
-                </header>
-
-                <div class="doc-paper-header">
-                  <div class="doc-paper-title" id="paperDocTitle">PROPOSAL MALAM KEAKRABAN MAHASISWA INFORMATIKA 2026</div>
-                  <div class="doc-paper-reg" id="paperDocReg">Nomor Registrasi: DOC/2026/10/HMIF/001</div>
-                </div>
-
-                <div class="doc-paper-body">
-                  <p>Dengan hormat, sehubungan dengan program kerja tahunan penguatan solidaritas dan pengembangan integritas akademik mahasiswa baru, kami mengajukan permohonan pengesahan kegiatan sebagai berikut:</p>
-
-                  <table class="doc-meta-table">
-                    <tr>
-                      <td style="width: 150px; font-weight: 600;">Nama Kegiatan</td>
-                      <td>: <span id="paperEventName">Malam Keakraban Mahasiswa Informatika 2026</span></td>
-                    </tr>
-                    <tr>
-                      <td style="font-weight: 600;">Pemohon / Penanggung Jawab</td>
-                      <td>: <span id="paperSubmitter">Ahmad Fauzi (NIM: 220101001)</span></td>
-                    </tr>
-                    <tr>
-                      <td style="font-weight: 600;">Waktu Pelaksanaan</td>
-                      <td>: <span id="paperDate">2026-11-20</span></td>
-                    </tr>
-                    <tr>
-                      <td style="font-weight: 600;">Tempat Pelaksanaan</td>
-                      <td>: <span id="paperLocation">Villa Bukit Pinus, Bogor</span></td>
-                    </tr>
-                    <tr>
-                      <td style="font-weight: 600;">Estimasi Anggaran</td>
-                      <td>: <span id="paperBudget">Rp 14.500.000</span></td>
-                    </tr>
-                  </table>
-
-                  <p>Demikian lembar pengesahan ini diajukan untuk dapat ditinjau dan disetujui sesuai dengan ketentuan administrasi yang berlaku di lingkungan perguruan tinggi.</p>
-                </div>
-
-                <!-- Signatures & Dynamic QR Code Stamp Seal -->
-                <div class="signatures-section">
-                  <div class="signature-box">
-                    <div>Pengaju Kegiatan,</div>
-                    <div class="sign-seal-area">
-                      <div style="font-size: 0.75rem; color: #1e3a8a; font-weight: 600;">[TERTANDA MAHASISWA]</div>
-                    </div>
-                    <div class="signatory-name" id="paperSignSubmitter">Ahmad Fauzi</div>
-                    <div style="font-size: 0.7rem; color: #555;">Ketua Pelaksana</div>
-                  </div>
-
-                  <div class="signature-box">
-                    <div>Menyetujui,</div>
-                    <div class="sign-seal-area" id="paperSignKetuaArea">
-                      <!-- Dynamic via JS -->
-                    </div>
-                    <div class="signatory-name">M. Hafiz, S.Kom</div>
-                    <div style="font-size: 0.7rem; color: #555;">Ketua Organisasi</div>
-                  </div>
-
-                  <div class="signature-box">
-                    <div>Mengesahkan,</div>
-                    <div class="sign-seal-area" id="paperSignPembinaArea">
-                      <!-- Dynamic via JS -->
-                    </div>
-                    <div class="signatory-name">Dr. Ir. Budi Santoso, M.Kom</div>
-                    <div style="font-size: 0.7rem; color: #555;">Dosen Pembina Kemahasiswaan</div>
-                  </div>
-                </div>
-
-                <!-- QR Stamp Seal Box (Bottom Center) -->
-                <div style="margin-top: 30px; display: flex; justify-content: center;" id="paperQrStampArea">
-                  <!-- Dynamic via JS -->
-                </div>
-              </article>
-            </div>
-
-            <!-- Review Actions & Audit Trail Sidebar -->
-            <div class="action-panel-card">
-              <div class="action-header">
-                <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-subtle); font-weight: 700;">Panel Pengesahan</span>
-                <h3 id="reviewDocNumber">DOC/2026/10/HMIF/001</h3>
-                <div id="reviewDocStatus" style="margin-top: 8px;"></div>
-              </div>
-
-              <!-- Interactive Timeline Tracker -->
-              <div style="margin-bottom: 8px; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Alur Pelacakan Status</div>
-              <div class="timeline-tracker" id="reviewTimelineTracker">
-                <!-- Generated by app.js -->
-              </div>
-
-              <!-- Checklist Persyaratan -->
-              <div style="margin-top: 20px; padding: 14px; background: var(--bg-app); border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
-                <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Pemeriksaan Kepatuhan</div>
-                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; margin-bottom: 6px; cursor: pointer;">
-                  <input type="checkbox" checked disabled> Format kop surat dan proposal sesuai SOP
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; margin-bottom: 6px; cursor: pointer;">
-                  <input type="checkbox" checked disabled> Lampiran rincian anggaran telah disertakan
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; cursor: pointer;">
-                  <input type="checkbox" checked disabled> Tanda tangan pengaju kegiatan valid
-                </label>
-              </div>
-
-              <!-- Dynamic Action Buttons -->
-              <div class="action-button-group" id="reviewActionButtons">
-                <!-- Generated by app.js based on role & state -->
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==========================================
-             VIEW 3: PUBLIC VERIFICATION PAGE (/verify/{token})
-             ========================================== -->
-        <section class="view-section" id="view-verify">
-          <div class="public-verify-view">
-            <div class="verify-hero-banner">
-              <h2>Verifikasi Keaslian Dokumen Resmi</h2>
-              <p>Halaman publik untuk memeriksa keabsahan surat izin, proposal, atau LPJ yang telah disahkan melalui sistem ValidIn.</p>
-            </div>
-
-            <div class="verify-input-card">
-              <input type="text" id="tokenInput" placeholder="Masukkan token UUID dokumen (contoh: 7e4b2d19-8663...)" value="7e4b2d19-8663-4871-9f93-c4083a48e89f">
-              <button class="btn btn-primary" id="btnSearchToken">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                Periksa Dokumen
-              </button>
-            </div>
-
-            <!-- Verification Success Result -->
-            <div class="verification-result-card" id="verificationResultCard">
-              <div class="result-status-header">
-                <div class="valid-seal-icon">
-                  <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                </div>
-                <h3>DOKUMEN TERVERIFIKASI SAH DAN ASLI</h3>
-                <p>Dokumen ini telah disahkan secara sah oleh Ketua Organisasi dan Dosen Pembina yang berwenang.</p>
-              </div>
-
-              <div class="result-details-body">
-                <div class="detail-item">
-                  <span class="detail-label">Nomor Registrasi</span>
-                  <span class="detail-value mono" id="verifyResultRegNumber">DOC/2026/10/ROBOTIK/005</span>
-                </div>
-
-                <div class="detail-item">
-                  <span class="detail-label">Organisasi Pemohon</span>
-                  <span class="detail-value" id="verifyResultOrg">Unit Kegiatan Mahasiswa Robotika</span>
-                </div>
-
-                <div class="detail-item" style="grid-column: 1 / -1;">
-                  <span class="detail-label">Judul Dokumen</span>
-                  <span class="detail-value" id="verifyResultTitle">Laporan Pertanggungjawaban (LPJ) Workshop IoT dan Robotika</span>
-                </div>
-
-                <div class="detail-item">
-                  <span class="detail-label">Pengaju Berkas</span>
-                  <span class="detail-value" id="verifyResultSubmitter">Dewi Lestari (NIM: 220104012)</span>
-                </div>
-
-                <div class="detail-item">
-                  <span class="detail-label">Disahkan Oleh</span>
-                  <span class="detail-value" id="verifyResultSignatory">Dr. Ir. Budi Santoso, M.Kom</span>
-                </div>
-
-                <div class="detail-item">
-                  <span class="detail-label">Waktu Pengesahan Final</span>
-                  <span class="detail-value" id="verifyResultDate">26 Okt 2026, 09:20 WIB</span>
-                </div>
-
-                <div class="detail-item">
-                  <span class="detail-label">Token QR Validasi</span>
-                  <span class="detail-value mono" id="verifyResultToken">7e4b2d19-8663-4871-9f93-c4083a48e89f</span>
-                </div>
-
-                <div class="detail-item" style="grid-column: 1 / -1;">
-                  <span class="detail-label">Checksum Integritas Berkas (SHA-256)</span>
-                  <span class="detail-value mono" style="font-size: 0.78rem;" id="verifyResultHash">4d830fba98e104928bfa102934ec784910293847561928374650192837461524</span>
-                </div>
-              </div>
-
-              <div class="result-footer-actions">
-                <span style="font-size: 0.8rem; color: var(--text-subtle);">Status data bersumber langsung dari database utama ValidIn.</span>
-                <div style="display: flex; gap: 8px;">
-                  <button class="btn btn-outline btn-sm" onclick="window.print()">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                    Cetak Bukti Validasi
-                  </button>
-                  <button class="btn btn-success btn-sm" onclick="showToast('Mengunduh salinan resmi berkas PDF ber-QR...')">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                    Unduh Salinan Berkas Resmi
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Not Found State -->
-            <div id="verificationNotFoundCard" style="display: none; background: var(--bg-card); padding: 40px; text-align: center; border-radius: var(--radius-lg); border: 2px dashed var(--danger-border); box-shadow: var(--shadow-sm);">
-              <div style="width: 50px; height: 50px; background: var(--danger-subtle); color: var(--danger); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
-                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-              </div>
-              <h3 style="font-size: 1.15rem; color: var(--danger); margin-bottom: 6px;">Dokumen Tidak Ditemukan atau Belum Sah</h3>
-              <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 440px; margin: 0 auto;">Kode token QR yang dimasukkan tidak terdaftar dalam basis data berkas yang telah disetujui resmi oleh pihak kampus.</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==========================================
-             VIEW 4: ARCHIVE & RIWAYAT DOKUMEN
-             ========================================== -->
-        <section class="view-section" id="view-archive">
-          <div class="panel-card">
-            <div class="panel-header">
-              <div class="panel-heading">
-                <h2>Arsip & Riwayat Pengesahan</h2>
-                <p>Seluruh riwayat berkas organisasi yang telah diajukan, direvisi, dan disahkan lengkap dengan token QR masing-masing.</p>
-              </div>
-
-              <div class="panel-controls">
-                <button class="btn btn-outline btn-sm" onclick="showToast('Ekspor rekap data dokumen berhasil dibuat (CSV).')">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                  Ekspor Rekap
-                </button>
-              </div>
-            </div>
-
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Nomor Registrasi</th>
-                    <th>Judul & Organisasi</th>
-                    <th>Jenis</th>
-                    <th>Status Akhir</th>
-                    <th>Token QR</th>
-                    <th style="text-align: right;">Cek Keaslian</th>
-                  </tr>
-                </thead>
-                <tbody id="archiveTableBody">
-                  <!-- Populated by app.js -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==========================================
-             VIEW 5: PROFILE & SETTINGS
-             ========================================== -->
-        <section class="view-section" id="view-profile">
-          <div style="max-width: 680px; margin: 0 auto;">
-            <div class="panel-card" style="padding: 28px;">
-              <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 20px;">Profil Pejabat Pengesah</h2>
-
-              <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light);">
-                <div style="width: 70px; height: 70px; border-radius: var(--radius-full); background: #2563eb; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700;">
-                  MH
-                </div>
-                <div>
-                  <h3 style="font-size: 1.1rem; font-weight: 700;">M. Hafiz, S.Kom</h3>
-                  <p style="color: var(--text-muted); font-size: 0.85rem;">Ketua Himpunan Mahasiswa Informatika (HMIF) Periode 2026/2027</p>
-                  <span class="badge badge-approved" style="margin-top: 6px;">Akun Terverifikasi Kampus</span>
-                </div>
-              </div>
-
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
-                <div class="form-group">
-                  <label class="form-label">NIM / NIP</label>
-                  <input type="text" class="form-input" value="210102045" readonly>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Alamat Surel Resmi</label>
-                  <input type="email" class="form-input" value="m.hafiz@mahasiswa.kampus.ac.id" readonly>
-                </div>
-              </div>
-
-              <div style="padding: 16px; background: var(--bg-app); border-radius: var(--radius-sm); border: 1px solid var(--border-light); margin-bottom: 20px;">
-                <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 6px;">Paraf & Segel Digital Resmi</h4>
-                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Paraf digital ini otomatis disematkan pada lembar dokumen saat Anda menyetujui pengajuan.</p>
-                <div style="padding: 14px; background: white; border: 1px dashed var(--border-medium); border-radius: var(--radius-sm); text-align: center; font-family: cursive; font-size: 1.3rem; color: #1e3a8a;">
-                  M. Hafiz
-                </div>
-              </div>
-
-              <button class="btn btn-primary" onclick="showToast('Pengaturan profil berhasil diperbarui.')">
-                Simpan Perubahan
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==========================================
-             VIEW 6: LOGIN / ROLE AUTHENTICATION
-             ========================================== -->
-        <section class="view-section" id="view-login">
-          <div class="login-view-wrapper">
-            <div class="login-card">
-              <div class="login-header">
-                <div class="logo-badge" style="width: 48px; height: 48px; margin: 0 auto 12px; font-size: 1.4rem;">V</div>
-                <h2>Masuk ke ValidIn</h2>
-                <p>Portal Pengesahan & Validasi Dokumen Digital Organisasi Kampus</p>
-              </div>
-
-              <form onsubmit="event.preventDefault(); showToast('Login berhasil!'); navigateToView('dashboard');">
-                <div class="form-group">
-                  <label class="form-label" for="loginNim">NIM / NIP / Akun Kampus</label>
-                  <input type="text" id="loginNim" class="form-input" placeholder="Masukkan nomor identitas..." value="210102045" required>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="loginPassword">Kata Sandi</label>
-                  <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" value="password123" required>
-                </div>
-
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
-                  Masuk Sekarang
-                </button>
-              </form>
-
-              <div class="quick-demo-roles">
-                <div class="quick-roles-title">Demo Akses Cepat Peran:</div>
-                <div class="role-buttons-grid">
-                  <button class="btn btn-outline btn-sm" data-demo-role="ketua">
-                    Ketua Organisasi
-                  </button>
-                  <button class="btn btn-outline btn-sm" data-demo-role="pembina">
-                    Dosen Pembina
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
+      <div class="metric-tile">
+        <span class="metric-label">Dalam Status Revisi</span>
+        <div class="metric-value" id="kpiRevision">-</div>
+        <div class="metric-sub">Menunggu perbaikan dari mahasiswa</div>
       </div>
-    </main>
-  </div>
-
-  <!-- Revision Modal Dialog -->
-  <div class="modal-overlay" id="revisionModal" role="dialog" aria-modal="true" aria-labelledby="modalRevisionTitle">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3 id="modalRevisionTitle">Minta Perbaikan / Catatan Revisi</h3>
-        <button class="modal-close-btn" data-modal-close aria-label="Tutup dialog">&times;</button>
+      <div class="metric-tile">
+        <span class="metric-label">Selesai & Sah (QR Terbit)</span>
+        <div class="metric-value" id="kpiApproved">-</div>
+        <div class="metric-sub">Telah divalidasi resmi oleh Pembina</div>
       </div>
-      <div class="modal-body">
-        <p style="margin-bottom: 12px;">Dokumen: <strong id="revisionModalDocTitle">Proposal Kegiatan</strong></p>
-        <p style="font-size: 0.82rem; margin-bottom: 12px; color: var(--text-subtle);">Catatan yang Anda masukkan akan langsung dikirimkan ke aplikasi mobile mahasiswa pengaju untuk diperbaiki.</p>
-
-        <div class="form-group">
-          <label class="form-label" for="revisionNoteTextarea">Rincian Hal yang Perlu Diperbaiki:</label>
-          <textarea id="revisionNoteTextarea" class="form-input" rows="4" placeholder="Tuliskan catatan revisi spesifik (misal: perbaiki rincian anggaran seksi konsumsi atau lampirkan izin keamanan)..."></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline" data-modal-close>Batal</button>
-        <button class="btn btn-danger" id="btnConfirmRevision">Kirim Catatan Revisi</button>
+      <div class="metric-tile">
+        <span class="metric-label">Total Arsip Berkas</span>
+        <div class="metric-value" id="kpiTotal">-</div>
+        <div class="metric-sub">Tercatat dalam basis data kampus</div>
       </div>
     </div>
-  </div>
 
-  <!-- Toast Notification Container -->
-  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+    <!-- Main Table Container -->
+    <div class="card-panel">
+      <div class="table-filter-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="Cari nomor berkas, judul kegiatan, atau pengaju...">
+        <div style="display: flex; gap: 10px;">
+          <select id="typeFilter" class="select-filter">
+            <option value="all">Semua Jenis Dokumen</option>
+            <option value="Proposal Kegiatan">Proposal Kegiatan</option>
+            <option value="Surat Izin">Surat Izin</option>
+            <option value="LPJ">LPJ</option>
+          </select>
+          <select id="statusFilter" class="select-filter">
+            <option value="all">Semua Status</option>
+            <option value="menunggu_ketua">Menunggu Ketua</option>
+            <option value="menunggu_pembina">Menunggu Pembina</option>
+            <option value="disetujui">Disetujui (Sah)</option>
+            <option value="revisi">Revisi</option>
+          </select>
+        </div>
+      </div>
 
-  <script src="js/app.js"></script>
+      <div style="overflow-x: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Nomor & Judul Dokumen</th>
+              <th>Jenis Berkas</th>
+              <th>Pemohon / Organisasi</th>
+              <th>Status Alur</th>
+              <th>Tanggal Pengajuan</th>
+              <th style="text-align: right;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="documentsTableBody">
+            <!-- Populated via index.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="siteFooter"></footer>
+
+  <script src="js/shared.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('dashboard');
+      renderFooter();
+      loadDashboardData();
+
+      document.getElementById('searchInput').addEventListener('input', loadDashboardData);
+      document.getElementById('typeFilter').addEventListener('change', loadDashboardData);
+      document.getElementById('statusFilter').addEventListener('change', loadDashboardData);
+    });
+
+    function loadDashboardData() {
+      const docs = getDocs();
+      const role = getCurrentRole();
+
+      // Calculate Counters
+      const pendingKetua = docs.filter(d => d.status === 'menunggu_ketua').length;
+      const pendingPembina = docs.filter(d => d.status === 'menunggu_pembina').length;
+      const needAction = (role === 'pembina') ? pendingPembina : (role === 'ketua' ? pendingKetua : (pendingKetua + pendingPembina));
+
+      document.getElementById('kpiPending').textContent = needAction;
+      document.getElementById('kpiRevision').textContent = docs.filter(d => d.status === 'revisi').length;
+      document.getElementById('kpiApproved').textContent = docs.filter(d => d.status === 'disetujui').length;
+      document.getElementById('kpiTotal').textContent = docs.length;
+
+      // Filter
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const type = document.getElementById('typeFilter').value;
+      const status = document.getElementById('statusFilter').value;
+
+      const filtered = docs.filter(doc => {
+        const matchQ = doc.title.toLowerCase().includes(q) ||
+                       doc.regNumber.toLowerCase().includes(q) ||
+                       doc.submitterName.toLowerCase().includes(q) ||
+                       doc.organization.toLowerCase().includes(q);
+        const matchType = (type === 'all') || (doc.type === type);
+        const matchStatus = (status === 'all') || (doc.status === status);
+        return matchQ && matchType && matchStatus;
+      });
+
+      const tbody = document.getElementById('documentsTableBody');
+      tbody.innerHTML = '';
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-tertiary);">
+              Tidak ada dokumen yang sesuai dengan kriteria penyaringan.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(doc => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <div style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-secondary);">${doc.regNumber}</div>
+            <a href="review.html?id=${doc.id}" style="font-weight: 700; color: var(--text-primary); text-decoration: none;">${doc.title}</a>
+          </td>
+          <td><span class="badge-status badge-type">${doc.type}</span></td>
+          <td>
+            <div style="font-weight: 600;">${doc.submitterName}</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">${doc.organization}</div>
+          </td>
+          <td>${getStatusBadgeMarkup(doc.status)}</td>
+          <td style="font-size: 0.8rem; color: var(--text-secondary);">${doc.createdAt}</td>
+          <td style="text-align: right;">
+            <a href="review.html?id=${doc.id}" class="btn btn-outline btn-sm">
+              Tinjau Berkas
+            </a>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
 </body>
 </html>

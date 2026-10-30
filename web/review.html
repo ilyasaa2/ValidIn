@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tinjau Dokumen & Pengesahan - ValidIn</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/document.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader"></header>
+
+  <main class="page-wrapper">
+    <div class="breadcrumbs">
+      <a href="index.html">Portal ValidIn</a> &gt; <a href="index.html">Antrean</a> &gt; <span id="breadDocNumber">DOC/...</span>
+    </div>
+
+    <div class="page-header-row">
+      <div class="page-intro">
+        <h1 id="pageDocTitle">Tinjau & Verifikasi Lembar Dokumen</h1>
+        <p>Pemeriksaan kepatuhan lembar permohonan dan pemberian paraf digital resmi berjenjang.</p>
+      </div>
+      <div>
+        <a href="index.html" class="btn btn-outline">&larr; Kembali ke Antrean</a>
+      </div>
+    </div>
+
+    <div class="review-grid">
+      <!-- Left: Tactile Desk & Campus Official Paper -->
+      <div class="desk-viewport">
+        <div class="desk-controls">
+          <span>TAMPILAN LEMBAR PENGESAHAN DOKUMEN RESMI</span>
+          <span>HALAMAN 1/1</span>
+        </div>
+
+        <article class="official-paper" id="officialPaper">
+          <header class="campus-letterhead">
+            <div class="letterhead-ministry">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</div>
+            <div class="letterhead-faculty">FAKULTAS ILMU KOMPUTER DAN TEKNOLOGI INFORMASI</div>
+            <div class="letterhead-org" id="paperOrgName">Himpunan Mahasiswa Informatika (HMIF)</div>
+            <div class="letterhead-address">Gedung Pusat Kegiatan Mahasiswa Lt. 2, Surel: organisasi@kampus.ac.id</div>
+          </header>
+
+          <div class="paper-title-block">
+            <div class="paper-title" id="paperTitle">PROPOSAL KEGIATAN MAHASISWA</div>
+            <div class="paper-reg-num" id="paperRegNumber">Nomor Registrasi: DOC/2026/10/HMIF/001</div>
+          </div>
+
+          <div class="paper-body">
+            <p>Sehubungan dengan pelaksanaan program kerja organisasi yang bertujuan untuk meningkatkan kapasitas akademik dan kepemimpinan mahasiswa, bersama ini kami mengajukan permohonan pengesahan kegiatan resmi sebagai berikut:</p>
+
+            <table class="paper-table">
+              <tr>
+                <td class="label-col">Nama Kegiatan</td>
+                <td>: <strong id="paperEventName">-</strong></td>
+              </tr>
+              <tr>
+                <td class="label-col">Penanggung Jawab</td>
+                <td>: <span id="paperSubmitter">-</span></td>
+              </tr>
+              <tr>
+                <td class="label-col">Waktu Pelaksanaan</td>
+                <td>: <span id="paperDate">-</span></td>
+              </tr>
+              <tr>
+                <td class="label-col">Tempat Pelaksanaan</td>
+                <td>: <span id="paperLocation">-</span></td>
+              </tr>
+              <tr>
+                <td class="label-col">Estimasi Anggaran</td>
+                <td>: <span id="paperBudget">-</span></td>
+              </tr>
+            </table>
+
+            <p>Demikian lembar pengesahan ini disampaikan dengan penuh tanggung jawab. Kami memohon peninjauan serta persetujuan resmi dari pihak Ketua Organisasi dan Dosen Pembina.</p>
+          </div>
+
+          <!-- Official Signatures Row -->
+          <div class="paper-signatures">
+            <div class="signature-box">
+              <div class="signature-role">Ketua Pelaksana,</div>
+              <div class="signature-seal-area">
+                <span class="signed-badge-text">[TERTANDA PENGAJU]</span>
+              </div>
+              <div class="signature-name" id="paperSignSubmitter">-</div>
+              <div style="font-size: 0.7rem; color: #71717a;">Mahasiswa Pemohon</div>
+            </div>
+
+            <div class="signature-box">
+              <div class="signature-role">Menyetujui,</div>
+              <div class="signature-seal-area" id="paperSignKetuaArea">
+                <!-- Injected via JS -->
+              </div>
+              <div class="signature-name">M. Hafiz, S.Kom</div>
+              <div style="font-size: 0.7rem; color: #71717a;">Ketua Organisasi</div>
+            </div>
+
+            <div class="signature-box">
+              <div class="signature-role">Mengesahkan,</div>
+              <div class="signature-seal-area" id="paperSignPembinaArea">
+                <!-- Injected via JS -->
+              </div>
+              <div class="signature-name">Dr. Ir. Budi Santoso, M.Kom</div>
+              <div style="font-size: 0.7rem; color: #71717a;">Dosen Pembina</div>
+            </div>
+          </div>
+
+          <!-- Bottom QR Code Seal Stamp (Only visible when approved) -->
+          <div class="qr-seal-wrapper" id="paperQrSealArea" style="display: none;">
+            <div class="official-qr-stamp">
+              <div class="qr-matrix"></div>
+              <div class="qr-stamp-meta">
+                <div class="qr-stamp-badge">TERVALIDASI RESMI SISTEM VALIDIN</div>
+                <div class="qr-stamp-token" id="paperQrTokenText">UUID: -</div>
+                <div class="qr-stamp-hint">Pindai QR Code untuk memeriksa keaslian berkas di portal kampus</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Right: Audit Trail & Action Controls -->
+      <aside class="side-panel">
+        <div style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light);">
+          <div class="panel-section-title">Status Berkas Saat Ini</div>
+          <div id="sideStatusBadge" style="margin-top: 4px;"></div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-tertiary); margin-top: 6px;" id="sideRegNumber">DOC/...</div>
+        </div>
+
+        <div class="panel-section-title">Jejak Audit Persetujuan</div>
+        <div class="audit-trail" id="auditTrailContainer">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="panel-section-title" style="margin-top: 24px;">Tindakan Persetujuan</div>
+        <div id="actionButtonsContainer" style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- Injected via JS based on current role & document status -->
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Revision Modal -->
+  <div id="revisionModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: var(--radius-md); max-width: 500px; width: 100%; padding: 24px; box-shadow: var(--shadow-modal);">
+      <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 8px;">Minta Catatan Perbaikan (Revisi)</h3>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">Tuliskan perbaikan spesifik yang perlu disesuaikan mahasiswa sebelum berkas dapat disetujui.</p>
+      
+      <div class="form-group">
+        <label class="form-label">Rincian Catatan Revisi:</label>
+        <textarea id="revisionNotesInput" class="form-textarea" rows="4" placeholder="Misal: Perbaiki rincian estimasi belanja konsumsi dan sertakan bukti sewa aula..."></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button class="btn btn-outline" onclick="closeRevisionModal()">Batal</button>
+        <button class="btn btn-danger" onclick="confirmRevisionAction()">Kirim Catatan Revisi</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer" id="siteFooter"></footer>
+
+  <script src="js/shared.js"></script>
+  <script>
+    let activeDoc = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('dashboard');
+      renderFooter();
+
+      // Read ?id= from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const docId = urlParams.get('id') || 'DOC-2026-001';
+      activeDoc = getDocById(docId);
+
+      if (!activeDoc) {
+        alert('Dokumen tidak ditemukan dalam basis data.');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      renderReviewData();
+    });
+
+    function renderReviewData() {
+      const doc = activeDoc;
+      const role = getCurrentRole();
+
+      // Breadcrumb & Page Headers
+      document.getElementById('breadDocNumber').textContent = doc.regNumber;
+      document.getElementById('pageDocTitle').textContent = doc.title;
+
+      // Paper Content
+      document.getElementById('paperOrgName').textContent = doc.organization;
+      document.getElementById('paperTitle').textContent = doc.title.toUpperCase();
+      document.getElementById('paperRegNumber').textContent = `Nomor Registrasi: ${doc.regNumber}`;
+      document.getElementById('paperEventName').textContent = doc.title;
+      document.getElementById('paperSubmitter').textContent = `${doc.submitterName} (NIM: ${doc.submitterNim})`;
+      document.getElementById('paperDate').textContent = doc.eventDate;
+      document.getElementById('paperLocation').textContent = doc.location;
+      document.getElementById('paperBudget').textContent = doc.budget;
+      document.getElementById('paperSignSubmitter').textContent = doc.submitterName;
+
+      // Signatures
+      const signKetua = document.getElementById('paperSignKetuaArea');
+      const signPembina = document.getElementById('paperSignPembinaArea');
+      const qrSeal = document.getElementById('paperQrSealArea');
+
+      // Ketua Sign
+      if (doc.status === 'menunggu_pembina' || doc.status === 'disetujui') {
+        signKetua.innerHTML = `
+          <div class="signed-badge-text">[PARAF RESMI SAH]</div>
+          <div style="font-size: 0.65rem; color: #52525b; margin-top: 2px;">${doc.ketuaApproval ? doc.ketuaApproval.at : 'Disetujui'}</div>
+        `;
+      } else {
+        signKetua.innerHTML = `<span style="font-size: 0.75rem; color: #a1a1aa; font-style: italic;">Menunggu pengesahan</span>`;
+      }
+
+      // Pembina Sign & QR Code
+      if (doc.status === 'disetujui') {
+        signPembina.innerHTML = `
+          <div class="signed-badge-text">[DISAHKAN RESMI]</div>
+          <div style="font-size: 0.65rem; color: #52525b; margin-top: 2px;">${doc.pembinaApproval ? doc.pembinaApproval.at : '26 Okt 2026'}</div>
+        `;
+        qrSeal.style.display = 'flex';
+        document.getElementById('paperQrTokenText').textContent = `Token: ${doc.qrToken}`;
+      } else {
+        signPembina.innerHTML = `<span style="font-size: 0.75rem; color: #a1a1aa; font-style: italic;">Menunggu pengesahan</span>`;
+        qrSeal.style.display = 'none';
+      }
+
+      // Side Panel Status
+      document.getElementById('sideStatusBadge').innerHTML = getStatusBadgeMarkup(doc.status);
+      document.getElementById('sideRegNumber').textContent = doc.regNumber;
+
+      // Audit Trail
+      renderAuditTrail();
+
+      // Action Buttons
+      renderActionButtons();
+    }
+
+    function renderAuditTrail() {
+      const doc = activeDoc;
+      const isKetuaDone = doc.status === 'menunggu_pembina' || doc.status === 'disetujui';
+      const isPembinaDone = doc.status === 'disetujui';
+
+      document.getElementById('auditTrailContainer').innerHTML = `
+        <div class="audit-step done">
+          <div class="audit-marker">✓</div>
+          <div class="audit-info">
+            <div class="audit-label">Diajukan Mahasiswa</div>
+            <div class="audit-meta">${doc.submitterName} &bull; ${doc.createdAt}</div>
+          </div>
+        </div>
+
+        <div class="audit-step ${isKetuaDone ? 'done' : (doc.status === 'menunggu_ketua' ? 'active' : '')}">
+          <div class="audit-marker">${isKetuaDone ? '✓' : '2'}</div>
+          <div class="audit-info">
+            <div class="audit-label">Persetujuan Ketua Organisasi</div>
+            <div class="audit-meta">${doc.ketuaApproval ? doc.ketuaApproval.at : (doc.status === 'menunggu_ketua' ? 'Menunggu Peninjauan' : '-')}</div>
+          </div>
+        </div>
+
+        <div class="audit-step ${isPembinaDone ? 'done' : (doc.status === 'menunggu_pembina' ? 'active' : '')}">
+          <div class="audit-marker">${isPembinaDone ? '✓' : '3'}</div>
+          <div class="audit-info">
+            <div class="audit-label">Pengesahan Dosen Pembina</div>
+            <div class="audit-meta">${doc.pembinaApproval ? doc.pembinaApproval.at : (doc.status === 'menunggu_pembina' ? 'Menunggu Konfirmasi' : '-')}</div>
+          </div>
+        </div>
+
+        <div class="audit-step ${isPembinaDone ? 'done' : ''}">
+          <div class="audit-marker">${isPembinaDone ? '★' : '4'}</div>
+          <div class="audit-info">
+            <div class="audit-label">QR Code Validasi Terbit</div>
+            <div class="audit-meta">${isPembinaDone ? 'Dapat Diverifikasi Publik Tanpa Login' : 'Otomatis saat Pembina menyetujui'}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderActionButtons() {
+      const doc = activeDoc;
+      const role = getCurrentRole();
+      const container = document.getElementById('actionButtonsContainer');
+
+      const canKetua = (role === 'ketua' || role === 'admin') && doc.status === 'menunggu_ketua';
+      const canPembina = (role === 'pembina' || role === 'admin') && doc.status === 'menunggu_pembina';
+
+      if (canKetua) {
+        container.innerHTML = `
+          <button class="btn btn-success" onclick="approveAsKetua()">
+            Setujui & Teruskan ke Pembina
+          </button>
+          <button class="btn btn-danger" onclick="openRevisionModal()">
+            Minta Revisi
+          </button>
+        `;
+      } else if (canPembina) {
+        container.innerHTML = `
+          <button class="btn btn-success" onclick="approveAsPembina()">
+            Sahkan Dokumen & Terbitkan QR
+          </button>
+          <button class="btn btn-danger" onclick="openRevisionModal()">
+            Kembalikan untuk Revisi
+          </button>
+        `;
+      } else if (doc.status === 'disetujui') {
+        container.innerHTML = `
+          <a href="verify.html?token=${doc.qrToken}" class="btn btn-primary">
+            Lihat Halaman Verifikasi QR
+          </a>
+          <button class="btn btn-outline" onclick="window.print()">
+            Cetak / Ekspor Lembar Sah
+          </button>
+        `;
+      } else {
+        container.innerHTML = `
+          <div style="font-size: 0.8rem; color: var(--text-tertiary); background: var(--bg-subtle); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            Dokumen ini berstatus <strong>${doc.status}</strong>. Tidak ada tindakan tertunda untuk peran aktif Anda (${role}).
+          </div>
+        `;
+      }
+    }
+
+    function approveAsKetua() {
+      activeDoc.status = 'menunggu_pembina';
+      activeDoc.ketuaApproval = { by: 'M. Hafiz (Ketua BEM)', at: '30 Okt 2026, 09:30 WIB' };
+      saveDoc(activeDoc);
+      showToast('Dokumen disetujui Ketua Organisasi! Sekarang menunggu Dosen Pembina.');
+      renderReviewData();
+    }
+
+    function approveAsPembina() {
+      activeDoc.status = 'disetujui';
+      activeDoc.pembinaApproval = { by: 'Dr. Ir. Budi Santoso, M.Kom', at: '30 Okt 2026, 09:35 WIB' };
+      saveDoc(activeDoc);
+      showToast('Dokumen resmi disahkan! Stempel QR Code validasi berhasil diterbitkan.');
+      renderReviewData();
+    }
+
+    function openRevisionModal() {
+      document.getElementById('revisionModal').style.display = 'flex';
+    }
+
+    function closeRevisionModal() {
+      document.getElementById('revisionModal').style.display = 'none';
+    }
+
+    function confirmRevisionAction() {
+      const notes = document.getElementById('revisionNotesInput').value.trim();
+      activeDoc.status = 'revisi';
+      activeDoc.revisionNotes = notes || 'Mohon perbaiki berkas sesuai standar tata tertib proposal kegiatan.';
+      saveDoc(activeDoc);
+      closeRevisionModal();
+      showToast('Status dokumen diubah menjadi Revisi.');
+      renderReviewData();
+    }
+  </script>
+</body>
+</html>

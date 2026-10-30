@@ -1,0 +1,412 @@
+/* Tactile Document Viewer & Verification Styling */
+
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Desk backdrop simulating actual physical paper inspection */
+.desk-viewport {
+  background-color: #27272a;
+  border-radius: var(--radius-md);
+  padding: 36px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.desk-controls {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #a1a1aa;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+/* The Official Document Paper */
+.official-paper {
+  background-color: #ffffff;
+  color: #18181b;
+  width: 100%;
+  max-width: 720px;
+  min-height: 940px;
+  padding: 55px 60px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  position: relative;
+  border: 1px solid #d4d4d8;
+}
+
+/* Official Campus Letterhead */
+.campus-letterhead {
+  border-bottom: 3px double #18181b;
+  padding-bottom: 16px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.letterhead-ministry {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #27272a;
+}
+
+.letterhead-faculty {
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #18181b;
+}
+
+.letterhead-org {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.letterhead-address {
+  font-size: 0.72rem;
+  color: #52525b;
+  margin-top: 4px;
+}
+
+/* Document Title & Number */
+.paper-title-block {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.paper-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.paper-reg-num {
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  color: #52525b;
+  margin-top: 4px;
+}
+
+/* Document Body Content */
+.paper-body {
+  font-size: 0.88rem;
+  color: #27272a;
+  text-align: justify;
+}
+
+.paper-table {
+  width: 100%;
+  margin: 18px 0;
+  font-size: 0.86rem;
+  border-collapse: collapse;
+}
+
+.paper-table td {
+  padding: 5px 8px;
+  vertical-align: top;
+}
+
+.paper-table td.label-col {
+  width: 160px;
+  font-weight: 600;
+  color: #3f3f46;
+}
+
+/* Signatures & Seals */
+.paper-signatures {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  text-align: center;
+  font-size: 0.82rem;
+}
+
+.signature-box {
+  width: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signature-role {
+  color: #52525b;
+  margin-bottom: 6px;
+}
+
+.signature-seal-area {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signed-badge-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--seal-green);
+  border: 1px dashed var(--seal-green);
+  padding: 4px 8px;
+  background: var(--seal-green-bg);
+  border-radius: var(--radius-xs);
+}
+
+.signature-name {
+  font-weight: 800;
+  border-top: 1px solid #18181b;
+  padding-top: 4px;
+  width: 100%;
+  color: #18181b;
+}
+
+/* QR Code Stamping Seal */
+.qr-seal-wrapper {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.official-qr-stamp {
+  border: 2px solid var(--seal-green);
+  background-color: var(--seal-green-bg);
+  padding: 10px 14px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qr-matrix {
+  width: 60px;
+  height: 60px;
+  background: repeating-conic-gradient(#15803d 0% 25%, #ffffff 0% 50%) 50% / 10px 10px;
+  border: 1px solid var(--seal-green);
+  flex-shrink: 0;
+}
+
+.qr-stamp-meta {
+  text-align: left;
+}
+
+.qr-stamp-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--seal-green);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.qr-stamp-token {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #27272a;
+}
+
+.qr-stamp-hint {
+  font-size: 0.65rem;
+  color: #52525b;
+}
+
+/* Side Action & Audit Trail Panel */
+.side-panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  top: 90px;
+}
+
+.panel-section-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.audit-trail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.audit-trail::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background-color: var(--border-light);
+}
+
+.audit-step {
+  display: flex;
+  gap: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.audit-marker {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.audit-step.done .audit-marker {
+  background-color: var(--seal-green);
+  border-color: var(--seal-green);
+  color: white;
+}
+
+.audit-step.active .audit-marker {
+  background-color: var(--navy-900);
+  border-color: var(--navy-900);
+  color: white;
+}
+
+.audit-info {
+  flex: 1;
+}
+
+.audit-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.audit-meta {
+  font-size: 0.74rem;
+  color: var(--text-tertiary);
+}
+
+/* Public Verification Certificate Presentation */
+.verification-certificate {
+  max-width: 780px;
+  margin: 0 auto;
+  background-color: var(--bg-surface);
+  border: 2px solid var(--seal-green);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevated);
+  overflow: hidden;
+}
+
+.certificate-header {
+  background-color: var(--seal-green);
+  color: white;
+  padding: 24px;
+  text-align: center;
+}
+
+.certificate-seal {
+  width: 52px;
+  height: 52px;
+  background: white;
+  color: var(--seal-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-weight: 800;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.certificate-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.certificate-body {
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 640px) {
+  .certificate-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cert-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cert-field.full {
+  grid-column: 1 / -1;
+}
+
+.cert-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.cert-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cert-value.mono {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  word-break: break-all;
+}
+
+.certificate-footer {
+  background-color: var(--bg-subtle);
+  border-top: 1px solid var(--border-light);
+  padding: 18px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.82rem;
+}
