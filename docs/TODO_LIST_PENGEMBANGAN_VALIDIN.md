@@ -17,7 +17,7 @@
 
 ---
 
-## 1. 🏆 Status Capaian Milestone Terkini (Rekapitulasi Perkembangan Terakhir)
+## 1. Status Capaian Milestone Terkini (Rekapitulasi Perkembangan Terakhir)
 
 Seluruh milestone berikut telah berhasil diimplementasikan dan telah tersimpan pada repositori Git:
 
@@ -74,7 +74,7 @@ Seluruh milestone berikut telah berhasil diimplementasikan dan telah tersimpan p
 
 ---
 
-## 2. ⚡ Rencana Tindak Lanjut Segera (Next Immediate Steps)
+## 2. Rencana Tindak Lanjut Segera (Next Immediate Steps)
 
 Langkah teknis utama untuk menghubungkan seluruh komponen yang telah selesai:
 
@@ -89,7 +89,7 @@ Langkah teknis utama untuk menghubungkan seluruh komponen yang telah selesai:
 
 ---
 
-## 3. 👥 Pembagian Tugas Rinci Berdasarkan Peran Anggota
+## 3. Pembagian Tugas Rinci Berdasarkan Peran Anggota
 
 ### A. Ketua Kelompok & System Analyst
 * **Fokus**: Tata kelola proyek, perancangan diagram UML, koordinasi asistensi dosen, dan validasi fungsional sistem.
@@ -137,7 +137,7 @@ Langkah teknis utama untuk menghubungkan seluruh komponen yang telah selesai:
 
 ---
 
-## 4. 📊 Tabel Monitoring Progres & Jadwal Kerja (Timeline)
+## 4. Tabel Monitoring Progres & Jadwal Kerja (Timeline)
 
 | No | Aktivitas / Deliverable | Penanggung Jawab | Target Waktu | Status Terkini |
 | :---: | :--- | :--- | :---: | :---: |
@@ -153,7 +153,7 @@ Langkah teknis utama untuk menghubungkan seluruh komponen yang telah selesai:
 
 ---
 
-## 5. ✍️ Lembar Komitmen & Kesepakatan Tim Pengembang
+## 5. Lembar Komitmen & Kesepakatan Tim Pengembang
 
 To-do list ini menjadi acuan kerja resmi bersama tim pengembang proyek **ValidIn Fakultas Teknik Universitas Tidar** guna menjamin ketepatan waktu pengumpulan dan kualitas sistem.
 
