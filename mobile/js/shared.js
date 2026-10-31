@@ -408,9 +408,6 @@ function renderHeader(activePage = 'dashboard') {
       </nav>
 
       <div class="header-actions">
-        <a href="mobile.html" class="nav-link" style="border: 1px solid var(--border-strong); padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 700; color: var(--navy-900); background: #ffffff; text-decoration: none;" title="Buka antarmuka mobile mahasiswa & satpam">
-          📱 Mode Mobile
-        </a>
         <!-- Authentic User Account Switcher (No simulation text!) -->
         <div class="user-account-chip" title="Klik untuk beralih akun pejabat/pengguna resmi UNTIDAR">
           <div class="user-chip-avatar">${profile.initials}</div>
