@@ -153,7 +153,7 @@ Langkah teknis utama untuk menghubungkan seluruh komponen yang telah selesai:
 
 ---
 
-## 5. Lembar Komitmen & Kesepakatan Tim Pengembang
+## 5. Peran & Kesepakatan Tim Pengembang
 
 To-do list ini menjadi acuan kerja resmi bersama tim pengembang proyek **ValidIn Fakultas Teknik Universitas Tidar** guna menjamin ketepatan waktu pengumpulan dan kualitas sistem.
 
