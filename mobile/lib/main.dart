@@ -75,7 +75,10 @@ class _MainShellState extends State<MainShell> {
                         TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
                 Text(
                   'FAKULTAS TEKNIK UNTIDAR',
-                  style: TextStyle(fontSize: 9, color: Color(0xFF94A3B8), letterSpacing: 0.5),
+                  style: TextStyle(
+                      fontSize: 9,
+                      color: Color(0xFF94A3B8),
+                      letterSpacing: 0.5),
                 ),
               ],
             ),
@@ -246,8 +249,9 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     final all = widget.store.getDocs();
     final countAll = all.length;
-    final countActive =
-        all.where((d) => d.status != 'disetujui' && d.status != 'ditolak').length;
+    final countActive = all
+        .where((d) => d.status != 'disetujui' && d.status != 'ditolak')
+        .length;
     final countApproved = all.where((d) => d.status == 'disetujui').length;
     final profile = widget.store.getProfile(widget.store.currentRole);
 
@@ -341,11 +345,11 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget _emptyState() {
-    return Card(
+    return const Card(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+        padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
         child: Column(
-          children: const [
+          children: [
             Text('📭', style: TextStyle(fontSize: 32)),
             SizedBox(height: 8),
             Text('Tidak ada dokumen dalam kategori ini.',
@@ -575,8 +579,10 @@ class _Stepper extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          ...stages.asMap().entries.map((e) =>
-              _StepRow(index: e.key + 1, data: e.value)),
+          ...stages
+              .asMap()
+              .entries
+              .map((e) => _StepRow(index: e.key + 1, data: e.value)),
         ],
       ),
     );
@@ -715,8 +721,8 @@ class _StatusBadge extends StatelessWidget {
       return _badge('✓ Disahkan Wadek', AppTheme.sealGreen,
           AppTheme.sealGreenBg, AppTheme.sealGreenBorder);
     } else if (status == 'perlu_revisi') {
-      return _badge('⚠ Perlu Revisi', AppTheme.sealAmber,
-          AppTheme.sealAmberBg, AppTheme.sealAmberBorder);
+      return _badge('⚠ Perlu Revisi', AppTheme.sealAmber, AppTheme.sealAmberBg,
+          AppTheme.sealAmberBorder);
     }
     return _badge('● Menunggu', const Color(0xFF2563EB),
         const Color(0xFFEFF6FF), const Color(0xFFBFDBFE));
@@ -742,8 +748,7 @@ class _StatusBadge extends StatelessWidget {
 class AjukanTab extends StatefulWidget {
   final LocalStore store;
   final void Function(int) onNavigate;
-  const AjukanTab(
-      {super.key, required this.store, required this.onNavigate});
+  const AjukanTab({super.key, required this.store, required this.onNavigate});
 
   @override
   State<AjukanTab> createState() => _AjukanTabState();
@@ -761,15 +766,13 @@ class _AjukanTabState extends State<AjukanTab> {
     setState(() {
       if (type == 'gedung') {
         _eventCtrl.text = 'Pengenalan Informatika Mahasiswa Baru 2026';
-        _locationCtrl.text =
-            'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06';
+        _locationCtrl.text = 'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06';
         _dateCtrl.text = 'Sabtu, 24 Oktober 2026';
         _timeCtrl.text = '08.00 - 16.00 WIB';
         _contactCtrl.text = '+62 851-8470-9553 (Ilyasa)';
       } else if (type == 'sound') {
         _eventCtrl.text = 'Seminar Nasional Teknologi Informasi FT';
-        _locationCtrl.text =
-            'Auditorium Gedung FT 03 Lt. 3 & 2 Mic Wireless';
+        _locationCtrl.text = 'Auditorium Gedung FT 03 Lt. 3 & 2 Mic Wireless';
         _dateCtrl.text = 'Kamis, 5 November 2026';
         _timeCtrl.text = '07.30 - 13.00 WIB';
         _contactCtrl.text = '+62 851-8470-9553 (Ilyasa)';
@@ -790,8 +793,7 @@ class _AjukanTabState extends State<AjukanTab> {
         'f${rnd.nextInt(9999999).toRadixString(36)}-${DateTime.now().millisecondsSinceEpoch.toRadixString(36)}';
     final doc = LetterDocument(
       id: 'DOC-M-${DateTime.now().millisecondsSinceEpoch}',
-      regNumber:
-          '${100 + rnd.nextInt(800)}/E/PM/HIMATIF/UNTIDAR/X/2026',
+      regNumber: '${100 + rnd.nextInt(800)}/E/PM/HIMATIF/UNTIDAR/X/2026',
       title: 'Surat Permohonan Izin ${_locationCtrl.text}',
       type: 'Peminjaman Fasilitas Kampus',
       eventName: _eventCtrl.text,
@@ -804,9 +806,7 @@ class _AjukanTabState extends State<AjukanTab> {
       qrToken: uuid,
       dispositionNote: '',
       secretaryApproval: ApprovalStage(
-          by: 'Hanif Abdillah Alatas',
-          npmOrNip: '2420506041',
-          at: 'Hari ini'),
+          by: 'Hanif Abdillah Alatas', npmOrNip: '2420506041', at: 'Hari ini'),
     );
 
     widget.store.addDoc(doc);
@@ -819,8 +819,7 @@ class _AjukanTabState extends State<AjukanTab> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-          content: Text(
-              'Surat permohonan berhasil dibuat dan masuk antrean!')),
+          content: Text('Surat permohonan berhasil dibuat dan masuk antrean!')),
     );
     widget.onNavigate(0);
   }
@@ -840,8 +839,7 @@ class _AjukanTabState extends State<AjukanTab> {
           const SizedBox(height: 2),
           const Text(
               'Format resmi permohonan peminjaman HIMATIF Fakultas Teknik UNTIDAR.',
-              style: TextStyle(
-                  fontSize: 12, color: AppTheme.textSecondary)),
+              style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
           const SizedBox(height: 14),
           const Text('PILIH TEMPLATE CEPAT:',
               style: TextStyle(
@@ -876,12 +874,12 @@ class _AjukanTabState extends State<AjukanTab> {
                     Row(
                       children: [
                         Expanded(
-                            child: _field(_dateCtrl, 'Tanggal *',
-                                '14 November 2026')),
+                            child: _field(
+                                _dateCtrl, 'Tanggal *', '14 November 2026')),
                         const SizedBox(width: 8),
                         Expanded(
-                            child: _field(_timeCtrl, 'Waktu *',
-                                '08.00 - 15.00 WIB')),
+                            child: _field(
+                                _timeCtrl, 'Waktu *', '08.00 - 15.00 WIB')),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -901,8 +899,7 @@ class _AjukanTabState extends State<AjukanTab> {
                         ),
                         child: const Text('Kirimkan Surat Permohonan',
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700)),
+                                fontSize: 14, fontWeight: FontWeight.w700)),
                       ),
                     ),
                   ],
@@ -919,38 +916,32 @@ class _AjukanTabState extends State<AjukanTab> {
     return GestureDetector(
       onTap: () => _applyTemplate(type),
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(6),
           border: Border.all(color: AppTheme.borderStrong),
         ),
         child: Text(label,
-            style: const TextStyle(
-                fontSize: 12, fontWeight: FontWeight.w600)),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
       ),
     );
   }
 
-  Widget _field(
-      TextEditingController ctrl, String label, String hint) {
+  Widget _field(TextEditingController ctrl, String label, String hint) {
     return TextFormField(
       controller: ctrl,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        hintStyle: const TextStyle(
-            fontSize: 11, color: AppTheme.textTertiary),
+        hintStyle: const TextStyle(fontSize: 11, color: AppTheme.textTertiary),
         border: const OutlineInputBorder(),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        labelStyle: const TextStyle(
-            fontSize: 12, fontWeight: FontWeight.w600),
+        labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
       ),
       style: const TextStyle(fontSize: 13),
-      validator: (v) =>
-          (v == null || v.trim().isEmpty) ? 'Wajib diisi' : null,
+      validator: (v) => (v == null || v.trim().isEmpty) ? 'Wajib diisi' : null,
     );
   }
 }
@@ -994,14 +985,12 @@ class PassQrTab extends StatelessWidget {
         const SizedBox(height: 2),
         const Text(
             'Tunjukkan layar ini langsung di depan petugas Satpam di pos jaga gedung FT 03.',
-            style: TextStyle(
-                fontSize: 12, color: AppTheme.textSecondary)),
+            style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
         const SizedBox(height: 14),
         Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
-            side:
-                const BorderSide(color: AppTheme.navy900, width: 2),
+            side: const BorderSide(color: AppTheme.navy900, width: 2),
           ),
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -1039,8 +1028,8 @@ class PassQrTab extends StatelessWidget {
                 const SizedBox(height: 10),
                 if (approved.isApproved)
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppTheme.sealGreenBg,
                       borderRadius: BorderRadius.circular(12),
@@ -1054,8 +1043,8 @@ class PassQrTab extends StatelessWidget {
                   )
                 else
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppTheme.sealAmberBg,
                       borderRadius: BorderRadius.circular(12),
@@ -1111,8 +1100,7 @@ class PassQrTab extends StatelessWidget {
                     children: [
                       Text('🏢 Izin Ruang: ${approved.location}',
                           style: const TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600)),
+                              fontSize: 11, fontWeight: FontWeight.w600)),
                       const SizedBox(height: 2),
                       Text(
                           '⏰ Waktu Izin: ${approved.eventDate} (${approved.eventTime})',
@@ -1137,8 +1125,7 @@ class PassQrTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                            '📝 INSTRUKSI RESMI UNTUK SATPAM:',
+                        const Text('📝 INSTRUKSI RESMI UNTUK SATPAM:',
                             style: TextStyle(
                                 fontSize: 9,
                                 fontWeight: FontWeight.w800,
@@ -1161,13 +1148,11 @@ class PassQrTab extends StatelessWidget {
                   child: ElevatedButton.icon(
                     onPressed: () => _showQrModal(context, approved),
                     icon: const Icon(Icons.zoom_in, size: 16),
-                    label: const Text(
-                        'Perbesar Layar Penuh (Untuk Satpam)'),
+                    label: const Text('Perbesar Layar Penuh (Untuk Satpam)'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.navy900,
                       foregroundColor: Colors.white,
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6)),
                     ),
@@ -1235,8 +1220,7 @@ class _QrFullscreenModal extends StatelessWidget {
                 data: doc.qrToken,
                 version: QrVersions.auto,
                 size: 220,
-                embeddedImage:
-                    const AssetImage('assets/img/logo_untidar.png'),
+                embeddedImage: const AssetImage('assets/img/logo_untidar.png'),
                 embeddedImageStyle:
                     const QrEmbeddedImageStyle(size: Size(36, 36)),
               ),
@@ -1246,8 +1230,7 @@ class _QrFullscreenModal extends StatelessWidget {
               onTap: () {
                 Clipboard.setData(ClipboardData(text: doc.qrToken));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Token disalin ke clipboard!')),
+                  const SnackBar(content: Text('Token disalin ke clipboard!')),
                 );
               },
               child: Text('UUID: ${doc.qrToken}',
@@ -1262,9 +1245,7 @@ class _QrFullscreenModal extends StatelessWidget {
               'Pindai menggunakan kamera smartphone Satpam untuk memeriksa keabsahan izin dan instruksi pembukaan pintu gedung.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 11,
-                  color: AppTheme.textSecondary,
-                  height: 1.4),
+                  fontSize: 11, color: AppTheme.textSecondary, height: 1.4),
             ),
             const SizedBox(height: 16),
             SizedBox(
@@ -1319,8 +1300,7 @@ class _ScanTabState extends State<ScanTab> {
         const SizedBox(height: 2),
         const Text(
             'Uji coba simulasi pemindaian QR oleh petugas keamanan kampus.',
-            style: TextStyle(
-                fontSize: 12, color: AppTheme.textSecondary)),
+            style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
         const SizedBox(height: 14),
         Card(
           child: Padding(
@@ -1339,14 +1319,12 @@ class _ScanTabState extends State<ScanTab> {
                 const Text(
                     'Kamera aktif mendeteksi stempel token izin dekanat FT UNTIDAR.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 11,
-                        color: AppTheme.textSecondary)),
+                    style:
+                        TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
                 const SizedBox(height: 14),
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: const Text(
-                      'PILIH TOKEN SURAT UNTUK DIVERIFIKASI:',
+                  child: Text('PILIH TOKEN SURAT UNTUK DIVERIFIKASI:',
                       style: TextStyle(
                           fontSize: 9,
                           fontWeight: FontWeight.w800,
@@ -1356,12 +1334,10 @@ class _ScanTabState extends State<ScanTab> {
                 const SizedBox(height: 6),
                 Container(
                   width: double.infinity,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border:
-                        Border.all(color: AppTheme.borderStrong),
+                    border: Border.all(color: AppTheme.borderStrong),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: DropdownButtonHideUnderline(
@@ -1379,8 +1355,7 @@ class _ScanTabState extends State<ScanTab> {
                         final label =
                             '[${d.status.toUpperCase()}] $title (${d.qrToken.substring(0, 8)}...)';
                         return DropdownMenuItem(
-                            value: d.qrToken,
-                            child: Text(label));
+                            value: d.qrToken, child: Text(label));
                       }).toList(),
                       onChanged: (v) => setState(() {
                         _selectedToken = v;
@@ -1403,8 +1378,7 @@ class _ScanTabState extends State<ScanTab> {
                     ),
                     child: const Text('Verifikasi Token Dokumen',
                         style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700)),
+                            fontSize: 13, fontWeight: FontWeight.w700)),
                   ),
                 ),
               ],
@@ -1437,14 +1411,10 @@ class _ScanResult extends StatelessWidget {
       margin: const EdgeInsets.only(top: 14),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ok
-            ? const Color(0xFFF0FDF4)
-            : const Color(0xFFFFFBEB),
+        color: ok ? const Color(0xFFF0FDF4) : const Color(0xFFFFFBEB),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-            color: ok
-                ? const Color(0xFFBBF7D0)
-                : const Color(0xFFFDE68A)),
+            color: ok ? const Color(0xFFBBF7D0) : const Color(0xFFFDE68A)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1454,9 +1424,7 @@ class _ScanResult extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  ok
-                      ? '✓ DOKUMEN RESMI SAH'
-                      : '⚠ DOKUMEN BELUM SAH',
+                  ok ? '✓ DOKUMEN RESMI SAH' : '⚠ DOKUMEN BELUM SAH',
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
@@ -1481,14 +1449,11 @@ class _ScanResult extends StatelessWidget {
                   color: AppTheme.navy900)),
           const SizedBox(height: 6),
           Text('🏢 Izin: ${doc.location}',
-              style: const TextStyle(
-                  fontSize: 11,
-                  color: AppTheme.textSecondary)),
-          Text(
-              '⏰ Jadwal: ${doc.eventDate} (${doc.eventTime})',
-              style: const TextStyle(
-                  fontSize: 11,
-                  color: AppTheme.textSecondary)),
+              style:
+                  const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+          Text('⏰ Jadwal: ${doc.eventDate} (${doc.eventTime})',
+              style:
+                  const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
           if (doc.dispositionNote.isNotEmpty) ...[
             const SizedBox(height: 8),
             Container(

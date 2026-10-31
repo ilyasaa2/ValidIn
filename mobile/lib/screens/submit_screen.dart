@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../theme/app_theme.dart';
 import '../models/letter_document.dart';
 import '../services/local_store.dart';
@@ -61,8 +60,8 @@ class _SubmitScreenState extends State<SubmitScreen> {
   void _updateRegPreview() {
     final rnd = 30 + Random().nextInt(10);
     final code = _docType.contains('Kegiatan') ? 'PH' : 'PM';
-    setState(() =>
-        _regPreview = 'Nomor Registrasi: 0$rnd.a/E/$code/HIMATIF/UNTIDAR/X/2026');
+    setState(() => _regPreview =
+        'Nomor Registrasi: 0$rnd.a/E/$code/HIMATIF/UNTIDAR/X/2026');
   }
 
   void _applyTemplate(String type) {
@@ -73,8 +72,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
             'Surat Permohonan Peminjaman Gedung FT 03 Ruang Kelas';
         _eventNameCtrl.text =
             'Peningkatan Kompetensi Mahasiswa DigitalWave 2026';
-        _locationCtrl.text =
-            'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06';
+        _locationCtrl.text = 'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06';
         _borrowedItemsCtrl.text =
             'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06';
         _eventDateCtrl.text =
@@ -86,8 +84,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
             'Surat Permohonan Peminjaman Sound dan 2 Buah Mikrofon';
         _eventNameCtrl.text =
             'Peningkatan Kompetensi Mahasiswa DigitalWave 2026';
-        _locationCtrl.text =
-            'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06';
+        _locationCtrl.text = 'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06';
         _borrowedItemsCtrl.text =
             'Sound system portable dan 2 buah mikrofon kabel FT';
         _eventDateCtrl.text =
@@ -189,8 +186,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
             const SizedBox(height: 2),
             const Text(
                 'Gunakan formulir ini untuk mengajukan permohonan peminjaman gedung/kelas FT 03, alat, atau izin kegiatan resmi ke Dekanat FT UNTIDAR.',
-                style:
-                    TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
             const SizedBox(height: 16),
 
             // Role access notice (non-sekretaris)
@@ -201,13 +197,13 @@ class _SubmitScreenState extends State<SubmitScreen> {
                 decoration: BoxDecoration(
                   color: const Color(0xFFFFFBEB),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFFFDE047), width: 1.5),
+                  border:
+                      Border.all(color: const Color(0xFFFDE047), width: 1.5),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                        '⚠️ Perhatian Hak Akses',
+                    const Text('⚠️ Perhatian Hak Akses',
                         style: TextStyle(
                             fontWeight: FontWeight.w800,
                             color: Color(0xFFB45309),
@@ -261,8 +257,8 @@ class _SubmitScreenState extends State<SubmitScreen> {
                     spacing: 8,
                     runSpacing: 6,
                     children: [
-                      _templatePill('🏢 Pinjam Gedung FT 03 Ruang Kelas',
-                          'gedung'),
+                      _templatePill(
+                          '🏢 Pinjam Gedung FT 03 Ruang Kelas', 'gedung'),
                       _templatePill('🎤 Pinjam Sound & Mikrofon FT', 'sound'),
                       _templatePill(
                           '📋 Izin Kegiatan Workshop Ormawa', 'seminar'),
@@ -284,8 +280,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                       // Kategori Surat
                       _label('Kategori Surat Permohonan *'),
                       Container(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
                           border: Border.all(color: AppTheme.borderStrong),
                           borderRadius: BorderRadius.circular(6),
@@ -295,8 +290,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                             value: _docType,
                             isExpanded: true,
                             style: const TextStyle(
-                                fontSize: 13,
-                                color: AppTheme.textPrimary),
+                                fontSize: 13, color: AppTheme.textPrimary),
                             items: _docTypes
                                 .map((t) => DropdownMenuItem(
                                     value: t,
@@ -332,8 +326,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                       const SizedBox(height: 14),
 
                       // Nama Kegiatan
-                      _field(_eventNameCtrl,
-                          'Nama Program Kerja / Kegiatan *'),
+                      _field(_eventNameCtrl, 'Nama Program Kerja / Kegiatan *'),
                       const SizedBox(height: 12),
 
                       // Perihal Surat
@@ -347,16 +340,16 @@ class _SubmitScreenState extends State<SubmitScreen> {
                                 'Sekretaris Panitia (Penyusun Surat) *')),
                         const SizedBox(width: 10),
                         Expanded(
-                            child: _field(
-                                _secretaryNimCtrl, 'NPM Sekretaris *')),
+                            child:
+                                _field(_secretaryNimCtrl, 'NPM Sekretaris *')),
                       ]),
                       const SizedBox(height: 12),
 
                       // Ketua Pelaksana & NPM
                       Row(children: [
                         Expanded(
-                            child:
-                                _field(_submitterNameCtrl, 'Ketua Pelaksana *')),
+                            child: _field(
+                                _submitterNameCtrl, 'Ketua Pelaksana *')),
                         const SizedBox(width: 10),
                         Expanded(
                             child: _field(
@@ -371,14 +364,13 @@ class _SubmitScreenState extends State<SubmitScreen> {
                                 'Hari & Tanggal Pelaksanaan *')),
                         const SizedBox(width: 10),
                         Expanded(
-                            child: _field(
-                                _eventTimeCtrl, 'Waktu Peminjaman *')),
+                            child:
+                                _field(_eventTimeCtrl, 'Waktu Peminjaman *')),
                       ]),
                       const SizedBox(height: 12),
 
                       // Lokasi
-                      _field(
-                          _locationCtrl, 'Tempat / Ruangan yang Dipinjam *'),
+                      _field(_locationCtrl, 'Tempat / Ruangan yang Dipinjam *'),
                       const SizedBox(height: 12),
 
                       // Rincian & CP
@@ -399,8 +391,8 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: const Color(0xFFBFDBFE),
-                              width: 1.5),
+                          border: Border.all(
+                              color: const Color(0xFFBFDBFE), width: 1.5),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -532,8 +524,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                             child: const Text(
                                 'Simpan & Daftarkan Surat Resmi →',
                                 style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700)),
+                                    fontSize: 13, fontWeight: FontWeight.w700)),
                           ),
                         ],
                       ),
@@ -567,8 +558,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
         TextFormField(
           controller: ctrl,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             isDense: true,

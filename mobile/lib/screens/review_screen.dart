@@ -44,8 +44,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   void _approveAsKetuaHimatif() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-          content:
-              Text('Surat diparaf & diteruskan ke Dekanat FT UNTIDAR!')),
+          content: Text('Surat diparaf & diteruskan ke Dekanat FT UNTIDAR!')),
     );
   }
 
@@ -77,8 +76,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('Lembar Surat Resmi',
-                style:
-                    TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
             Text(
               _doc.regNumber,
               style: const TextStyle(
@@ -145,7 +143,7 @@ class _OfficialPaperCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 12,
               offset: const Offset(0, 3))
         ],
@@ -156,15 +154,12 @@ class _OfficialPaperCard extends StatelessWidget {
           if (doc.isApproved && doc.dispositionNote.isNotEmpty)
             Container(
               width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: const BoxDecoration(
                 color: Color(0xFFFEFCE8),
                 border: Border(
-                    bottom:
-                        BorderSide(color: Color(0xFFCA8A04), width: 1.5)),
-                borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(6)),
+                    bottom: BorderSide(color: Color(0xFFCA8A04), width: 1.5)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(6)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,39 +203,34 @@ class _OfficialPaperCard extends StatelessWidget {
                         children: [
                           _metaRow('Nomor', doc.regNumber),
                           _metaRow('Lampiran', '-'),
-                          _metaRow('Perihal',
-                              doc.type.split('/').first.trim()),
+                          _metaRow('Perihal', doc.type.split('/').first.trim()),
                         ],
                       ),
                     ),
                     const SizedBox(width: 20),
-                    Text('Magelang, 9 September 2026',
-                        style: const TextStyle(
+                    const Text('Magelang, 9 September 2026',
+                        style: TextStyle(
                             fontSize: 11, color: AppTheme.textSecondary)),
                   ],
                 ),
                 const SizedBox(height: 14),
 
                 // ── Destinasi ──
-                const Text('Kepada Yth.',
-                    style: TextStyle(fontSize: 11)),
+                const Text('Kepada Yth.', style: TextStyle(fontSize: 11)),
                 const Text('Dekan Fakultas Teknik',
-                    style: TextStyle(
-                        fontSize: 11, fontWeight: FontWeight.w700)),
+                    style:
+                        TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
                 const Text('di Universitas Tidar',
                     style: TextStyle(fontSize: 11)),
                 const SizedBox(height: 14),
 
                 // ── Body ──
-                const Text('Dengan hormat,',
-                    style: TextStyle(fontSize: 11)),
+                const Text('Dengan hormat,', style: TextStyle(fontSize: 11)),
                 const SizedBox(height: 6),
                 RichText(
                   text: TextSpan(
                     style: const TextStyle(
-                        fontSize: 11,
-                        color: AppTheme.textPrimary,
-                        height: 1.6),
+                        fontSize: 11, color: AppTheme.textPrimary, height: 1.6),
                     children: [
                       const TextSpan(
                           text:
@@ -262,9 +252,7 @@ class _OfficialPaperCard extends StatelessWidget {
                 RichText(
                   text: TextSpan(
                     style: const TextStyle(
-                        fontSize: 11,
-                        color: AppTheme.textPrimary,
-                        height: 1.6),
+                        fontSize: 11, color: AppTheme.textPrimary, height: 1.6),
                     children: [
                       const TextSpan(
                           text:
@@ -297,8 +285,7 @@ class _OfficialPaperCard extends StatelessWidget {
                             fontSize: 10, fontWeight: FontWeight.w700)),
                     Text(doc.contactPerson,
                         style: const TextStyle(
-                            fontSize: 10,
-                            color: AppTheme.textSecondary)),
+                            fontSize: 10, color: AppTheme.textSecondary)),
                   ],
                 ),
               ],
@@ -314,8 +301,8 @@ class _OfficialPaperCard extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 3, right: 6),
         child: Text(key,
-            style: const TextStyle(
-                fontSize: 11, color: AppTheme.textSecondary)),
+            style:
+                const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
       ),
       Padding(
         padding: const EdgeInsets.only(bottom: 3),
@@ -342,9 +329,9 @@ class _KopSurat extends StatelessWidget {
               const Icon(Icons.school, size: 44, color: AppTheme.untidarBlue),
         ),
         const SizedBox(width: 12),
-        Expanded(
+        const Expanded(
           child: Column(
-            children: const [
+            children: [
               Text('HIMPUNAN MAHASISWA TEKNOLOGI INFORMASI',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -362,7 +349,8 @@ class _KopSurat extends StatelessWidget {
               Text(
                 'Alamat: Jalan Kapten Suparman 39 Magelang 56116\nTelp. (0293) 364113  |  ft.untidar.ac.id  |  untidarhimatif@gmail.com',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 8, color: AppTheme.textSecondary, height: 1.4),
+                style: TextStyle(
+                    fontSize: 8, color: AppTheme.textSecondary, height: 1.4),
               ),
             ],
           ),
@@ -412,14 +400,14 @@ class _DetailTable extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           child: Text(key,
-              style: const TextStyle(
-                  fontSize: 11, color: AppTheme.textSecondary)),
+              style:
+                  const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           child: Text(': $val',
-              style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
         ),
       ],
     );
@@ -560,7 +548,8 @@ class _SignBox extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                                color: stampColor!, width: 1.5,
+                                color: stampColor!,
+                                width: 1.5,
                                 style: BorderStyle.solid),
                           ),
                           alignment: Alignment.center,
@@ -573,17 +562,17 @@ class _SignBox extends StatelessWidget {
                                   letterSpacing: 0.3)),
                         ),
                       Text(signText,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16,
                               fontStyle: FontStyle.italic,
                               color: AppTheme.untidarBlue,
                               fontFamily: 'serif')),
                     ],
                   )
-                : Center(
+                : const Center(
                     child: Text('Menunggu\ntanda tangan',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 9,
                             fontStyle: FontStyle.italic,
                             color: AppTheme.textTertiary))),
@@ -597,12 +586,11 @@ class _SignBox extends StatelessWidget {
           const Divider(height: 10),
           Text(name,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontSize: 9, fontWeight: FontWeight.w800)),
+              style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800)),
           Text(nim,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontSize: 8, color: AppTheme.textTertiary)),
+              style:
+                  const TextStyle(fontSize: 8, color: AppTheme.textTertiary)),
         ],
       ),
     );
@@ -703,33 +691,51 @@ class _AuditTrailCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            _auditStep('1', 'Paraf Sekretaris Panitia',
+            _auditStep(
+                '1',
+                'Paraf Sekretaris Panitia',
                 'Hanif Abdillah Alatas',
-                hasSecretary ? 'Diparaf (${doc.secretaryApproval!.at})' : 'Menunggu Paraf',
-                hasSecretary, !hasSecretary),
-            _auditStep('2', 'Tanda Tangan Ketua Pelaksana',
+                hasSecretary
+                    ? 'Diparaf (${doc.secretaryApproval!.at})'
+                    : 'Menunggu Paraf',
+                hasSecretary,
+                !hasSecretary),
+            _auditStep(
+                '2',
+                'Tanda Tangan Ketua Pelaksana',
                 doc.submitterName,
                 hasPelaksana
                     ? 'Ditandatangani (${doc.pelaksanaApproval!.at})'
                     : 'Menunggu',
-                hasPelaksana, hasSecretary && !hasPelaksana),
-            _auditStep('3', 'Paraf & Cap Ketua HIMATIF',
+                hasPelaksana,
+                hasSecretary && !hasPelaksana),
+            _auditStep(
+                '3',
+                'Paraf & Cap Ketua HIMATIF',
                 'Naufal Miftakhul Siddiq',
                 hasKetua
                     ? 'Diparaf (${doc.ketuaApproval!.at})'
                     : 'Menunggu Peninjauan Ormawa',
-                hasKetua, hasPelaksana && !hasKetua),
-            _auditStep('4', 'Disposisi & Pengesahan Wadek FT',
+                hasKetua,
+                hasPelaksana && !hasKetua),
+            _auditStep(
+                '4',
+                'Disposisi & Pengesahan Wadek FT',
                 'Dr. Sigit Iswahyudi, S.T., M.T.',
                 isApproved
                     ? 'Disahkan (${doc.pembinaApproval!.at})'
                     : 'Menunggu Disposisi Fakultas',
-                isApproved, hasKetua && !isApproved),
-            _auditStep('★', 'Penerbitan QR Code Satpam', '',
+                isApproved,
+                hasKetua && !isApproved),
+            _auditStep(
+                '★',
+                'Penerbitan QR Code Satpam',
+                '',
                 isApproved
                     ? 'Surat Sah & QR Siap Dipindai Satpam'
                     : 'Otomatis aktif setelah disetujui Wadek',
-                isApproved, false),
+                isApproved,
+                false),
           ],
         ),
       ),
@@ -844,8 +850,7 @@ class _ActionPanel extends StatelessWidget {
             const SizedBox(height: 6),
             const Text(
                 'Paraf Anda memvalidasi format surat sebelum disahkan Ketua Pelaksana.',
-                style:
-                    TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
+                style: TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
           ],
         );
       }
@@ -862,8 +867,7 @@ class _ActionPanel extends StatelessWidget {
             const SizedBox(height: 6),
             const Text(
                 'Anda memberikan persetujuan operasional sebelum diajukan ke Ketua HIMATIF.',
-                style:
-                    TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
+                style: TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
           ],
         );
       }
@@ -892,13 +896,12 @@ class _ActionPanel extends StatelessWidget {
       if (doc.ketuaApproval != null && !doc.isApproved) {
         return Column(
           children: [
-            _actionBtn('Tulis Disposisi & Sahkan QR Code',
-                AppTheme.sealGreen, onOpenDisposition),
+            _actionBtn('Tulis Disposisi & Sahkan QR Code', AppTheme.sealGreen,
+                onOpenDisposition),
             const SizedBox(height: 6),
             const Text(
                 'Pengesahan Anda akan mengaktifkan QR Code resmi untuk Petugas Satpam.',
-                style:
-                    TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
+                style: TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
           ],
         );
       }
@@ -922,12 +925,10 @@ class _ActionPanel extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         ),
         child: Text(label,
-            style: const TextStyle(
-                fontSize: 12, fontWeight: FontWeight.w700)),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
       ),
     );
   }
@@ -957,8 +958,7 @@ class _ActionPanel extends StatelessWidget {
         border: Border.all(color: AppTheme.borderLight),
       ),
       child: Text(msg,
-          style: const TextStyle(
-              fontSize: 11, color: AppTheme.textTertiary)),
+          style: const TextStyle(fontSize: 11, color: AppTheme.textTertiary)),
     );
   }
 }
@@ -972,14 +972,14 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (status == 'disetujui') {
-      return _badge('✓ Disahkan', AppTheme.sealGreen,
-          AppTheme.sealGreenBg, AppTheme.sealGreenBorder);
+      return _badge('✓ Disahkan', AppTheme.sealGreen, AppTheme.sealGreenBg,
+          AppTheme.sealGreenBorder);
     } else if (status == 'perlu_revisi') {
-      return _badge('⚠ Revisi', AppTheme.sealAmber,
-          AppTheme.sealAmberBg, AppTheme.sealAmberBorder);
+      return _badge('⚠ Revisi', AppTheme.sealAmber, AppTheme.sealAmberBg,
+          AppTheme.sealAmberBorder);
     }
-    return _badge('● Proses', const Color(0xFF2563EB),
-        const Color(0xFFEFF6FF), const Color(0xFFBFDBFE));
+    return _badge('● Proses', const Color(0xFF2563EB), const Color(0xFFEFF6FF),
+        const Color(0xFFBFDBFE));
   }
 
   Widget _badge(String label, Color text, Color bg, Color border) {
@@ -1022,13 +1022,11 @@ class _DispositionModalState extends State<_DispositionModal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('Pengesahan & Catatan Disposisi Wadek FT',
-                style: TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
             const SizedBox(height: 4),
             const Text(
                 'Catatan ini akan tertulis di lembar fisik surat dan dibaca oleh Petugas Satpam.',
-                style: TextStyle(
-                    fontSize: 11, color: AppTheme.textSecondary)),
+                style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
             const SizedBox(height: 12),
             const Text('PILIH TEMPLATE CEPAT:',
                 style: TextStyle(
@@ -1037,14 +1035,11 @@ class _DispositionModalState extends State<_DispositionModal> {
                     color: AppTheme.textTertiary,
                     letterSpacing: 0.5)),
             const SizedBox(height: 6),
-            _presetBtn(
-                'Template A (Gedung & Kelas):',
+            _presetBtn('Template A (Gedung & Kelas):',
                 'ACC dt 23/9/26: Satpam mhn bantuan u/ buka gd & kls sesuai jam pinjam. Mhn pastikan ketertiban & kebersihan dr mhs. Tks.'),
-            _presetBtn(
-                'Template B (Sound & Alat):',
+            _presetBtn('Template B (Sound & Alat):',
                 'ACC: Peminjaman fasilitas sound system dan mikrofon diizinkan untuk kegiatan HIMATIF. Harap dijaga dengan baik.'),
-            _presetBtn(
-                'Template C (Izin Kegiatan):',
+            _presetBtn('Template C (Izin Kegiatan):',
                 'ACC: Disetujui pelaksanaan kegiatan sesuai jadwal. Panitia wajib melapor ke pos satpam sebelum dan sesudah acara.'),
             const SizedBox(height: 10),
             TextField(
@@ -1101,13 +1096,11 @@ class _DispositionModalState extends State<_DispositionModal> {
         ),
         child: RichText(
           text: TextSpan(
-            style: const TextStyle(
-                fontSize: 10, color: AppTheme.textPrimary),
+            style: const TextStyle(fontSize: 10, color: AppTheme.textPrimary),
             children: [
               TextSpan(
                   text: '$title ',
-                  style:
-                      const TextStyle(fontWeight: FontWeight.w800)),
+                  style: const TextStyle(fontWeight: FontWeight.w800)),
               TextSpan(text: text),
             ],
           ),

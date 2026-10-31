@@ -122,7 +122,8 @@ ValidIn/
 │   ├── ERD.md                   # Entity Relationship Diagram & Data Dictionary MySQL
 │   ├── API_CONTRACT.md          # Kontrak Endpoint REST API v1 Gateway
 │   ├── DESIGN_SYSTEM.md         # Standar Desain Notarial & Kop Surat UNTIDAR
-│   └── TEAM_RESPONSIBILITIES.md # Matriks Pembagian Tugas Tim 4 Anggota & RACI
+│   ├── TEAM_RESPONSIBILITIES.md # Matriks Pembagian Tugas Tim 4 Anggota & RACI
+│   └── TODO_LIST_PENGEMBANGAN_VALIDIN.md # Daftar Tugas & Monitoring Progres Tim
 ├── web/                         # Frontend 1: Web Portal Pejabat & Dekanat (Port 8080)
 │   ├── index.html               # Dashboard utama adaptif 4 pejabat (KPI, filter, aksi cepat)
 │   ├── review.html              # Lembar surat fisik UNTIDAR, matriks 2 baris tanda tangan & disposisi
