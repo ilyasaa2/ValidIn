@@ -120,29 +120,29 @@
           <input type="text" id="docTitle" class="form-input" value="Surat Permohonan Peminjaman Gedung FT 03 Ruang Kelas" required>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-row-2col">
           <div class="form-group">
             <label class="form-label" for="secretaryName">Sekretaris Panitia (Penyusun Surat) *</label>
             <input type="text" id="secretaryName" class="form-input" value="Hanif Abdillah Alatas" required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="secretaryNim">NPM Sekretaris *</label>
-            <input type="text" id="secretaryNim" class="form-input" value="2420506041" required>
+            <label class="form-label" for="secretaryNim">NPM Sekretaris (10 Digit) *</label>
+            <input type="text" id="secretaryNim" class="form-input" value="2420506041" maxlength="10" pattern="[0-9]{10}" placeholder="Contoh: 2420506041" required>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-row-2col">
           <div class="form-group">
             <label class="form-label" for="submitterName">Ketua Pelaksana *</label>
             <input type="text" id="submitterName" class="form-input" value="Emannuel Henji Pratama Putra" required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="submitterNim">NPM Ketua Pelaksana *</label>
-            <input type="text" id="submitterNim" class="form-input" value="2505060012" required>
+            <label class="form-label" for="submitterNim">NPM Ketua Pelaksana (10 Digit) *</label>
+            <input type="text" id="submitterNim" class="form-input" value="2505060012" maxlength="10" pattern="[0-9]{10}" placeholder="Contoh: 2505060012" required>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-row-2col">
           <div class="form-group">
             <label class="form-label" for="eventDate">Hari & Tanggal Pelaksanaan *</label>
             <input type="text" id="eventDate" class="form-input" value="Minggu dan Sabtu, 27 September dan 3 Oktober 2026" required>
@@ -158,7 +158,7 @@
           <input type="text" id="location" class="form-input" value="Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06" required>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-row-2col">
           <div class="form-group">
             <label class="form-label" for="borrowedItems">Rincian Fasilitas / Ruang *</label>
             <input type="text" id="borrowedItems" class="form-input" value="Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06" required>
@@ -270,21 +270,45 @@
       document.getElementById('previewRegNumber').textContent = `Nomor Registrasi: 0${rand}.a/E/${code}/HIMATIF/UNTIDAR/X/2026`;
     }
 
-    function handleFormSubmit(e) {
+    async function handleFormSubmit(e) {
       e.preventDefault();
 
-      const docType = document.getElementById('docType').value;
-      const eventName = document.getElementById('eventName').value;
-      const docTitle = document.getElementById('docTitle').value;
-      const submitterName = document.getElementById('submitterName').value;
-      const submitterNim = document.getElementById('submitterNim').value;
-      const secretaryName = document.getElementById('secretaryName').value;
-      const secretaryNim = document.getElementById('secretaryNim').value;
-      const eventDate = document.getElementById('eventDate').value;
-      const eventTime = document.getElementById('eventTime').value;
-      const location = document.getElementById('location').value;
-      const borrowedItems = document.getElementById('borrowedItems').value;
-      const contactPerson = document.getElementById('contactPerson').value;
+      const docType = document.getElementById('docType').value.trim();
+      const eventName = document.getElementById('eventName').value.trim();
+      const docTitle = document.getElementById('docTitle').value.trim();
+      const submitterName = document.getElementById('submitterName').value.trim();
+      const submitterNim = document.getElementById('submitterNim').value.trim();
+      const secretaryName = document.getElementById('secretaryName').value.trim();
+      const secretaryNim = document.getElementById('secretaryNim').value.trim();
+      const eventDate = document.getElementById('eventDate').value.trim();
+      const eventTime = document.getElementById('eventTime').value.trim();
+      const location = document.getElementById('location').value.trim();
+      const borrowedItems = document.getElementById('borrowedItems').value.trim();
+      const contactPerson = document.getElementById('contactPerson').value.trim();
+
+      // ── Validasi Ketat & Edge Cases ──────────────────────────────────────────
+      if (!eventName || !docTitle || !location || !borrowedItems) {
+        alert('Harap lengkapi semua kolom bertanda bintang (*) dengan benar.');
+        return;
+      }
+
+      if (!isValidNPM(secretaryNim)) {
+        alert('NPM Sekretaris tidak valid! Harus terdiri dari 10 digit angka UNTIDAR (contoh: 2420506041).');
+        document.getElementById('secretaryNim').focus();
+        return;
+      }
+
+      if (!isValidNPM(submitterNim)) {
+        alert('NPM Ketua Pelaksana tidak valid! Harus terdiri dari 10 digit angka UNTIDAR (contoh: 2505060012).');
+        document.getElementById('submitterNim').focus();
+        return;
+      }
+
+      if (!isValidPhone(contactPerson)) {
+        alert('Nomor kontak WhatsApp tidak valid! Format: +62 8xx atau 08xx (contoh: +62 851-8470-9553).');
+        document.getElementById('contactPerson').focus();
+        return;
+      }
 
       const rand = Math.floor(30 + Math.random() * 69);
       let code = 'PM';
@@ -292,7 +316,29 @@
 
       const newId = `DOC-UNTIDAR-0${rand}A`;
       const newReg = `0${rand}.a/E/${code}/HIMATIF/UNTIDAR/X/2026`;
-      const newUUID = '9a' + Math.random().toString(36).substring(2, 10) + '-4e81-8b29-' + Math.random().toString(36).substring(2, 12);
+      
+      // Standard Cryptographic UUID v4
+      const newUUID = (typeof crypto !== 'undefined' && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          });
+
+      // Real SHA-256 Digest Calculation
+      let calculatedHash = '9f83a48e89f81a179e0a8b9f1d014bc0892015df3146d9a0d8e2a3c749021b14';
+      try {
+        if (typeof crypto !== 'undefined' && crypto.subtle) {
+          const payload = `${newReg}|${docTitle}|${eventName}|${location}|${newUUID}`;
+          const msgBuffer = new TextEncoder().encode(payload);
+          const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+          calculatedHash = Array.from(new Uint8Array(hashBuffer))
+            .map(b => b.toString(16).padStart(2, '0'))
+            .join('');
+        }
+      } catch (err) {
+        console.warn('Crypto subtle not available, fallback to default digest');
+      }
 
       // Secretary signs initial draft; advances to Ketua Pelaksana
       const secretaryApproval = {
@@ -330,7 +376,7 @@
         dispositionNote: '',
         revisionNotes: '',
         qrToken: newUUID,
-        hashSha256: '9f83a48e89f81a179e0a8b9f1d014bc0892015df3146d9a0d8e2a3c749021b14'
+        hashSha256: calculatedHash
       };
 
       addDoc(newDoc);

@@ -1,5 +1,47 @@
 // ValidIn Shared State & Component Controller (UNTIDAR HIMATIF Edition - 4 Official Roles)
 
+// ── Global Security & Sanitization ──────────────────────────────────────────
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// ── Strict Input Validation Helpers ─────────────────────────────────────────
+function isValidNPM(val) {
+  return /^[0-9]{10}$/.test(String(val).trim());
+}
+
+function isValidNIP(val) {
+  return /^[0-9]{18}$/.test(String(val).trim());
+}
+
+function isValidPhone(val) {
+  return /^(\+62|62|0)8[1-9][0-9]{7,11}(\s*\(.*?\))?$/.test(String(val).trim());
+}
+
+function isValidUUID(val) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(val).trim());
+}
+
+// ── Safe LocalStorage Handler ───────────────────────────────────────────────
+function safeStorageSet(key, val) {
+  try {
+    localStorage.setItem(key, val);
+    return true;
+  } catch (err) {
+    console.error('Storage quota exceeded or storage disabled:', err);
+    if (typeof showToast === 'function') {
+      showToast('Peringatan: Gagal menyimpan data (penyimpanan browser penuh/dinonaktifkan).');
+    }
+    return false;
+  }
+}
+
 const DEFAULT_UNTIDAR_DOCUMENTS = [
   {
     id: 'DOC-UNTIDAR-026A',
@@ -228,19 +270,19 @@ function saveDoc(updatedDoc) {
   const index = docs.findIndex(d => d.id === updatedDoc.id);
   if (index !== -1) {
     docs[index] = updatedDoc;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
+    safeStorageSet(STORAGE_KEY, JSON.stringify(docs));
   }
 }
 
 function addDoc(newDoc) {
   const docs = getDocs();
   docs.unshift(newDoc);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
+  safeStorageSet(STORAGE_KEY, JSON.stringify(docs));
 }
 
 // Reset docs to clean initial demo state if needed
 function resetDemoData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_UNTIDAR_DOCUMENTS));
+  safeStorageSet(STORAGE_KEY, JSON.stringify(DEFAULT_UNTIDAR_DOCUMENTS));
   showToast('Data percontohan UNTIDAR berhasil dimuat ulang!');
   setTimeout(() => window.location.reload(), 400);
 }
@@ -399,7 +441,7 @@ function renderHeader(activePage = 'dashboard') {
         <img src="assets/img/logo_untidar.png" alt="Logo UNTIDAR" style="width: 34px; height: 34px; object-fit: contain;">
         <div class="brand-text">
           <span class="brand-title">ValidIn UNTIDAR</span>
-          <span class="brand-subtitle">${profile.roleLabel}</span>
+          <span class="brand-subtitle">${escapeHtml(profile.roleLabel)}</span>
         </div>
       </a>
 
@@ -408,12 +450,12 @@ function renderHeader(activePage = 'dashboard') {
       </nav>
 
       <div class="header-actions">
-        <!-- Authentic User Account Switcher (No simulation text!) -->
+        <!-- Authentic User Account Switcher -->
         <div class="user-account-chip" title="Klik untuk beralih akun pejabat/pengguna resmi UNTIDAR">
-          <div class="user-chip-avatar">${profile.initials}</div>
+          <div class="user-chip-avatar">${escapeHtml(profile.initials)}</div>
           <div class="user-chip-meta">
-            <div class="user-chip-name">${profile.name}</div>
-            <div class="user-chip-role">${profile.roleLabel} &#9662;</div>
+            <div class="user-chip-name">${escapeHtml(profile.name)}</div>
+            <div class="user-chip-role">${escapeHtml(profile.roleLabel)} &#9662;</div>
           </div>
           <select id="headerUserSwitcher" class="user-chip-select" aria-label="Ganti Akun Pengguna">
             <option value="sekretaris" ${currentRole === 'sekretaris' ? 'selected' : ''}>Hanif Abdillah Alatas &bull; Sekretaris Panitia (NPM. 2420506041)</option>

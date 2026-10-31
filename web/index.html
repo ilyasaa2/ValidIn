@@ -129,7 +129,11 @@
       applyRolePerspective();
       loadDashboardData();
 
-      document.getElementById('searchInput').addEventListener('input', () => loadDashboardData());
+      let searchTimeout;
+      document.getElementById('searchInput').addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => loadDashboardData(), 180);
+      });
       document.getElementById('typeFilter').addEventListener('change', () => loadDashboardData());
       document.getElementById('statusFilter').addEventListener('change', (e) => {
         activeFilterStatus = e.target.value;
@@ -326,18 +330,18 @@
 
         tr.innerHTML = `
           <td>
-            <div style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-secondary);">${doc.regNumber}</div>
-            <a href="review.html?id=${doc.id}" style="font-weight: 700; color: var(--text-primary); text-decoration: none; font-size: 0.92rem;">${doc.title}</a>
-            <div style="font-size: 0.78rem; color: var(--blue-600); font-weight: 600;">${doc.eventName}</div>
-            ${doc.status === 'revisi' ? `<div class="action-attention-badge" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a;">⚠️ Perlu Perbaikan: ${doc.revisionNotes || 'Harap periksa rincian permohonan'}</div>` : (isNeedsMyAction ? `<div class="action-attention-badge">★ Menunggu Tindakan Akun Anda</div>` : '')}
+            <div style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-secondary);">${escapeHtml(doc.regNumber)}</div>
+            <a href="review.html?id=${encodeURIComponent(doc.id)}" style="font-weight: 700; color: var(--text-primary); text-decoration: none; font-size: 0.92rem;">${escapeHtml(doc.title)}</a>
+            <div style="font-size: 0.78rem; color: var(--blue-600); font-weight: 600;">${escapeHtml(doc.eventName)}</div>
+            ${doc.status === 'revisi' ? `<div class="action-attention-badge" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a;">⚠️ Perlu Perbaikan: ${escapeHtml(doc.revisionNotes || 'Harap periksa rincian permohonan')}</div>` : (isNeedsMyAction ? `<div class="action-attention-badge">★ Menunggu Tindakan Akun Anda</div>` : '')}
           </td>
-          <td><span class="badge-status badge-type">${doc.type}</span></td>
+          <td><span class="badge-status badge-type">${escapeHtml(doc.type)}</span></td>
           <td>
-            <div style="font-weight: 600; font-size: 0.84rem;">Pelaksana: ${doc.submitterName}</div>
-            <div style="font-size: 0.76rem; color: var(--text-secondary);">Sekretaris: ${doc.secretaryName}</div>
+            <div style="font-weight: 600; font-size: 0.84rem;">Pelaksana: ${escapeHtml(doc.submitterName)}</div>
+            <div style="font-size: 0.76rem; color: var(--text-secondary);">Sekretaris: ${escapeHtml(doc.secretaryName)}</div>
           </td>
           <td>${getStatusBadgeMarkup(doc.status)}</td>
-          <td style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;">${doc.createdAt}</td>
+          <td style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;">${escapeHtml(doc.createdAt)}</td>
           <td style="text-align: right; white-space: nowrap;">
             ${actionBtnMarkup}
           </td>

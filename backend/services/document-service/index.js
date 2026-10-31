@@ -77,7 +77,7 @@ app.post('/api/v1/documents/:id/approve', (req, res) => {
     doc.status = 'menunggu_ketua';
   } else if (role === 'ketua_himatif') {
     doc.ketuaApproval = { by: 'Naufal Miftakhul Siddiq', npm: '2440506060', at: 'Hari ini' };
-    doc.status = 'menunggu_wadek';
+    doc.status = 'menunggu_pembina';
   } else if (role === 'wadek') {
     doc.pembinaApproval = { by: 'Dr. Sigit Iswahyudi, S.T., M.T.', nip: '197510302021211005', at: 'Hari ini' };
     doc.dispositionNote = dispositionNote || 'ACC: Satpam mhn bantuan u/ buka gedung & kelas.';

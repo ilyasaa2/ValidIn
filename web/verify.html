@@ -213,11 +213,20 @@
     }
 
     function verifyToken(token) {
-      const docs = getDocs();
-      const doc = docs.find(d => d.qrToken === token);
-
+      const cleanToken = (token || '').trim();
       const validBox = document.getElementById('certValid');
       const invalidBox = document.getElementById('certInvalid');
+
+      if (!cleanToken) {
+        validBox.style.display = 'none';
+        invalidBox.style.display = 'block';
+        document.getElementById('invalidTitle').textContent = 'Token QR Tidak Boleh Kosong';
+        document.getElementById('invalidDesc').textContent = 'Silakan pindai kode QR fisik pada lembar surat atau masukkan UUID token yang tertera.';
+        return;
+      }
+
+      const docs = getDocs();
+      const doc = docs.find(d => (d.qrToken || '').toLowerCase() === cleanToken.toLowerCase());
 
       if (doc && doc.status === 'disetujui') {
         validBox.style.display = 'block';
@@ -231,13 +240,20 @@
         document.getElementById('certDateTime').textContent = `${doc.eventDate} (${doc.eventTime})`;
         document.getElementById('certSubmitter').textContent = `${doc.submitterName} (NPM. ${doc.submitterNim})`;
         document.getElementById('certCP').textContent = doc.contactPerson;
-        document.getElementById('certToken').textContent = `${doc.qrToken} &bull; SHA-256: ${doc.hashSha256 ? doc.hashSha256.substring(0, 24) + '...' : 'Verified'}`;
-        document.getElementById('linkViewOriginalLetter').href = `review.html?id=${doc.id}`;
+        document.getElementById('certToken').textContent = `${doc.qrToken} • SHA-256: ${doc.hashSha256 ? doc.hashSha256.substring(0, 24) + '...' : 'Verified'}`;
+        document.getElementById('linkViewOriginalLetter').href = `review.html?id=${encodeURIComponent(doc.id)}`;
       } else if (doc && doc.status !== 'disetujui') {
         validBox.style.display = 'none';
         invalidBox.style.display = 'block';
         document.getElementById('invalidTitle').textContent = 'Surat Ditemukan, Namun Masih Dalam Proses Pengesahan';
         document.getElementById('invalidDesc').textContent = `Surat nomor ${doc.regNumber} (${doc.title}) saat ini berstatus "${doc.status.replace(/_/g, ' ')}" dan belum memperoleh tanda tangan disposisi resmi dari Wakil Dekan FT UNTIDAR.`;
+      } else {
+        validBox.style.display = 'none';
+        invalidBox.style.display = 'block';
+        document.getElementById('invalidTitle').textContent = 'Surat Tidak Ditemukan atau Token Tidak Valid';
+        document.getElementById('invalidDesc').textContent = `Kode token "${cleanToken}" tidak terdaftar dalam basis data sistem pengesahan resmi Universitas Tidar.`;
+      }
+    }
       } else {
         validBox.style.display = 'none';
         invalidBox.style.display = 'block';
