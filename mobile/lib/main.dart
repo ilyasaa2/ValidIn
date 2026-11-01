@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:device_preview/presets.dart';
 import 'theme/app_theme.dart';
 import 'models/letter_document.dart';
 import 'services/local_store.dart';
@@ -8,6 +11,12 @@ import 'screens/review_screen.dart';
 import 'screens/submit_screen.dart';
 
 void main() {
+  if (!kReleaseMode) {
+    DevicePreviewBindingMixin.latchConfiguration(
+      initialSimulation: DevicePresets.iPhone16.resolve(),
+    );
+    DevicePreview.enable();
+  }
   runApp(const ValidInMobileApp());
 }
 
@@ -85,6 +94,117 @@ class _MainShellState extends State<MainShell> {
           ],
         ),
         actions: [
+          if (!kReleaseMode)
+            PopupMenuButton<String>(
+              tooltip: 'Ganti Perangkat Simulasi',
+              icon: const Icon(Icons.devices, size: 20, color: Colors.white70),
+              offset: const Offset(0, 40),
+              color: const Color(0xFF1E293B),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: const BorderSide(color: Color(0xFF334155)),
+              ),
+              onSelected: (val) {
+                final ctrl = DevicePreview.maybeController;
+                if (ctrl == null) return;
+                switch (val) {
+                  case 'iphone16':
+                    ctrl.applyPreset(DevicePresets.iPhone16);
+                    break;
+                  case 's25':
+                    ctrl.applyPreset(DevicePresets.galaxyS25);
+                    break;
+                  case 'pixel9':
+                    ctrl.applyPreset(DevicePresets.pixel9);
+                    break;
+                  case 'ipad10':
+                    ctrl.applyPreset(DevicePresets.iPad10);
+                    break;
+                  case 'rotate':
+                    final current =
+                        ctrl.simulation?.orientation ?? Orientation.portrait;
+                    ctrl.setOrientation(
+                      current == Orientation.portrait
+                          ? Orientation.landscape
+                          : Orientation.portrait,
+                    );
+                    break;
+                  case 'fullscreen':
+                    ctrl.reset();
+                    break;
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 'iphone16',
+                  child: Row(
+                    children: [
+                      Icon(Icons.phone_iphone, size: 18, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text('iPhone 16 (iOS)',
+                          style: TextStyle(color: Colors.white, fontSize: 13)),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 's25',
+                  child: Row(
+                    children: [
+                      Icon(Icons.phone_android, size: 18, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text('Galaxy S25 (Android)',
+                          style: TextStyle(color: Colors.white, fontSize: 13)),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'pixel9',
+                  child: Row(
+                    children: [
+                      Icon(Icons.smartphone, size: 18, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text('Pixel 9 (Android)',
+                          style: TextStyle(color: Colors.white, fontSize: 13)),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'ipad10',
+                  child: Row(
+                    children: [
+                      Icon(Icons.tablet_mac, size: 18, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text('iPad (10th gen)',
+                          style: TextStyle(color: Colors.white, fontSize: 13)),
+                    ],
+                  ),
+                ),
+                const PopupMenuDivider(height: 1),
+                const PopupMenuItem(
+                  value: 'rotate',
+                  child: Row(
+                    children: [
+                      Icon(Icons.screen_rotation,
+                          size: 18, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text('Putar Orientasi',
+                          style: TextStyle(color: Colors.white, fontSize: 13)),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'fullscreen',
+                  child: Row(
+                    children: [
+                      Icon(Icons.fullscreen, size: 18, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text('Tampilan Penuh (Reset)',
+                          style: TextStyle(color: Colors.white, fontSize: 13)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           GestureDetector(
             onTap: () => setState(() => _showRoleSelector = !_showRoleSelector),
             child: Container(
