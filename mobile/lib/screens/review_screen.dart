@@ -23,17 +23,44 @@ class _ReviewScreenState extends State<ReviewScreen> {
     _doc = widget.doc;
   }
 
+  String _currentIndonesianDate() {
+    final now = DateTime.now();
+    const months = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    return '${now.day} ${months[now.month - 1]} ${now.year}';
+  }
+
   // ── Actions ──────────────────────────────────────────────────────────────
 
   void _signAsSekretaris() {
-    // Not mutable directly since LetterDocument is final — rebuild with new
-    // data via store addDoc pattern. For demo, just show toast.
+    final updated = _doc.copyWith(
+      secretaryApproval: ApprovalStage(
+        by: 'Hanif Abdillah Alatas',
+        npmOrNip: '2420506041',
+        at: _currentIndonesianDate(),
+      ),
+      status: 'menunggu_pelaksana',
+    );
+    widget.store.updateDoc(updated);
+    setState(() => _doc = updated);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Paraf Sekretaris berhasil dibubuhkan!')),
     );
   }
 
   void _signAsPelaksana() {
+    final updated = _doc.copyWith(
+      pelaksanaApproval: ApprovalStage(
+        by: 'Emannuel Henji Pratama Putra',
+        npmOrNip: '2505060012',
+        at: _currentIndonesianDate(),
+      ),
+      status: 'menunggu_ketua',
+    );
+    widget.store.updateDoc(updated);
+    setState(() => _doc = updated);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
           content:
@@ -42,6 +69,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   void _approveAsKetuaHimatif() {
+    final updated = _doc.copyWith(
+      ketuaApproval: ApprovalStage(
+        by: 'Naufal Miftakhul Siddiq',
+        npmOrNip: '2440506060',
+        at: _currentIndonesianDate(),
+      ),
+      status: 'menunggu_pembina',
+    );
+    widget.store.updateDoc(updated);
+    setState(() => _doc = updated);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
           content: Text('Surat diparaf & diteruskan ke Dekanat FT UNTIDAR!')),
@@ -53,6 +90,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
       context: context,
       builder: (_) => _DispositionModal(
         onConfirm: (note) {
+          final updated = _doc.copyWith(
+            pembinaApproval: ApprovalStage(
+              by: 'Dr. Sigit Iswahyudi, S.T., M.T.',
+              npmOrNip: '197510302021211005',
+              at: _currentIndonesianDate(),
+            ),
+            dispositionNote: note,
+            status: 'disetujui',
+          );
+          widget.store.updateDoc(updated);
+          setState(() => _doc = updated);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content:

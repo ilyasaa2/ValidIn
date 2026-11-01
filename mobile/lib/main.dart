@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -6,6 +5,7 @@ import 'theme/app_theme.dart';
 import 'models/letter_document.dart';
 import 'services/local_store.dart';
 import 'screens/review_screen.dart';
+import 'screens/submit_screen.dart';
 
 void main() {
   runApp(const ValidInMobileApp());
@@ -130,7 +130,10 @@ class _MainShellState extends State<MainShell> {
               index: _tabIndex,
               children: [
                 HomeTab(store: _store, onNavigate: _switchTab),
-                AjukanTab(store: _store, onNavigate: _switchTab),
+                SubmitScreen(
+                    store: _store,
+                    onSubmitted: () => _switchTab(0),
+                    isTab: true),
                 PassQrTab(store: _store),
                 ScanTab(store: _store),
               ],
@@ -314,7 +317,9 @@ class _HomeTabState extends State<HomeTab> {
           else
             ..._filtered.map((doc) => _LetterCard(
                   doc: doc,
+                  store: widget.store,
                   onOpenPass: () => widget.onNavigate(2),
+                  onChanged: () => setState(() {}),
                 )),
         ],
       ),
@@ -369,8 +374,15 @@ class _HomeTabState extends State<HomeTab> {
 
 class _LetterCard extends StatelessWidget {
   final LetterDocument doc;
+  final LocalStore store;
   final VoidCallback onOpenPass;
-  const _LetterCard({required this.doc, required this.onOpenPass});
+  final VoidCallback onChanged;
+  const _LetterCard({
+    required this.doc,
+    required this.store,
+    required this.onOpenPass,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -460,15 +472,18 @@ class _LetterCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ReviewScreen(
-                          doc: doc,
-                          store: LocalStore(),
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ReviewScreen(
+                            doc: doc,
+                            store: store,
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                      onChanged();
+                    },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppTheme.textPrimary,
                       side: const BorderSide(color: AppTheme.borderStrong),
@@ -499,7 +514,18 @@ class _LetterCard extends StatelessWidget {
                           ),
                         )
                       : ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ReviewScreen(
+                                  doc: doc,
+                                  store: store,
+                                ),
+                              ),
+                            );
+                            onChanged();
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.navy900,
                             foregroundColor: Colors.white,
@@ -739,209 +765,6 @@ class _StatusBadge extends StatelessWidget {
       child: Text(label,
           style: TextStyle(
               fontSize: 10, fontWeight: FontWeight.w700, color: text)),
-    );
-  }
-}
-
-// ── TAB 2: AJUKAN ────────────────────────────────────────────────────────────
-
-class AjukanTab extends StatefulWidget {
-  final LocalStore store;
-  final void Function(int) onNavigate;
-  const AjukanTab({super.key, required this.store, required this.onNavigate});
-
-  @override
-  State<AjukanTab> createState() => _AjukanTabState();
-}
-
-class _AjukanTabState extends State<AjukanTab> {
-  final _formKey = GlobalKey<FormState>();
-  final _eventCtrl = TextEditingController();
-  final _locationCtrl = TextEditingController();
-  final _dateCtrl = TextEditingController();
-  final _timeCtrl = TextEditingController();
-  final _contactCtrl = TextEditingController();
-
-  void _applyTemplate(String type) {
-    setState(() {
-      if (type == 'gedung') {
-        _eventCtrl.text = 'Pengenalan Informatika Mahasiswa Baru 2026';
-        _locationCtrl.text = 'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06';
-        _dateCtrl.text = 'Sabtu, 24 Oktober 2026';
-        _timeCtrl.text = '08.00 - 16.00 WIB';
-        _contactCtrl.text = '+62 851-8470-9553 (Ilyasa)';
-      } else if (type == 'sound') {
-        _eventCtrl.text = 'Seminar Nasional Teknologi Informasi FT';
-        _locationCtrl.text = 'Auditorium Gedung FT 03 Lt. 3 & 2 Mic Wireless';
-        _dateCtrl.text = 'Kamis, 5 November 2026';
-        _timeCtrl.text = '07.30 - 13.00 WIB';
-        _contactCtrl.text = '+62 851-8470-9553 (Ilyasa)';
-      } else if (type == 'rapat') {
-        _eventCtrl.text = 'Rapat Pleno Pengurus HIMATIF UNTIDAR';
-        _locationCtrl.text = 'Gedung FT 03 Ruang Rapat E.03.2.02';
-        _dateCtrl.text = 'Jumat, 16 Oktober 2026';
-        _timeCtrl.text = '15.30 - 18.00 WIB';
-        _contactCtrl.text = '+62 851-8470-9553 (Ilyasa)';
-      }
-    });
-  }
-
-  void _submit() {
-    if (!_formKey.currentState!.validate()) return;
-    final rnd = Random();
-    final uuid =
-        'f${rnd.nextInt(9999999).toRadixString(36)}-${DateTime.now().millisecondsSinceEpoch.toRadixString(36)}';
-    final doc = LetterDocument(
-      id: 'DOC-M-${DateTime.now().millisecondsSinceEpoch}',
-      regNumber: '${100 + rnd.nextInt(800)}/E/PM/HIMATIF/UNTIDAR/X/2026',
-      title: 'Surat Permohonan Izin ${_locationCtrl.text}',
-      type: 'Peminjaman Fasilitas Kampus',
-      eventName: _eventCtrl.text,
-      location: _locationCtrl.text,
-      eventDate: _dateCtrl.text,
-      eventTime: _timeCtrl.text,
-      submitterName: 'Emannuel Henji Pratama Putra',
-      contactPerson: _contactCtrl.text,
-      status: 'menunggu_pelaksana',
-      qrToken: uuid,
-      dispositionNote: '',
-      secretaryApproval: ApprovalStage(
-          by: 'Hanif Abdillah Alatas', npmOrNip: '2420506041', at: 'Hari ini'),
-    );
-
-    widget.store.addDoc(doc);
-
-    _eventCtrl.clear();
-    _locationCtrl.clear();
-    _dateCtrl.clear();
-    _timeCtrl.clear();
-    _contactCtrl.clear();
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-          content: Text('Surat permohonan berhasil dibuat dan masuk antrean!')),
-    );
-    widget.onNavigate(0);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Pengajuan Izin Fasilitas',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                  color: AppTheme.navy900)),
-          const SizedBox(height: 2),
-          const Text(
-              'Format resmi permohonan peminjaman HIMATIF Fakultas Teknik UNTIDAR.',
-              style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
-          const SizedBox(height: 14),
-          const Text('PILIH TEMPLATE CEPAT:',
-              style: TextStyle(
-                  fontSize: 9,
-                  fontWeight: FontWeight.w800,
-                  color: AppTheme.textTertiary,
-                  letterSpacing: 0.5)),
-          const SizedBox(height: 6),
-          Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: [
-              _templateChip('🏛️ Gedung FT 03', 'gedung'),
-              _templateChip('🔊 Sound & Mic', 'sound'),
-              _templateChip('📋 Ruang Rapat', 'rapat'),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    _field(_eventCtrl, 'Nama Kegiatan *',
-                        'Contoh: Pengenalan Informatika 2026'),
-                    const SizedBox(height: 12),
-                    _field(_locationCtrl, 'Fasilitas / Ruangan *',
-                        'Contoh: Gedung FT 03 Lt. 2'),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: _field(
-                                _dateCtrl, 'Tanggal *', '14 November 2026')),
-                        const SizedBox(width: 8),
-                        Expanded(
-                            child: _field(
-                                _timeCtrl, 'Waktu *', '08.00 - 15.00 WIB')),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    _field(_contactCtrl, 'Kontak WhatsApp *',
-                        '+62 851-8470-9553 (Nama)'),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 46,
-                      child: ElevatedButton(
-                        onPressed: _submit,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.navy900,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6)),
-                        ),
-                        child: const Text('Kirimkan Surat Permohonan',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w700)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _templateChip(String label, String type) {
-    return GestureDetector(
-      onTap: () => _applyTemplate(type),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: AppTheme.borderStrong),
-        ),
-        child: Text(label,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-      ),
-    );
-  }
-
-  Widget _field(TextEditingController ctrl, String label, String hint) {
-    return TextFormField(
-      controller: ctrl,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        hintStyle: const TextStyle(fontSize: 11, color: AppTheme.textTertiary),
-        border: const OutlineInputBorder(),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-      ),
-      style: const TextStyle(fontSize: 13),
-      validator: (v) => (v == null || v.trim().isEmpty) ? 'Wajib diisi' : null,
     );
   }
 }

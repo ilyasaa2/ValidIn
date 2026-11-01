@@ -34,3 +34,4 @@
   - Baris 2: Mengetahui Ketua HIMATIF UNTIDAR (Kiri) & Mengesahkan Wakil Dekan Bidang Akademik & Kemahasiswaan FT UNTIDAR (Kanan).
 - **Catatan Disposisi Dekanat:** Kotak instruksi resmi pejabat dekanat untuk Petugas Satpam & Sarpras.
 - **Pass QR Code Kriptografis:** QR Code token UUID v4 dan sidik jari SHA-256 yang divalidasi seketika di pos satpam gerbang FT 03.
+

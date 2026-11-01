@@ -10,8 +10,14 @@ import 'review_screen.dart';
 class SubmitScreen extends StatefulWidget {
   final LocalStore store;
   final void Function()? onSubmitted;
+  final bool isTab;
 
-  const SubmitScreen({super.key, required this.store, this.onSubmitted});
+  const SubmitScreen({
+    super.key,
+    required this.store,
+    this.onSubmitted,
+    this.isTab = false,
+  });
 
   @override
   State<SubmitScreen> createState() => _SubmitScreenState();
@@ -150,9 +156,9 @@ class _SubmitScreenState extends State<SubmitScreen> {
     widget.onSubmitted?.call();
 
     // Navigate to review
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       if (!mounted) return;
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => ReviewScreen(doc: doc, store: widget.store),
@@ -166,17 +172,11 @@ class _SubmitScreenState extends State<SubmitScreen> {
     final role = widget.store.currentRole;
     final isSecretary = role == 'sekretaris';
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        title: const Text('Buat Surat Baru'),
-        leading: BackButton(onPressed: () => Navigator.pop(context)),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    final body = SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             // Page header
             const Text('Formulir Pengajuan Surat & Perizinan HIMATIF',
                 style: TextStyle(
@@ -500,7 +500,13 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           OutlinedButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              if (widget.isTab) {
+                                widget.onSubmitted?.call();
+                              } else if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              }
+                            },
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppTheme.textSecondary,
                               side: const BorderSide(
@@ -535,7 +541,22 @@ class _SubmitScreenState extends State<SubmitScreen> {
             ),
           ],
         ),
+      );
+
+    if (widget.isTab) {
+      return Container(
+        color: const Color(0xFFF8FAFC),
+        child: body,
+      );
+    }
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+      appBar: AppBar(
+        title: const Text('Buat Surat Baru'),
+        leading: BackButton(onPressed: () => Navigator.pop(context)),
       ),
+      body: body,
     );
   }
 

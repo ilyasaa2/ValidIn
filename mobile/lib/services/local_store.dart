@@ -116,6 +116,13 @@ class LocalStore {
   }
 
   void addDoc(LetterDocument doc) => _docs.insert(0, doc);
+
+  void updateDoc(LetterDocument updated) {
+    final idx = _docs.indexWhere((d) => d.id == updated.id);
+    if (idx != -1) {
+      _docs[idx] = updated;
+    }
+  }
 }
 
 class UserProfile {

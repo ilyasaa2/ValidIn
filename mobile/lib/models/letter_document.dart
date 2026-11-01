@@ -61,6 +61,46 @@ class LetterDocument {
 
   bool get isApproved => status == 'disetujui';
 
+  LetterDocument copyWith({
+    String? id,
+    String? regNumber,
+    String? title,
+    String? type,
+    String? eventName,
+    String? location,
+    String? eventDate,
+    String? eventTime,
+    String? submitterName,
+    String? contactPerson,
+    String? status,
+    String? qrToken,
+    String? dispositionNote,
+    ApprovalStage? secretaryApproval,
+    ApprovalStage? pelaksanaApproval,
+    ApprovalStage? ketuaApproval,
+    ApprovalStage? pembinaApproval,
+  }) {
+    return LetterDocument(
+      id: id ?? this.id,
+      regNumber: regNumber ?? this.regNumber,
+      title: title ?? this.title,
+      type: type ?? this.type,
+      eventName: eventName ?? this.eventName,
+      location: location ?? this.location,
+      eventDate: eventDate ?? this.eventDate,
+      eventTime: eventTime ?? this.eventTime,
+      submitterName: submitterName ?? this.submitterName,
+      contactPerson: contactPerson ?? this.contactPerson,
+      status: status ?? this.status,
+      qrToken: qrToken ?? this.qrToken,
+      dispositionNote: dispositionNote ?? this.dispositionNote,
+      secretaryApproval: secretaryApproval ?? this.secretaryApproval,
+      pelaksanaApproval: pelaksanaApproval ?? this.pelaksanaApproval,
+      ketuaApproval: ketuaApproval ?? this.ketuaApproval,
+      pembinaApproval: pembinaApproval ?? this.pembinaApproval,
+    );
+  }
+
   factory LetterDocument.fromJson(Map<String, dynamic> json) {
     return LetterDocument(
       id: json['id'] ?? '',
