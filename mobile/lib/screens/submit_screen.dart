@@ -172,11 +172,15 @@ class _SubmitScreenState extends State<SubmitScreen> {
     final role = widget.store.currentRole;
     final isSecretary = role == 'sekretaris';
 
-    final body = SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    final body = SafeArea(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 680),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
             // Page header
             const Text('Formulir Pengajuan Surat & Perizinan HIMATIF',
                 style: TextStyle(
@@ -598,6 +602,9 @@ class _SubmitScreenState extends State<SubmitScreen> {
             ),
           ],
         ),
+      ),
+      ),
+      ),
       );
 
     if (widget.isTab) {

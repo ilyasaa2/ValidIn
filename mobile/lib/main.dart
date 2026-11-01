@@ -260,68 +260,73 @@ class _HomeTabState extends State<HomeTab> {
 
     return RefreshIndicator(
       onRefresh: () async => setState(() {}),
-      child: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 84),
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 84),
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Permohonan Surat',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                                color: AppTheme.navy900)),
+                        Text('${profile.name} (${profile.roleLabel})',
+                            style: const TextStyle(
+                                fontSize: 11, color: AppTheme.textSecondary)),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () => widget.onNavigate(1),
+                    icon: const Icon(Icons.add, size: 14),
+                    label: const Text('Ajukan'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.navy900,
+                      foregroundColor: Colors.white,
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      textStyle: const TextStyle(
+                          fontSize: 12, fontWeight: FontWeight.w700),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6)),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 14),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
                   children: [
-                    const Text('Permohonan Surat',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: AppTheme.navy900)),
-                    Text('${profile.name} (${profile.roleLabel})',
-                        style: const TextStyle(
-                            fontSize: 11, color: AppTheme.textSecondary)),
+                    _chip('all', 'Semua ($countAll)'),
+                    const SizedBox(width: 6),
+                    _chip('active', 'Berjalan ($countActive)'),
+                    const SizedBox(width: 6),
+                    _chip('approved', 'Disetujui ($countApproved)'),
                   ],
                 ),
               ),
-              ElevatedButton.icon(
-                onPressed: () => widget.onNavigate(1),
-                icon: const Icon(Icons.add, size: 14),
-                label: const Text('Ajukan'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.navy900,
-                  foregroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  textStyle: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w700),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)),
-                ),
-              ),
+              const SizedBox(height: 14),
+              if (_filtered.isEmpty)
+                _emptyState()
+              else
+                ..._filtered.map((doc) => _LetterCard(
+                      doc: doc,
+                      store: widget.store,
+                      onOpenPass: () => widget.onNavigate(2),
+                      onChanged: () => setState(() {}),
+                    )),
             ],
           ),
-          const SizedBox(height: 14),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _chip('all', 'Semua ($countAll)'),
-                const SizedBox(width: 6),
-                _chip('active', 'Berjalan ($countActive)'),
-                const SizedBox(width: 6),
-                _chip('approved', 'Disetujui ($countApproved)'),
-              ],
-            ),
-          ),
-          const SizedBox(height: 14),
-          if (_filtered.isEmpty)
-            _emptyState()
-          else
-            ..._filtered.map((doc) => _LetterCard(
-                  doc: doc,
-                  store: widget.store,
-                  onOpenPass: () => widget.onNavigate(2),
-                  onChanged: () => setState(() {}),
-                )),
-        ],
+        ),
       ),
     );
   }
@@ -540,9 +545,12 @@ class _LetterCard extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6)),
                     ),
-                    child: const Text('Lihat Berkas',
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w700)),
+                    child: const FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text('Lihat Berkas',
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.w700)),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -551,9 +559,12 @@ class _LetterCard extends StatelessWidget {
                       ? ElevatedButton.icon(
                           onPressed: onOpenPass,
                           icon: const Icon(Icons.shield, size: 14),
-                          label: const Text('Pass QR',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w700)),
+                          label: const FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('Pass QR',
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w700)),
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.navy900,
                             foregroundColor: Colors.white,
@@ -582,9 +593,12 @@ class _LetterCard extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(6)),
                           ),
-                          child: const Text('Periksa Alur',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w700)),
+                          child: const FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('Periksa Alur',
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w700)),
+                          ),
                         ),
                 ),
               ],
@@ -846,9 +860,12 @@ class PassQrTab extends StatelessWidget {
     final approved = docs.firstWhere((d) => d.isApproved,
         orElse: () => docs.isNotEmpty ? docs.first : _emptyDoc());
 
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 520),
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
         const Text('Pass Izin Resmi Satpam',
             style: TextStyle(
                 fontSize: 16,
@@ -1035,6 +1052,8 @@ class PassQrTab extends StatelessWidget {
           ),
         ),
       ],
+    ),
+    ),
     );
   }
 
@@ -1057,14 +1076,16 @@ class _QrFullscreenModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 340),
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
+      child: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 340),
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text('IJIN RESMI DEKANAT FT',
@@ -1136,6 +1157,8 @@ class _QrFullscreenModal extends StatelessWidget {
           ],
         ),
       ),
+      ),
+      ),
     );
   }
 }
@@ -1161,9 +1184,12 @@ class _ScanTabState extends State<ScanTab> {
       _selectedToken = docs.first.qrToken;
     }
 
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 520),
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
         const Text('Verifikasi QR Dokumen',
             style: TextStyle(
                 fontSize: 16,
@@ -1259,6 +1285,8 @@ class _ScanTabState extends State<ScanTab> {
         ),
         if (_scanResult != null) _ScanResult(doc: _scanResult!),
       ],
+    ),
+    ),
     );
   }
 

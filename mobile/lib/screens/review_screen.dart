@@ -187,29 +187,36 @@ class _ReviewScreenState extends State<ReviewScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            // ── Surat Fisik (Official Paper) ──
-            _OfficialPaperCard(doc: _doc),
-            const SizedBox(height: 14),
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Column(
+                children: [
+                  // ── Surat Fisik (Official Paper) ──
+                  _OfficialPaperCard(doc: _doc),
+                  const SizedBox(height: 14),
 
-            // ── Audit Trail ──
-            _AuditTrailCard(doc: _doc),
-            const SizedBox(height: 14),
+                  // ── Audit Trail ──
+                  _AuditTrailCard(doc: _doc),
+                  const SizedBox(height: 14),
 
-            // ── Action Panel ──
-            _ActionPanel(
-              doc: _doc,
-              role: role,
-              onSignSekretaris: _signAsSekretaris,
-              onSignPelaksana: _signAsPelaksana,
-              onApproveKetua: _approveAsKetuaHimatif,
-              onOpenDisposition: _openDispositionModal,
+                  // ── Action Panel ──
+                  _ActionPanel(
+                    doc: _doc,
+                    role: role,
+                    onSignSekretaris: _signAsSekretaris,
+                    onSignPelaksana: _signAsPelaksana,
+                    onApproveKetua: _approveAsKetuaHimatif,
+                    onOpenDisposition: _openDispositionModal,
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
             ),
-            const SizedBox(height: 24),
-          ],
+          ),
         ),
       ),
     );
@@ -1102,12 +1109,14 @@ class _DispositionModalState extends State<_DispositionModal> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 520),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             const Text('Pengesahan & Catatan Disposisi Wadek FT',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
             const SizedBox(height: 4),
@@ -1165,6 +1174,7 @@ class _DispositionModalState extends State<_DispositionModal> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
