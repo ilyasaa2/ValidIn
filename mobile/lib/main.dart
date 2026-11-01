@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:device_preview/presets.dart';
 import 'theme/app_theme.dart';
@@ -57,6 +58,9 @@ class _MainShellState extends State<MainShell> {
     setState(() {
       _store.setRole(role);
       _showRoleSelector = false;
+      if (role == 'satpam') {
+        _tabIndex = 3;
+      }
     });
   }
 
@@ -296,6 +300,7 @@ class _MainShellState extends State<MainShell> {
       'ketua_pelaksana': 'Emannuel Henji Pratama (Ketua Pelaksana)',
       'ketua_himatif': 'Naufal Miftakhul Siddiq (Ketua HIMATIF)',
       'wadek': 'Dr. Sigit Iswahyudi, S.T., M.T. (Wakil Dekan I FT)',
+      'satpam': 'Sutrisno (Petugas Keamanan / Satpam FT)',
     };
     return Container(
       color: const Color(0xFFE2E8F0),
@@ -1282,7 +1287,7 @@ class _QrFullscreenModal extends StatelessWidget {
   }
 }
 
-// ── TAB 4: SCAN ──────────────────────────────────────────────────────────────
+// ── TAB 4: SCAN (PETUGAS KEAMANAN / SATPAM) ──────────────────────────────────
 
 class ScanTab extends StatefulWidget {
   final LocalStore store;
@@ -1293,8 +1298,82 @@ class ScanTab extends StatefulWidget {
 }
 
 class _ScanTabState extends State<ScanTab> {
+  int _activeMode = 0; // 0: Live Camera, 1: Manual/Dropdown, 2: Logbook
+  final MobileScannerController _cameraController = MobileScannerController(
+    detectionSpeed: DetectionSpeed.noDuplicates,
+    facing: CameraFacing.back,
+    torchEnabled: false,
+  );
+
+  bool _torchOn = false;
   String? _selectedToken;
   LetterDocument? _scanResult;
+  bool _unknownTokenScanned = false;
+  String? _lastRawScanned;
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    super.dispose();
+  }
+
+  void _processScannedCode(String rawCode) {
+    String cleanToken = rawCode.trim();
+    if (cleanToken.contains('token=')) {
+      cleanToken = cleanToken.split('token=').last.split('&').first;
+    }
+
+    final doc = widget.store.getDocs().where((d) {
+      return d.qrToken.toLowerCase() == cleanToken.toLowerCase() ||
+          d.id.toLowerCase() == cleanToken.toLowerCase();
+    }).firstOrNull;
+
+    setState(() {
+      _lastRawScanned = rawCode;
+      _selectedToken = cleanToken;
+      _scanResult = doc;
+      _unknownTokenScanned = (doc == null);
+    });
+
+    if (doc != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(doc.isApproved
+              ? '✓ QR Valid! Surat resmi disahkan Wadek FT.'
+              : '⚠ QR Terdeteksi, namun surat belum sah!'),
+          backgroundColor:
+              doc.isApproved ? AppTheme.sealGreen : const Color(0xFFB45309),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  void _recordSecurityAction(LetterDocument doc) {
+    final now = DateTime.now();
+    widget.store.addSecurityLog(
+      SecurityScanLog(
+        docId: doc.id,
+        title: doc.title,
+        room: doc.location,
+        scannedAt: now,
+        isApproved: doc.isApproved,
+        officerName: 'Sutrisno (Petugas Satpam FT)',
+        actionTaken: 'Kunci Ruang Diserahkan & Izin Diverifikasi',
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+            '✓ Pemeriksaan dicatat ke Logbook Satpam! Kunci dapat diserahkan.'),
+        backgroundColor: AppTheme.sealGreen,
+        duration: Duration(seconds: 3),
+      ),
+    );
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1302,207 +1381,734 @@ class _ScanTabState extends State<ScanTab> {
     if (_selectedToken == null && docs.isNotEmpty) {
       _selectedToken = docs.first.qrToken;
     }
+    final logs = widget.store.getSecurityLogs();
 
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 520),
+        constraints: const BoxConstraints(maxWidth: 540),
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
           children: [
-        const Text('Verifikasi QR Dokumen',
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
-                color: AppTheme.navy900)),
-        const SizedBox(height: 2),
-        const Text(
-            'Uji coba simulasi pemindaian QR oleh petugas keamanan kampus.',
-            style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
-        const SizedBox(height: 14),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const Icon(Icons.qr_code_scanner,
-                    size: 52, color: AppTheme.navy900),
-                const SizedBox(height: 10),
-                const Text('Pemindai QR Lapangan',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                        color: AppTheme.navy900)),
-                const SizedBox(height: 4),
-                const Text(
-                    'Kamera aktif mendeteksi stempel token izin dekanat FT UNTIDAR.',
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
-                const SizedBox(height: 14),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('PILIH TOKEN SURAT UNTUK DIVERIFIKASI:',
-                      style: TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w800,
-                          color: AppTheme.textTertiary,
-                          letterSpacing: 0.5)),
-                ),
-                const SizedBox(height: 6),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: AppTheme.borderStrong),
-                    borderRadius: BorderRadius.circular(6),
+            // Header Satpam
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.navy900,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0x2EFFFFFF),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Icon(Icons.security,
+                        color: Colors.amber, size: 22),
                   ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: _selectedToken,
-                      isExpanded: true,
-                      style: const TextStyle(
-                          fontSize: 10,
-                          fontFamily: 'monospace',
-                          color: AppTheme.textPrimary),
-                      items: docs.map((d) {
-                        final title = d.title.length > 30
-                            ? '${d.title.substring(0, 30)}...'
-                            : d.title;
-                        final label =
-                            '[${d.status.toUpperCase()}] $title (${d.qrToken.substring(0, 8)}...)';
-                        return DropdownMenuItem(
-                            value: d.qrToken, child: Text(label));
-                      }).toList(),
-                      onChanged: (v) => setState(() {
-                        _selectedToken = v;
-                        _scanResult = null;
-                      }),
+                  const SizedBox(width: 10),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Pos Keamanan FT UNTIDAR',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 13)),
+                        Text(
+                            'Pemeriksaan QR Code pembukaan gedung kuliah & perizinan',
+                            style: TextStyle(
+                                color: Color(0xFFCBD5E1), fontSize: 10)),
+                      ],
                     ),
                   ),
-                ),
-                const SizedBox(height: 14),
-                SizedBox(
-                  width: double.infinity,
-                  height: 46,
-                  child: ElevatedButton(
-                    onPressed: _simulate,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.sealGreen,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: const Color(0x33FFC107),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0x66FFC107)),
                     ),
-                    child: const Text('Verifikasi Token Dokumen',
+                    child: const Text('SATPAM',
                         style: TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.w700)),
+                            color: Colors.amber,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w800)),
                   ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // Mode Selector
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: AppTheme.borderLight),
+              ),
+              padding: const EdgeInsets.all(3),
+              child: Row(
+                children: [
+                  _modeButton(0, 'Kamera Live', Icons.camera_alt),
+                  _modeButton(1, 'Pilih Token', Icons.keyboard),
+                  _modeButton(2, 'Logbook (${logs.length})', Icons.history),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+
+            // Mode Content
+            if (_activeMode == 0) _buildCameraScanner(),
+            if (_activeMode == 1) _buildManualSelector(docs),
+            if (_activeMode == 2) _buildLogbook(logs),
+
+            // Scan Results Section
+            if (_scanResult != null) ...[
+              const SizedBox(height: 16),
+              _buildResultCard(_scanResult!),
+            ] else if (_unknownTokenScanned) ...[
+              const SizedBox(height: 16),
+              _buildUnknownCard(),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _modeButton(int mode, String label, IconData icon) {
+    final active = _activeMode == mode;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => setState(() => _activeMode = mode),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: active ? Colors.white : Colors.transparent,
+            borderRadius: BorderRadius.circular(6),
+            boxShadow: active
+                ? [
+                    const BoxShadow(
+                        color: Color(0x0F000000),
+                        blurRadius: 4,
+                        offset: Offset(0, 1))
+                  ]
+                : null,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon,
+                  size: 14,
+                  color: active ? AppTheme.navy900 : AppTheme.textSecondary),
+              const SizedBox(width: 4),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: active ? FontWeight.w800 : FontWeight.w600,
+                    color: active ? AppTheme.navy900 : AppTheme.textSecondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ── Live Camera Scanner View ───────────────────────────────────────────────
+
+  Widget _buildCameraScanner() {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: const BorderSide(color: AppTheme.borderStrong),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                height: 280,
+                width: double.infinity,
+                child: MobileScanner(
+                  controller: _cameraController,
+                  errorBuilder: (context, error, child) {
+                    return Container(
+                      color: const Color(0xFF0F172A),
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.videocam_off_outlined,
+                              size: 40, color: Color(0xFF94A3B8)),
+                          const SizedBox(height: 8),
+                          const Text('Kamera Live Tidak Aktif di Peramban Ini',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700)),
+                          const SizedBox(height: 4),
+                          const Text(
+                              'Gunakan tab "Pilih Token" di atas untuk simulasi langsung surat.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Color(0xFF94A3B8), fontSize: 10)),
+                          const SizedBox(height: 12),
+                          ElevatedButton.icon(
+                            onPressed: () => setState(() => _activeMode = 1),
+                            icon: const Icon(Icons.tune, size: 14),
+                            label: const Text('Buka Pemilih Token Cepat',
+                                style: TextStyle(fontSize: 11)),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.navy900,
+                              foregroundColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  onDetect: (capture) {
+                    final barcodes = capture.barcodes;
+                    if (barcodes.isNotEmpty) {
+                      final raw = barcodes.first.rawValue;
+                      if (raw != null && raw != _lastRawScanned) {
+                        _processScannedCode(raw);
+                      }
+                    }
+                  },
+                ),
+              ),
+
+              // Viewfinder Framing Overlay
+              IgnorePointer(
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.amber, width: 2.5),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: Text(
+                          'BIDIK QR SURAT',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 1,
+                            color: Colors.amber.shade200,
+                            backgroundColor: Colors.black54,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 6),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
+                        color: Colors.black54,
+                        child: const Text('Arahkan ke QR Mahasiswa',
+                            style:
+                                TextStyle(fontSize: 9, color: Colors.white70)),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Camera Floating Action Controls
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        _torchOn ? Icons.flash_on : Icons.flash_off,
+                        color: _torchOn ? Colors.amber : Colors.white,
+                        size: 20,
+                      ),
+                      tooltip: 'Nyalakan/Matikan Senter',
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black54,
+                      ),
+                      onPressed: () {
+                        _cameraController.toggleTorch();
+                        setState(() => _torchOn = !_torchOn);
+                      },
+                    ),
+                    const SizedBox(width: 4),
+                    IconButton(
+                      icon: const Icon(Icons.flip_camera_ios,
+                          color: Colors.white, size: 20),
+                      tooltip: 'Ganti Kamera Depan/Belakang',
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black54,
+                      ),
+                      onPressed: () => _cameraController.switchCamera(),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          // Footnote under camera
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            color: const Color(0xFFF8FAFC),
+            child: Row(
+              children: [
+                const Icon(Icons.info_outline,
+                    size: 14, color: AppTheme.textSecondary),
+                const SizedBox(width: 6),
+                const Expanded(
+                  child: Text(
+                    'Pindai QR fisik di kertas atau layar HP mahasiswa.',
+                    style: TextStyle(
+                        fontSize: 10, color: AppTheme.textSecondary),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => setState(() => _activeMode = 1),
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: const Size(50, 24),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: const Text('Input Manual →',
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700)),
                 ),
               ],
             ),
           ),
-        ),
-        if (_scanResult != null) _ScanResult(doc: _scanResult!),
-      ],
-    ),
-    ),
+        ],
+      ),
     );
   }
 
-  void _simulate() {
-    if (_selectedToken == null) return;
-    final doc = widget.store
-        .getDocs()
-        .where((d) => d.qrToken == _selectedToken)
-        .firstOrNull;
-    setState(() => _scanResult = doc);
+  // ── Manual Token Selector View ─────────────────────────────────────────────
+
+  Widget _buildManualSelector(List<LetterDocument> docs) {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: const BorderSide(color: AppTheme.borderStrong),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              children: [
+                Icon(Icons.tune, size: 16, color: AppTheme.navy900),
+                SizedBox(width: 6),
+                Text('Uji Coba Cepat Token Dokumen',
+                    style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        color: AppTheme.navy900)),
+              ],
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Pilih surat terdaftar untuk mensimulasikan hasil pemindaian lapangan:',
+              style: TextStyle(fontSize: 11, color: AppTheme.textSecondary),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: AppTheme.borderStrong),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _selectedToken,
+                  isExpanded: true,
+                  style: const TextStyle(
+                      fontSize: 11,
+                      fontFamily: 'monospace',
+                      color: AppTheme.textPrimary),
+                  items: docs.map((d) {
+                    final title = d.title.length > 30
+                        ? '${d.title.substring(0, 30)}...'
+                        : d.title;
+                    final label =
+                        '[${d.status.toUpperCase()}] $title (${d.qrToken.substring(0, 8)}...)';
+                    return DropdownMenuItem(
+                        value: d.qrToken, child: Text(label));
+                  }).toList(),
+                  onChanged: (v) {
+                    if (v != null) _processScannedCode(v);
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              height: 42,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  if (_selectedToken != null) {
+                    _processScannedCode(_selectedToken!);
+                  }
+                },
+                icon: const Icon(Icons.qr_code_scanner, size: 16),
+                label: const Text('Verifikasi Dokumen Ini',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.sealGreen,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
-}
 
-class _ScanResult extends StatelessWidget {
-  final LetterDocument doc;
-  const _ScanResult({required this.doc});
+  // ── Logbook Satpam View ────────────────────────────────────────────────────
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildLogbook(List<SecurityScanLog> logs) {
+    if (logs.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(24),
+        alignment: Alignment.center,
+        child: const Text('Belum ada riwayat pemindaian hari ini.',
+            style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 4, bottom: 8),
+          child: Text('LOG PEMERIKSAAN SATPAM HARI INI:',
+              style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  color: AppTheme.textSecondary,
+                  letterSpacing: 0.5)),
+        ),
+        ...logs.map((log) {
+          final timeStr =
+              '${log.scannedAt.hour.toString().padLeft(2, '0')}:${log.scannedAt.minute.toString().padLeft(2, '0')} WIB';
+          return Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppTheme.borderLight),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: log.isApproved
+                        ? const Color(0xFFDCFCE7)
+                        : const Color(0xFFFEE2E2),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Icon(
+                    log.isApproved ? Icons.check_circle : Icons.cancel,
+                    size: 16,
+                    color: log.isApproved
+                        ? AppTheme.sealGreen
+                        : const Color(0xFFDC2626),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(log.docId,
+                              style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppTheme.navy900)),
+                          Text(timeStr,
+                              style: const TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.textSecondary)),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(log.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.textPrimary)),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.meeting_room,
+                              size: 12, color: AppTheme.textSecondary),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(log.room,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 10,
+                                    color: AppTheme.textSecondary)),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Aksi: ${log.actionTaken}',
+                        style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: AppTheme.sealGreen),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  // ── Result Cards ───────────────────────────────────────────────────────────
+
+  Widget _buildResultCard(LetterDocument doc) {
     final ok = doc.isApproved;
+
     return Container(
-      margin: const EdgeInsets.only(top: 14),
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: ok ? const Color(0xFFF0FDF4) : const Color(0xFFFFFBEB),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
-            color: ok ? const Color(0xFFBBF7D0) : const Color(0xFFFDE68A)),
+          color: ok ? const Color(0xFF86EFAC) : const Color(0xFFFDE68A),
+          width: 1.5,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Status Header
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Icon(
+                ok ? Icons.verified : Icons.warning_amber_rounded,
+                color: ok ? AppTheme.sealGreen : const Color(0xFFD97706),
+                size: 24,
+              ),
+              const SizedBox(width: 8),
               Expanded(
-                child: Text(
-                  ok ? '✓ DOKUMEN RESMI SAH' : '⚠ DOKUMEN BELUM SAH',
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w800,
-                      color: ok
-                          ? const Color(0xFF15803D)
-                          : const Color(0xFFB45309)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ok
+                          ? 'SURAT RESMI & SAH — IZIN DISETUJUI'
+                          : 'DOKUMEN BELUM SAH / BELUM DISELESAIKAN',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900,
+                        color:
+                            ok ? AppTheme.sealGreen : const Color(0xFFB45309),
+                      ),
+                    ),
+                    Text(
+                      ok
+                          ? 'Petugas Satpam berwenang membuka ruangan sesuai jadwal'
+                          : 'Jangan membuka gedung sebelum ada disposisi resmi Wadek',
+                      style: const TextStyle(
+                          fontSize: 9, color: AppTheme.textSecondary),
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                  'UUID: ${doc.qrToken.length > 8 ? doc.qrToken.substring(0, 8) : doc.qrToken}...',
-                  style: const TextStyle(
-                      fontSize: 9,
-                      fontFamily: 'monospace',
-                      color: AppTheme.textTertiary)),
             ],
           ),
-          const SizedBox(height: 6),
+          const Divider(height: 20),
+
+          // Details Grid
           Text(doc.title,
               style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w800,
                   color: AppTheme.navy900)),
-          const SizedBox(height: 6),
-          Text('🏢 Izin: ${doc.location}',
-              style:
-                  const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
-          Text('⏰ Jadwal: ${doc.eventDate} (${doc.eventTime})',
-              style:
-                  const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+          const SizedBox(height: 8),
+
+          _infoRow(Icons.meeting_room, 'Ruang / Gedung', doc.location,
+              highlight: true),
+          const SizedBox(height: 4),
+          _infoRow(Icons.calendar_today, 'Waktu Kegiatan',
+              '${doc.eventDate} (${doc.eventTime})'),
+          const SizedBox(height: 4),
+          _infoRow(Icons.person, 'Penanggung Jawab',
+              '${doc.submitterName} — ${doc.contactPerson}'),
+
+          // Wadek Disposition Box
           if (doc.dispositionNote.isNotEmpty) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: const Color(0xFFFEF3C7),
                 borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: const Color(0xFFCA8A04)),
+                border: Border.all(color: const Color(0xFFF59E0B)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('📌 Instruksi Satpam:',
-                      style: TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF854D0E))),
-                  const SizedBox(height: 3),
-                  Text('"${doc.dispositionNote}"',
-                      style: const TextStyle(
-                          fontSize: 10,
-                          fontStyle: FontStyle.italic,
-                          color: Color(0xFF713F12),
-                          height: 1.4)),
+                  const Row(
+                    children: [
+                      Icon(Icons.assignment_turned_in,
+                          size: 14, color: Color(0xFF92400E)),
+                      SizedBox(width: 4),
+                      Text('Instruksi Disposisi Wakil Dekan I FT:',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF92400E))),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '"${doc.dispositionNote}"',
+                    style: const TextStyle(
+                        fontSize: 11,
+                        fontStyle: FontStyle.italic,
+                        color: Color(0xFF78350F),
+                        height: 1.35),
+                  ),
                 ],
+              ),
+            ),
+          ],
+
+          const SizedBox(height: 14),
+
+          // Action Button
+          if (ok) ...[
+            SizedBox(
+              width: double.infinity,
+              height: 44,
+              child: ElevatedButton.icon(
+                onPressed: () => _recordSecurityAction(doc),
+                icon: const Icon(Icons.key, size: 16),
+                label: const Text('Serahkan Kunci & Catat Pemeriksaan',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.sealGreen,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                ),
               ),
             ),
           ],
         ],
       ),
+    );
+  }
+
+  Widget _buildUnknownCard() {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFEF2F2),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFFCA5A5)),
+      ),
+      child: const Row(
+        children: [
+          Icon(Icons.error_outline, color: Color(0xFFDC2626), size: 24),
+          SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('KODE QR TIDAK TERDAFTAR',
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF991B1B))),
+                SizedBox(height: 2),
+                Text(
+                  'Token QR ini tidak ditemukan dalam arsip resmi pengesahan FT UNTIDAR. Waspada pemalsuan izin.',
+                  style: TextStyle(fontSize: 10, color: Color(0xFF7F1D1D)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _infoRow(IconData icon, String label, String val,
+      {bool highlight = false}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon,
+            size: 14,
+            color: highlight ? AppTheme.navy900 : AppTheme.textSecondary),
+        const SizedBox(width: 6),
+        SizedBox(
+          width: 110,
+          child: Text('$label:',
+              style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: highlight ? FontWeight.w700 : FontWeight.w500,
+                  color: AppTheme.textSecondary)),
+        ),
+        Expanded(
+          child: Text(
+            val,
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: highlight ? FontWeight.w800 : FontWeight.w600,
+              color: highlight ? AppTheme.navy900 : AppTheme.textPrimary,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

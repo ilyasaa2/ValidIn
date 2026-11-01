@@ -93,6 +93,14 @@ class LocalStore {
           dept: 'Fakultas Teknik',
           dutyDesc: 'Memberikan disposisi & pengesahan resmi surat.',
         );
+      case 'satpam':
+        return UserProfile(
+          name: 'Sutrisno',
+          idNum: 'SAT-UNTIDAR-09',
+          roleLabel: 'Petugas Satpam',
+          dept: 'Pos Jaga Keamanan FT',
+          dutyDesc: 'Memeriksa izin QR & membuka akses gedung kuliah.',
+        );
       default: // sekretaris
         return UserProfile(
           name: 'Hanif Abdillah Alatas',
@@ -127,6 +135,45 @@ class LocalStore {
   void deleteDoc(String id) {
     _docs.removeWhere((d) => d.id == id);
   }
+
+  // ── Security Logs ────────────────────────────────────────────────────────
+  final List<SecurityScanLog> _securityLogs = [
+    SecurityScanLog(
+      docId: 'DOC-UNTIDAR-026A',
+      title: 'Surat Permohonan Peminjaman Gedung FT 03 Ruang Kelas',
+      room: 'Gedung FT 03 Ruang Kelas E.03.3.04 - E.03.3.06',
+      scannedAt: DateTime.now().subtract(const Duration(hours: 2)),
+      isApproved: true,
+      officerName: 'Sutrisno (Satpam FT)',
+      actionTaken: 'Kunci Ruang Kelas Diserahkan',
+    ),
+  ];
+
+  List<SecurityScanLog> getSecurityLogs() => List.unmodifiable(_securityLogs);
+
+  void addSecurityLog(SecurityScanLog log) {
+    _securityLogs.insert(0, log);
+  }
+}
+
+class SecurityScanLog {
+  final String docId;
+  final String title;
+  final String room;
+  final DateTime scannedAt;
+  final bool isApproved;
+  final String officerName;
+  final String actionTaken;
+
+  SecurityScanLog({
+    required this.docId,
+    required this.title,
+    required this.room,
+    required this.scannedAt,
+    required this.isApproved,
+    required this.officerName,
+    required this.actionTaken,
+  });
 }
 
 class UserProfile {
