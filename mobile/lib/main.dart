@@ -464,22 +464,7 @@ class _LetterCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    _StatusBadge(doc.status),
-                    const SizedBox(height: 6),
-                    InkWell(
-                      onTap: () => _confirmDelete(context),
-                      borderRadius: BorderRadius.circular(4),
-                      child: const Padding(
-                        padding: EdgeInsets.all(4),
-                        child: Icon(Icons.delete_outline,
-                            size: 18, color: Color(0xFFDC2626)),
-                      ),
-                    ),
-                  ],
-                ),
+                _StatusBadge(doc.status),
               ],
             ),
             const SizedBox(height: 10),
@@ -600,6 +585,20 @@ class _LetterCard extends StatelessWidget {
                                     fontSize: 12, fontWeight: FontWeight.w700)),
                           ),
                         ),
+                ),
+                const SizedBox(width: 8),
+                OutlinedButton(
+                  onPressed: () => _confirmDelete(context),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color(0xFFDC2626),
+                    side: const BorderSide(color: Color(0xFFFCA5A5)),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6)),
+                  ),
+                  child: const Icon(Icons.delete_outline,
+                      size: 16, color: Color(0xFFDC2626)),
                 ),
               ],
             ),

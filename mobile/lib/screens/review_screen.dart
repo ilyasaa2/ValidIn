@@ -211,6 +211,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     onSignPelaksana: _signAsPelaksana,
                     onApproveKetua: _approveAsKetuaHimatif,
                     onOpenDisposition: _openDispositionModal,
+                    onDelete: _confirmDelete,
                   ),
                   const SizedBox(height: 24),
                 ],
@@ -903,6 +904,7 @@ class _ActionPanel extends StatelessWidget {
   final VoidCallback onSignPelaksana;
   final VoidCallback onApproveKetua;
   final VoidCallback onOpenDisposition;
+  final VoidCallback onDelete;
 
   const _ActionPanel({
     required this.doc,
@@ -911,6 +913,7 @@ class _ActionPanel extends StatelessWidget {
     required this.onSignPelaksana,
     required this.onApproveKetua,
     required this.onOpenDisposition,
+    required this.onDelete,
   });
 
   @override
@@ -928,6 +931,26 @@ class _ActionPanel extends StatelessWidget {
                     color: AppTheme.navy900)),
             const SizedBox(height: 12),
             _buildActions(context),
+            const Divider(height: 24),
+            SizedBox(
+              width: double.infinity,
+              height: 40,
+              child: OutlinedButton.icon(
+                onPressed: onDelete,
+                icon: const Icon(Icons.delete_outline,
+                    size: 16, color: Color(0xFFDC2626)),
+                label: const Text('Hapus Berkas Surat Ini',
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFFDC2626))),
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Color(0xFFFCA5A5)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                ),
+              ),
+            ),
           ],
         ),
       ),
