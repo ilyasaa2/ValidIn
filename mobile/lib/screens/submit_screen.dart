@@ -488,6 +488,63 @@ class _SubmitScreenState extends State<SubmitScreen> {
                                     fontFamily: 'monospace',
                                   ),
                                 ),
+                                const SizedBox(height: 8),
+                                OutlinedButton.icon(
+                                  onPressed: () {
+                                    setState(() => _fileAttached = false);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Berkas lampiran telah dihapus.')),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.delete_outline,
+                                      size: 14, color: Color(0xFFDC2626)),
+                                  label: const Text('Hapus Berkas Lampiran',
+                                      style: TextStyle(
+                                          fontSize: 11,
+                                          color: Color(0xFFDC2626),
+                                          fontWeight: FontWeight.w600)),
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(
+                                        color: Color(0xFFFCA5A5)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 4),
+                                    visualDensity: VisualDensity.compact,
+                                  ),
+                                ),
+                              ] else ...[
+                                const SizedBox(height: 6),
+                                const Text(
+                                  '⚠️ Belum ada berkas terlampir',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFFD97706),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                OutlinedButton.icon(
+                                  onPressed: () {
+                                    setState(() => _fileAttached = true);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Berkas surat resmi berhasil dimuat ulang.')),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.attach_file,
+                                      size: 14),
+                                  label: const Text('Pilih & Lampirkan Berkas',
+                                      style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600)),
+                                  style: OutlinedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 4),
+                                    visualDensity: VisualDensity.compact,
+                                  ),
+                                ),
                               ],
                             ],
                           ),

@@ -199,16 +199,30 @@
           <td>${getStatusBadgeMarkup(doc.status)}</td>
           <td><code style="font-family: var(--font-mono); font-size: 0.74rem; background: var(--bg-subtle); padding: 3px 6px; border-radius: var(--radius-xs);">${doc.qrToken.substring(0, 13)}...</code></td>
           <td style="text-align: right; white-space: nowrap;">
-            ${doc.status === 'revisi' ? `
-              <a href="review.html?id=${doc.id}&action=edit" class="btn btn-warning btn-sm" style="background: #d97706; border-color: #d97706; color: white; font-weight: 700;">✏️ Perbaiki</a>
-            ` : `
-              <a href="review.html?id=${doc.id}" class="btn btn-outline btn-sm">Buka</a>
-            `}
-            ${doc.status === 'disetujui' ? `<a href="verify.html?token=${doc.qrToken}" class="btn btn-outline btn-sm" style="color: var(--seal-green); border-color: var(--seal-green);">Cek QR</a>` : ''}
+            <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
+              ${doc.status === 'revisi' ? `
+                <a href="review.html?id=${doc.id}&action=edit" class="btn btn-warning btn-sm" style="background: #d97706; border-color: #d97706; color: white; font-weight: 700;">✏️ Perbaiki</a>
+              ` : `
+                <a href="review.html?id=${doc.id}" class="btn btn-outline btn-sm">Buka</a>
+              `}
+              ${doc.status === 'disetujui' ? `<a href="verify.html?token=${doc.qrToken}" class="btn btn-outline btn-sm" style="color: var(--seal-green); border-color: var(--seal-green);">Cek QR</a>` : ''}
+              <button class="btn btn-outline btn-sm" onclick="confirmDeleteDoc('${escapeHtml(doc.id)}', '${escapeHtml(doc.regNumber)}')" title="Hapus Berkas Surat" style="color: #dc2626; border-color: #fca5a5; padding: 4px 8px; font-size: 0.82rem;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='transparent'">
+                🗑️
+              </button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
       });
+    }
+
+    function confirmDeleteDoc(id, regNumber) {
+      if (confirm(`Hapus Berkas Surat?\n\nApakah Anda yakin ingin menghapus berkas surat "${regNumber}" dari arsip ValidIn? Data yang dihapus tidak dapat dipulihkan.`)) {
+        deleteDoc(id);
+        showToast(`Berkas surat ${regNumber} berhasil dihapus.`);
+        renderTabs();
+        renderArchive();
+      }
     }
 
     function exportArchiveCsv() {

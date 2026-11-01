@@ -280,6 +280,13 @@ function addDoc(newDoc) {
   safeStorageSet(STORAGE_KEY, JSON.stringify(docs));
 }
 
+function deleteDoc(id) {
+  const docs = getDocs();
+  const filtered = docs.filter(d => d.id !== id);
+  safeStorageSet(STORAGE_KEY, JSON.stringify(filtered));
+  return filtered;
+}
+
 // Reset docs to clean initial demo state if needed
 function resetDemoData() {
   safeStorageSet(STORAGE_KEY, JSON.stringify(DEFAULT_UNTIDAR_DOCUMENTS));

@@ -182,11 +182,16 @@
         <!-- File Upload Area -->
         <div class="form-group">
           <label class="form-label">Lampiran Berkas PDF Surat UNTIDAR (Maks. 5MB) *</label>
-          <div class="file-upload-dropzone">
+          <div class="file-upload-dropzone" id="dropzoneContainer">
             <svg class="dropzone-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-            <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">Berkas Surat Siap Diregistrasi</div>
-            <div style="font-size: 0.8rem; color: var(--text-secondary);">Format resmi kop surat HIMATIF & Universitas Tidar</div>
-            <div style="margin-top: 8px; font-weight: 700; color: var(--blue-600); font-family: var(--font-mono); font-size: 0.84rem;">surat_permohonan_digitalwave_2026.pdf (1.4 MB) &bull; ✓ Terlampir</div>
+            <div id="fileUploadTitle" style="font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">Berkas Surat Siap Diregistrasi</div>
+            <div id="fileUploadSubtitle" style="font-size: 0.8rem; color: var(--text-secondary);">Format resmi kop surat HIMATIF & Universitas Tidar</div>
+            <div id="fileAttachedInfo" style="margin-top: 8px; font-weight: 700; color: var(--blue-600); font-family: var(--font-mono); font-size: 0.84rem;">surat_permohonan_digitalwave_2026.pdf (1.4 MB) &bull; ✓ Terlampir</div>
+            <div style="margin-top: 10px;">
+              <button type="button" id="btnToggleFile" class="btn btn-outline btn-sm" onclick="toggleAttachment()" style="color: #dc2626; border-color: #fca5a5; font-size: 0.78rem;">
+                🗑️ Hapus Berkas Lampiran
+              </button>
+            </div>
           </div>
         </div>
 
@@ -384,6 +389,34 @@
       setTimeout(() => {
         window.location.href = `review.html?id=${newId}`;
       }, 700);
+    }
+
+    let hasAttachment = true;
+    function toggleAttachment() {
+      hasAttachment = !hasAttachment;
+      const title = document.getElementById('fileUploadTitle');
+      const sub = document.getElementById('fileUploadSubtitle');
+      const info = document.getElementById('fileAttachedInfo');
+      const btn = document.getElementById('btnToggleFile');
+      if (hasAttachment) {
+        title.textContent = 'Berkas Surat Siap Diregistrasi';
+        sub.textContent = 'Format resmi kop surat HIMATIF & Universitas Tidar';
+        info.innerHTML = 'surat_permohonan_digitalwave_2026.pdf (1.4 MB) &bull; ✓ Terlampir';
+        info.style.color = 'var(--blue-600)';
+        btn.innerHTML = '🗑️ Hapus Berkas Lampiran';
+        btn.style.color = '#dc2626';
+        btn.style.borderColor = '#fca5a5';
+        showToast('Berkas lampiran PDF berhasil dimuat kembali.');
+      } else {
+        title.textContent = 'Tidak Ada Berkas Terlampir';
+        sub.textContent = 'Silakan pilih berkas PDF surat resmi dari penyimpanan perangkat';
+        info.innerHTML = '⚠️ Belum ada berkas surat yang diunggah';
+        info.style.color = '#d97706';
+        btn.innerHTML = '📎 Unggah Berkas Baru';
+        btn.style.color = 'var(--navy-900)';
+        btn.style.borderColor = 'var(--border-strong)';
+        showToast('Berkas lampiran telah dihapus.');
+      }
     }
   </script>
 </body>

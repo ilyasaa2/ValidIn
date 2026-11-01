@@ -384,6 +384,40 @@ class _LetterCard extends StatelessWidget {
     required this.onChanged,
   });
 
+  void _confirmDelete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Hapus Berkas Surat?'),
+        content: Text(
+            'Apakah Anda yakin ingin menghapus berkas surat "${doc.regNumber}" dari arsip ValidIn? Tindakan ini tidak dapat dibatalkan.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Batal'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              store.deleteDoc(doc.id);
+              Navigator.pop(ctx);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content:
+                        Text('Berkas surat ${doc.regNumber} berhasil dihapus.')),
+              );
+              onChanged();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFDC2626),
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Hapus Berkas'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final s1 = doc.secretaryApproval != null ? 'done' : 'waiting';
@@ -425,7 +459,22 @@ class _LetterCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                _StatusBadge(doc.status),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    _StatusBadge(doc.status),
+                    const SizedBox(height: 6),
+                    InkWell(
+                      onTap: () => _confirmDelete(context),
+                      borderRadius: BorderRadius.circular(4),
+                      child: const Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(Icons.delete_outline,
+                            size: 18, color: Color(0xFFDC2626)),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 10),

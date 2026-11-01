@@ -111,6 +111,40 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 
+  void _confirmDelete() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Hapus Berkas Surat?'),
+        content: Text(
+            'Apakah Anda yakin ingin menghapus berkas surat "${_doc.regNumber}" dari arsip ValidIn? Data yang dihapus tidak dapat dipulihkan.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Batal'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              widget.store.deleteDoc(_doc.id);
+              Navigator.pop(ctx);
+              Navigator.pop(context, true);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text(
+                        'Berkas surat ${_doc.regNumber} berhasil dihapus.')),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFDC2626),
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Hapus Berkas'),
+          ),
+        ],
+      ),
+    );
+  }
+
   // ── Build ─────────────────────────────────────────────────────────────────
 
   @override
@@ -145,6 +179,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Text('Fitur cetak tersedia di versi desktop web.')),
               );
             },
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete_outline, color: Color(0xFFFCA5A5)),
+            tooltip: 'Hapus Berkas Surat',
+            onPressed: _confirmDelete,
           ),
         ],
       ),
@@ -1063,7 +1102,7 @@ class _DispositionModalState extends State<_DispositionModal> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,

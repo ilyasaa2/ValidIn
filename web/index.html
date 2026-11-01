@@ -343,11 +343,24 @@
           <td>${getStatusBadgeMarkup(doc.status)}</td>
           <td style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;">${escapeHtml(doc.createdAt)}</td>
           <td style="text-align: right; white-space: nowrap;">
-            ${actionBtnMarkup}
+            <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
+              ${actionBtnMarkup}
+              <button class="btn btn-outline btn-sm" onclick="confirmDeleteDoc('${escapeHtml(doc.id)}', '${escapeHtml(doc.regNumber)}')" title="Hapus Berkas Surat" style="color: #dc2626; border-color: #fca5a5; padding: 4px 8px; font-size: 0.82rem;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='transparent'">
+                🗑️
+              </button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
       });
+    }
+
+    function confirmDeleteDoc(id, regNumber) {
+      if (confirm(`Hapus Berkas Surat?\n\nApakah Anda yakin ingin menghapus berkas surat "${regNumber}" dari arsip ValidIn? Data yang dihapus tidak dapat dipulihkan.`)) {
+        deleteDoc(id);
+        showToast(`Berkas surat ${regNumber} berhasil dihapus.`);
+        renderDocuments();
+      }
     }
   </script>
 </body>

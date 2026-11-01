@@ -123,6 +123,10 @@ class LocalStore {
       _docs[idx] = updated;
     }
   }
+
+  void deleteDoc(String id) {
+    _docs.removeWhere((d) => d.id == id);
+  }
 }
 
 class UserProfile {
